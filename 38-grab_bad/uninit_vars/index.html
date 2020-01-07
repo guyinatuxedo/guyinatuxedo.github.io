@@ -1,0 +1,292 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js navy">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Uninitialized Variables - Nightmare</title>
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="Nightmare: an intro to binary exploitation / reverse engineering course based around CTF challenges.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "navy";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('navy')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div id="sidebar-scrollbox" class="sidebar-scrollbox">
+                <ol class="chapter"><li class="expanded affix "><a href="../../index.html">Nightmare</a></li><li class="expanded "><a href="../../00-intro/index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="expanded "><a href="../../01-intro_assembly/assembly/index.html"><strong aria-hidden="true">1.1.</strong> Assembly</a></li><li class="expanded "><a href="../../01-intro_assembly/reversing_assembly/index.html"><strong aria-hidden="true">1.2.</strong> Reversing Assembly</a></li><li class="expanded "><a href="../../02-intro_tooling/ghidra/index.html"><strong aria-hidden="true">1.3.</strong> Reversing with GHIDRA</a></li><li class="expanded "><a href="../../02-intro_tooling/gdb-gef/index.html"><strong aria-hidden="true">1.4.</strong> Debugging with GDB</a></li><li class="expanded "><a href="../../02-intro_tooling/pwntools/index.html"><strong aria-hidden="true">1.5.</strong> Scripting with Python pwntools</a></li><li class="expanded "><a href="../../03-beginner_re/csaw18_x86tour_pt1/index.html"><strong aria-hidden="true">1.6.</strong> Beginner Reversing</a></li><li><ol class="section"><li class="expanded "><a href="../../03-beginner_re/csaw19_beleaf/index.html"><strong aria-hidden="true">1.6.1.</strong> CSAW'19: Beleaf</a></li><li class="expanded "><a href="../../03-beginner_re/helithumper_re/index.html"><strong aria-hidden="true">1.6.2.</strong> Helithumper RE</a></li><li class="expanded "><a href="../../03-beginner_re/pico18_strings/index.html"><strong aria-hidden="true">1.6.3.</strong> Pico'18: Strings</a></li></ol></li></ol></li><li class="expanded "><a href="../../04-bof_variable/csaw18_boi/index.html"><strong aria-hidden="true">2.</strong> Stack Buffer Overflows</a></li><li><ol class="section"><li class="expanded "><a href="../../04-bof_variable/tamu19_pwn1/index.html"><strong aria-hidden="true">2.1.</strong> TAMU'19: Pwn1</a></li><li class="expanded "><a href="../../04-bof_variable/tw17_justdoit/index.html"><strong aria-hidden="true">2.2.</strong> TokyoWesterns'17: JustDoIt</a></li><li class="expanded "><a href="../../05-bof_callfunction/csaw16_warmup/index.html"><strong aria-hidden="true">2.3.</strong> CSAW'16: Warmup</a></li><li class="expanded "><a href="../../05-bof_callfunction/csaw18_getit/index.html"><strong aria-hidden="true">2.4.</strong> CSAW'18: Getit</a></li><li class="expanded "><a href="../../05-bof_callfunction/tu17_vulnchat/index.html"><strong aria-hidden="true">2.5.</strong> TU'17: Vulnchat</a></li><li><ol class="section"><li class="expanded "><a href="../../5.1-mitigation_aslr_pie/index.html"><strong aria-hidden="true">2.5.1.</strong> ASLR/PIE</a></li></ol></li><li class="expanded "><a href="../../06-bof_shellcode/csaw17_pilot/index.html"><strong aria-hidden="true">2.6.</strong> CSAW'17: Pilot</a></li><li class="expanded "><a href="../../06-bof_shellcode/tamu19_pwn3/index.html"><strong aria-hidden="true">2.7.</strong> TAMU'19: Pwn3</a></li><li class="expanded "><a href="../../06-bof_shellcode/tu18_shellaeasy/index.html"><strong aria-hidden="true">2.8.</strong> TU'18: Shellaeasy</a></li><li><ol class="section"><li class="expanded "><a href="../../6.1-mitigation_nx/index.html"><strong aria-hidden="true">2.8.1.</strong> NX/XN/DEP</a></li></ol></li><li class="expanded "><a href="../../07-bof_static/bkp16_simplecalc/index.html"><strong aria-hidden="true">2.9.</strong> BKP'16: SimpleCalc</a></li><li class="expanded "><a href="../../07-bof_static/dcquals16_feedme/index.html"><strong aria-hidden="true">2.10.</strong> DCQuals'16: Feedme</a></li><li class="expanded "><a href="../../07-bof_static/dcquals19_speedrun1/index.html"><strong aria-hidden="true">2.11.</strong> DCQuals'19: Speedrun1</a></li><li><ol class="section"><li class="expanded "><a href="../../7.1-mitigation_canary/index.html"><strong aria-hidden="true">2.11.1.</strong> Canaries/Cookies</a></li><li class="expanded "><a href="../../7.2-mitigation_relro/index.html"><strong aria-hidden="true">2.11.2.</strong> RELRO</a></li></ol></li><li class="expanded "><a href="../../08-bof_dynamic/csaw19_babyboi/index.html"><strong aria-hidden="true">2.12.</strong> CSAW'19: Babyboi</a></li><li class="expanded "><a href="../../08-bof_dynamic/csawquals17_svc/index.html"><strong aria-hidden="true">2.13.</strong> CSAW Quals'17: SVC</a></li><li class="expanded "><a href="../../08-bof_dynamic/fb19_overfloat/index.html"><strong aria-hidden="true">2.14.</strong> FB'19: Overfloat</a></li><li class="expanded "><a href="../../08-bof_dynamic/hs19_storytime/index.html"><strong aria-hidden="true">2.15.</strong> HS'19: Storytime</a></li></ol></li><li class="expanded "><a href="../../fmt.html"><strong aria-hidden="true">3.</strong> Format Strings</a></li><li><ol class="section"><li class="expanded "><a href="../../10-fmt_strings/backdoor17_bbpwn/index.html"><strong aria-hidden="true">3.1.</strong> Backdoor'17: bbpwn</a></li><li class="expanded "><a href="../../10-fmt_strings/pico18_echo/index.html"><strong aria-hidden="true">3.2.</strong> PicoCTF'18: echo</a></li><li class="expanded "><a href="../../10-fmt_strings/tw16_greeting/index.html"><strong aria-hidden="true">3.3.</strong> TokyoWesterns'16: Greeting</a></li></ol></li><li class="expanded "><a href="../../indexing.html"><strong aria-hidden="true">4.</strong> Array Indexing</a></li><li><ol class="section"><li class="expanded "><a href="../../11-index/csaw18_doubletrouble/index.html"><strong aria-hidden="true">4.1.</strong> CSAW'18: DoubleTrouble</a></li><li class="expanded "><a href="../../11-index/dcq16_xkcd/index.html"><strong aria-hidden="true">4.2.</strong> DCQ'16: XKCD</a></li><li class="expanded "><a href="../../11-index/sunshinectf2017_alternatesolution/index.html"><strong aria-hidden="true">4.3.</strong> SunshineCTF'17: Alt. Solution</a></li><li class="expanded "><a href="../../11-index/swampctf19_dreamheaps/index.html"><strong aria-hidden="true">4.4.</strong> SwampCTF'19: Dreamheaps</a></li></ol></li><li class="expanded "><a href="../../randomness.html"><strong aria-hidden="true">5.</strong> Bad Seed</a></li><li><ol class="section"><li class="expanded "><a href="../../09-bad_seed/h3_time/index.html"><strong aria-hidden="true">5.1.</strong> H3: Time</a></li><li class="expanded "><a href="../../09-bad_seed/hsctf19_tuxtalkshow/reamde.html"><strong aria-hidden="true">5.2.</strong> HSCTF'19: Tuxtalkshow</a></li><li class="expanded "><a href="../../09-bad_seed/sunshinectf17_prepared/index.html"><strong aria-hidden="true">5.3.</strong> SunshineCTF'17: Prepared</a></li></ol></li><li class="expanded "><a href="../../z3_angr.html"><strong aria-hidden="true">6.</strong> Z3 &amp; Symbolic Execution (angr)</a></li><li><ol class="section"><li class="expanded "><a href="../../12-z3/hs19_abyte/index.html"><strong aria-hidden="true">6.1.</strong> HS'19: abyte</a></li><li class="expanded "><a href="../../12-z3/tokyowesterns17_revrevrev/index.html"><strong aria-hidden="true">6.2.</strong> TokyoWesterns'17: revrevrev</a></li><li class="expanded "><a href="../../12-z3/tuctf_future/index.html"><strong aria-hidden="true">6.3.</strong> TUCTF: Future</a></li><li class="expanded "><a href="../../13-angr/defcamp_r100/index.html"><strong aria-hidden="true">6.4.</strong> DEFCamp: r100</a></li><li class="expanded "><a href="../../13-angr/plaid19_icancount/index.html"><strong aria-hidden="true">6.5.</strong> PlaidCTF'19: icancount</a></li><li class="expanded "><a href="../../13-angr/securityfest_fairlight/index.html"><strong aria-hidden="true">6.6.</strong> SecurityFest Fairlight</a></li></ol></li><li class="expanded "><a href="../../rop.html"><strong aria-hidden="true">7.</strong> Return Oriented Programming (ROP)</a></li><li><ol class="section"><li class="expanded "><a href="../../15-partial_overwrite/index.html"><strong aria-hidden="true">7.1.</strong> Partial Overwrite</a></li><li><ol class="section"><li class="expanded "><a href="../../15-partial_overwrite/hacklu15_stackstuff/index.html"><strong aria-hidden="true">7.1.1.</strong> Hack.lu'15: stackstuff</a></li><li class="expanded "><a href="../../15-partial_overwrite/tamu19_pwn2/index.html"><strong aria-hidden="true">7.1.2.</strong> TAMU'19: pwn2</a></li><li class="expanded "><a href="../../15-partial_overwrite/tuctf17_vulnchat2/index.html"><strong aria-hidden="true">7.1.3.</strong> TUCTF'17: vulnchat2</a></li></ol></li><li class="expanded "><a href="../../17-stack_pivot/index.html"><strong aria-hidden="true">7.2.</strong> Stack Pivoting</a></li><li><ol class="section"><li class="expanded "><a href="../../17-stack_pivot/dcquals19_speedrun4/index.html"><strong aria-hidden="true">7.2.1.</strong> DCQuals'19: speedrun4</a></li><li class="expanded "><a href="../../17-stack_pivot/insomnihack18_onewrite/index.html"><strong aria-hidden="true">7.2.2.</strong> Insomnihack'18: onewrite</a></li><li class="expanded "><a href="../../17-stack_pivot/seccon19_sum/index.html"><strong aria-hidden="true">7.2.3.</strong> SECCON'19: sum</a></li><li class="expanded "><a href="../../17-stack_pivot/xctf16_b0verflow/index.html"><strong aria-hidden="true">7.2.4.</strong> XCTF'16: b0verflow</a></li></ol></li><li class="expanded "><a href="../../16-srop/index.html"><strong aria-hidden="true">7.3.</strong> SIGROP (SROP)</a></li><li><ol class="section"><li class="expanded "><a href="../../16-srop/backdoor_funsignals/index.html"><strong aria-hidden="true">7.3.1.</strong> BackdoorCTF: funsigals</a></li><li class="expanded "><a href="../../16-srop/csaw19_smallboi/index.html"><strong aria-hidden="true">7.3.2.</strong> CSAW'19: smallboi</a></li><li class="expanded "><a href="../../16-srop/inctf17_stupidrop/index.html"><strong aria-hidden="true">7.3.3.</strong> InCTF'17: stupidrop</a></li><li class="expanded "><a href="../../16-srop/swamp19_syscaller/index.html"><strong aria-hidden="true">7.3.4.</strong> SwampCTF'19: syscaller</a></li></ol></li><li class="expanded "><a href="../../18-ret2_csu_dl/index.html"><strong aria-hidden="true">7.4.</strong> ret2csu</a></li><li><ol class="section"><li class="expanded "><a href="../../18-ret2_csu_dl/0ctf18_babystack/index.html"><strong aria-hidden="true">7.4.1.</strong> 0CTF'18: babystack</a></li><li class="expanded "><a href="../../18-ret2_csu_dl/ropemporium_ret2csu/index.html"><strong aria-hidden="true">7.4.2.</strong> ROPEmporium</a></li></ol></li><li class="expanded "><a href="../../14-ret_2_system/index.html"><strong aria-hidden="true">7.5.</strong> ret2system</a></li><li><ol class="section"><li class="expanded "><a href="../../14-ret_2_system/asis17_marymorton/index.html"><strong aria-hidden="true">7.5.1.</strong> ASIS'17: marymorton</a></li><li class="expanded "><a href="../../14-ret_2_system/hxp18_poorCanary/index.html"><strong aria-hidden="true">7.5.2.</strong> HXP'18: poorCanary</a></li><li class="expanded "><a href="../../14-ret_2_system/tu_guestbook/index.html"><strong aria-hidden="true">7.5.3.</strong> TUCTF: guestbook</a></li></ol></li></ol></li><li class="expanded "><a href="../../25-heap/index.html"><strong aria-hidden="true">8.</strong> Heap Exploitation</a></li><li><ol class="section"><li class="expanded "><a href="../../27-edit_free_chunk/double_free_explanation/index.html"><strong aria-hidden="true">8.1.</strong> Double Frees</a></li><li class="expanded "><a href="../../27-edit_free_chunk/heap_consolidation_explanation/index.html"><strong aria-hidden="true">8.2.</strong> Heap Consolidation</a></li><li class="expanded "><a href="../../27-edit_free_chunk/uaf_explanation/index.html"><strong aria-hidden="true">8.3.</strong> Use-after-Frees</a></li><li class="expanded "><a href="../../24-heap_overflow/protostar_heap0/index.html"><strong aria-hidden="true">8.4.</strong> Protostar: heap0</a></li><li class="expanded "><a href="../../24-heap_overflow/protostar_heap1/index.html"><strong aria-hidden="true">8.5.</strong> Protostar: heap1</a></li><li class="expanded "><a href="../../24-heap_overflow/protostar_heap2/reamdme.html"><strong aria-hidden="true">8.6.</strong> Protostar: heap2</a></li><li class="expanded "><a href="../../30-unlink/unlink_explanation/index.html"><strong aria-hidden="true">8.7.</strong> unlink() Exploitation</a></li><li><ol class="section"><li class="expanded "><a href="../../30-unlink/hitcon14_stkof/index.html"><strong aria-hidden="true">8.7.1.</strong> HITCON'14: stkof</a></li><li class="expanded "><a href="../../30-unlink/zctf16_note2/index.html"><strong aria-hidden="true">8.7.2.</strong> ZCTF'16: note2</a></li></ol></li><li class="expanded "><a href="../../26-heap_grooming/explanation_heap_grooming/index.html"><strong aria-hidden="true">8.8.</strong> Heap Grooming</a></li><li><ol class="section"><li class="expanded "><a href="../../26-heap_grooming/pico_areyouroot/index.html"><strong aria-hidden="true">8.8.1.</strong> PicoCTF: areyouroot</a></li><li class="expanded "><a href="../../26-heap_grooming/swamp19_heapgolf/index.html"><strong aria-hidden="true">8.8.2.</strong> SwampCTF'19: Heap Golf</a></li></ol></li><li class="expanded "><a href="../../28-fastbin_attack/explanation_fastbinAttack/index.html"><strong aria-hidden="true">8.9.</strong> Fastbin Attack</a></li><li><ol class="section"><li class="expanded "><a href="../../28-fastbin_attack/0ctf_babyheap/index.html"><strong aria-hidden="true">8.9.1.</strong> 0CTF: babyheap</a></li><li class="expanded "><a href="../../28-fastbin_attack/csaw17_auir/index.html"><strong aria-hidden="true">8.9.2.</strong> CSAW'17: Auir</a></li></ol></li><li class="expanded "><a href="../../31-unsortedbin_attack/unsorted_explanation/index.html"><strong aria-hidden="true">8.10.</strong> Unsortedbin Attack</a></li><li><ol class="section"><li class="expanded "><a href="../../31-unsortedbin_attack/0ctf16_zerostorage/index.html"><strong aria-hidden="true">8.10.1.</strong> 0CTF'16: zerostorage</a></li><li class="expanded "><a href="../../31-unsortedbin_attack/hitcon_magicheap/index.html"><strong aria-hidden="true">8.10.2.</strong> HITCON: magicheap</a></li></ol></li><li class="expanded "><a href="../../32-largebin_attack/largebin_explanation0/index.html"><strong aria-hidden="true">8.11.</strong> Largebin Attack (part 1)</a></li><li class="expanded "><a href="../../32-largebin_attack/largebin_explanation1/index.html"><strong aria-hidden="true">8.12.</strong> Largebin Attack (part 2)</a></li><li class="expanded "><a href="../../29-tcache/tcache_explanation/index.html"><strong aria-hidden="true">8.13.</strong> GLibc Tcache</a></li><li><ol class="section"><li class="expanded "><a href="../../29-tcache/dcquals19_babyheap/index.html"><strong aria-hidden="true">8.13.1.</strong> DCQuals'19: babyheap</a></li><li class="expanded "><a href="../../29-tcache/plaid19_cpp/index.html"><strong aria-hidden="true">8.13.2.</strong> PlaidCTF'19: cpp</a></li><li class="expanded "><a href="../../44-more_tcache/csaw19_popping_caps0/index.html"><strong aria-hidden="true">8.13.3.</strong> CSAW'19: Popping Caps 1</a></li><li class="expanded "><a href="../../44-more_tcache/csaw19_popping_caps1/index.html"><strong aria-hidden="true">8.13.4.</strong> CSAW'19: Popping Caps 2</a></li></ol></li><li class="expanded "><a href="../../39-house_of_spirit/house_spirit_exp/index.html"><strong aria-hidden="true">8.14.</strong> House of Spirit</a></li><li><ol class="section"><li class="expanded "><a href="../../39-house_of_spirit/hacklu14_oreo/index.html"><strong aria-hidden="true">8.14.1.</strong> Hack.lu'14: Oreo</a></li></ol></li><li class="expanded "><a href="../../40-house_of_lore/house_lore_exp/index.html"><strong aria-hidden="true">8.15.</strong> House of Lore</a></li><li class="expanded "><a href="../../41-house_of_force/house_force_exp/index.html"><strong aria-hidden="true">8.16.</strong> House of Force</a></li><li><ol class="section"><li class="expanded "><a href="../../41-house_of_force/bkp16_cookbook/index.html"><strong aria-hidden="true">8.16.1.</strong> BKP'16: Cookbook</a></li></ol></li><li class="expanded "><a href="../../42-house_of_einherjar/house_einherjar_exp/index.html"><strong aria-hidden="true">8.17.</strong> House of Einherjar</a></li><li class="expanded "><a href="../../43-house_of_orange/house_orange_exp/index.html"><strong aria-hidden="true">8.18.</strong> House of Orange</a></li><li class="expanded "><a href="../../33-custom_misc_heap/index.html"><strong aria-hidden="true">8.19.</strong> Miscellaneous</a></li><li><ol class="section"><li class="expanded "><a href="../../33-custom_misc_heap/csaw17_minesweeper/index.html"><strong aria-hidden="true">8.19.1.</strong> CSAW'17: Minesweeper</a></li><li class="expanded "><a href="../../33-custom_misc_heap/csaw18_alienVSsamurai/index.html"><strong aria-hidden="true">8.19.2.</strong> CSAW'18: alienVSsamurai</a></li><li class="expanded "><a href="../../33-custom_misc_heap/csaw19_traveller/index.html"><strong aria-hidden="true">8.19.3.</strong> CSAW'19: Traveller</a></li></ol></li></ol></li><li class="expanded "><a href="../../35-integer_exploitation/index.html"><strong aria-hidden="true">9.</strong> Integer Overflows</a></li><li><ol class="section"><li class="expanded "><a href="../../35-integer_exploitation/int_overflow_post/index.html"><strong aria-hidden="true">9.1.</strong> sploitFUN: vuln</a></li><li class="expanded "><a href="../../35-integer_exploitation/puzzle/index.html"><strong aria-hidden="true">9.2.</strong> Puzzle</a></li><li class="expanded "><a href="../../35-integer_exploitation/signed_unsigned/index.html"><strong aria-hidden="true">9.3.</strong> Signed vs. Unsigned</a></li></ol></li><li class="expanded "><a href="../../37-fs_exploitation/index.html"><strong aria-hidden="true">10.</strong> FILE Exploitation</a></li><li><ol class="section"><li class="expanded "><a href="../../37-fs_exploitation/swamp19_badfile/index.html"><strong aria-hidden="true">10.1.</strong> SwampCTF'19: Bad File</a></li></ol></li><li class="expanded "><a href="../../grabbag.html"><strong aria-hidden="true">11.</strong> Grab Bag</a></li><li><ol class="section"><li class="expanded "><a href="../../19-shellcoding_pt1/index.html"><strong aria-hidden="true">11.1.</strong> Shellcoding</a></li><li><ol class="section"><li class="expanded "><a href="../../19-shellcoding_pt1/csaw18_shellpointcode/index.html"><strong aria-hidden="true">11.1.1.</strong> CSAW'18: Shellpointcode</a></li><li class="expanded "><a href="../../19-shellcoding_pt1/defconquals19_s3/index.html"><strong aria-hidden="true">11.1.2.</strong> DCQuals'19: S3</a></li><li class="expanded "><a href="../../19-shellcoding_pt1/defconquals19_s6/index.html"><strong aria-hidden="true">11.1.3.</strong> DCQuals'19: S6</a></li></ol></li><li class="expanded "><a href="../../20-patching_and_jumping/index.html"><strong aria-hidden="true">11.2.</strong> Patching</a></li><li><ol class="section"><li class="expanded "><a href="../../20-patching_and_jumping/csawquals16_gametime/index.html"><strong aria-hidden="true">11.2.1.</strong> CSAW Quals'16: gametime</a></li><li class="expanded "><a href="../../20-patching_and_jumping/dcquals18_elfcrumble/index.html"><strong aria-hidden="true">11.2.2.</strong> DCQuals'18: ELFCrumble</a></li><li class="expanded "><a href="../../20-patching_and_jumping/plaid19_ppp/index.html"><strong aria-hidden="true">11.2.3.</strong> Plaid'19: PPP</a></li></ol></li><li class="expanded "><a href="../../21-dot_net/index.html"><strong aria-hidden="true">11.3.</strong> .NET</a></li><li><ol class="section"><li class="expanded "><a href="../../21-dot_net/bikinibonanza/index.html"><strong aria-hidden="true">11.3.1.</strong> Bikinibonanza</a></li><li class="expanded "><a href="../../21-dot_net/dot_net/index.html"><strong aria-hidden="true">11.3.2.</strong> CSAW'13: DotNetReversing</a></li><li class="expanded "><a href="../../21-dot_net/whitehat18_re06/index.html"><strong aria-hidden="true">11.3.3.</strong> Whitehat'18: re06</a></li></ol></li><li class="expanded "><a href="../../36-obfuscated_reversing/index.html"><strong aria-hidden="true">11.4.</strong> Obfuscation</a></li><li><ol class="section"><li class="expanded "><a href="../../36-obfuscated_reversing/bkp16_unholy/index.html"><strong aria-hidden="true">11.4.1.</strong> BKP'16: Unholy</a></li><li class="expanded "><a href="../../36-obfuscated_reversing/csaw15_wyvern/index.html"><strong aria-hidden="true">11.4.2.</strong> CSAW'15: Wyvern</a></li><li class="expanded "><a href="../../36-obfuscated_reversing/csaw17_prophecy/index.html"><strong aria-hidden="true">11.4.3.</strong> CSAW'17: Prophecy</a></li><li class="expanded "><a href="../../22-movfuscation/index.html"><strong aria-hidden="true">11.4.4.</strong> MOVfuscation</a></li><li><ol class="section"><li class="expanded "><a href="../../22-movfuscation/asis18_babyc/index.html"><strong aria-hidden="true">11.4.4.1.</strong> ASIS'18: babyc</a></li><li class="expanded "><a href="../../22-movfuscation/recon_movfuscated/index.html"><strong aria-hidden="true">11.4.4.2.</strong> RECON: movfuscated</a></li><li class="expanded "><a href="../../22-movfuscation/swamp19_future/index.html"><strong aria-hidden="true">11.4.4.3.</strong> SwampCTF'19: Future Fun</a></li></ol></li></ol></li><li class="expanded "><a href="../../23-custom_architecture/index.html"><strong aria-hidden="true">11.5.</strong> Custom Architecture</a></li><li><ol class="section"><li class="expanded "><a href="../../23-custom_architecture/h3_h3machine0/index.html"><strong aria-hidden="true">11.5.1.</strong> H3Machine (part 1)</a></li><li class="expanded "><a href="../../23-custom_architecture/h3_h3machine1/index.html"><strong aria-hidden="true">11.5.2.</strong> H3Machine (part 2)</a></li><li class="expanded "><a href="../../23-custom_architecture/h3_h3machine2/index.html"><strong aria-hidden="true">11.5.3.</strong> H3Machine (part 3)</a></li><li class="expanded "><a href="../../23-custom_architecture/h3_h3machine3/index.html"><strong aria-hidden="true">11.5.4.</strong> H3Machine (part 4)</a></li></ol></li><li class="expanded "><a href="../../34-emulated_targets/index.html"><strong aria-hidden="true">11.6.</strong> Emulation</a></li><li><ol class="section"><li class="expanded "><a href="../../34-emulated_targets/csaw15_hackingtime/index.html"><strong aria-hidden="true">11.6.1.</strong> CSAW'15: Hackingtime</a></li><li class="expanded "><a href="../../34-emulated_targets/csaw17_realism/index.html"><strong aria-hidden="true">11.6.2.</strong> CSAW'17: Realism</a></li><li class="expanded "><a href="../../34-emulated_targets/csaw18_x86_pt2/index.html"><strong aria-hidden="true">11.6.3.</strong> CSAW'18: x86 Pt.2</a></li></ol></li><li class="expanded "><a href="../../38-grab_bad/uninit_vars/index.html" class="active"><strong aria-hidden="true">11.7.</strong> Uninitialized Variables</a></li><li class="expanded "><a href="../../38-grab_bad/csaw18_doubletrouble/index.html"><strong aria-hidden="true">11.8.</strong> CSAW'18: Doubletrouble</a></li><li class="expanded "><a href="../../38-grab_bad/csaw19_gibberishCheck/index.html"><strong aria-hidden="true">11.9.</strong> CSAW'19: Gibberishcheck</a></li><li class="expanded "><a href="../../38-grab_bad/hackim19_shop/index.html"><strong aria-hidden="true">11.10.</strong> HackIM'19: Shop</a></li></ol></li><li class="expanded "><a href="../../next/index.html">What's Next</a></li><li class="expanded affix "><a href="../../references/index.html">References</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy (default)</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">Nightmare</h1>
+
+                        <div class="right-buttons">
+                            <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                            
+                            <a href="https://github.com/guyinatuxedo/nightmare/" title="Git repository" aria-label="Git repository">
+                                <i id="git-repository-button" class="fa fa-github"></i>
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#uninitialized-variable-explanation" id="uninitialized-variable-explanation">Uninitialized Variable Explanation</a></h1>
+<p>This is a well document C file that explains an uninitialized variable bug. </p>
+<p>Here is the source code:</p>
+<pre><code>#include &lt;stdio.h&gt;
+
+void trashed(void)
+{
+    int x = 0xfacade;
+    printf(&quot;Integer 0 Declared at:\t%p\n&quot;, &amp;x);
+    printf(&quot;Integer 0 Value:\t\t0x%x\n\n&quot;, x);
+}
+
+void scatterd(void)
+{
+	int y;
+    printf(&quot;Integer 1 Declared at:\t%p\n&quot;, &amp;y);
+    printf(&quot;Integer 1 Value:\t\t0x%x\n\n&quot;, y);
+
+	if (y == 0xfacade)
+	{
+		puts(&quot;Play your game, and walk away.\n&quot;);
+	}
+}
+
+int main()
+{
+	puts(&quot;Let's talk about uninitialized variables.&quot;);
+	puts(&quot;An uninitialized variable is one that is declared, but not assigned a value.&quot;);
+	puts(&quot;Thing is an uninitialized variable has the value of the last thing previously placed there in memory.&quot;);
+	puts(&quot;This can be beneficial when an uninitialized variable is referenced such as a read or a comparison.&quot;);
+	puts(&quot;We will run a function that will declare and initialize a variable.\n&quot;);
+
+	puts(&quot;After that, we will run another function which will declare a variable and not initialize it.&quot;);
+	puts(&quot;Let's see where the second variable ends up in memory, and what it's value is.\n&quot;);
+
+	trashed();
+
+	scatterd();
+
+	puts(&quot;As you can see, the memory location for the variable in the second function overlapped directly with the memory location for the variable in the first function.&quot;);
+	puts(&quot;Since the second variable was not initialized with a value, it had the value that was previously stored there, which was the value of the variable from the first function.&quot;);
+	puts(&quot;This is just one example of an uninitialized variables bug.&quot;);
+	puts(&quot;However there are a lot of scenarios where this bug can be helpful.&quot;);
+}
+</code></pre>
+<p>When it runs:</p>
+<pre><code>$	./uninit_vars 
+Let's talk about uninitialized variables.
+An uninitialized variable is one that is declared, but not assigned a value.
+Thing is an uninitialized variable has the value of the last thing previously placed there in memory.
+This can be beneficial when an uninitialized variable is referenced such as a read or a comparison.
+We will run a function that will declare and initialize a variable.
+
+After that, we will run another function which will declare a variable and not initialize it.
+Let's see where the second variable ends up in memory, and what it's value is.
+
+Integer 0 Declared at:	0x7ffcea5edff4
+Integer 0 Value:		0xfacade
+
+Integer 1 Declared at:	0x7ffcea5edff4
+Integer 1 Value:		0xfacade
+
+Play your game, and walk away.
+
+As you can see, the memory location for the variable in the second function overlapped directly with the memory location for the variable in the first function.
+Since the second variable was not initialized with a value, it had the value that was previously stored there, which was the value of the variable from the first function.
+This is just one example of an uninitialized variables bug.
+However there are a lot of scenarios where this bug can be helpful.
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../34-emulated_targets/csaw18_x86_pt2/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../38-grab_bad/csaw18_doubletrouble/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="../../34-emulated_targets/csaw18_x86_pt2/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="../../38-grab_bad/csaw18_doubletrouble/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+        
+        
+        <script type="text/javascript">
+            window.playpen_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

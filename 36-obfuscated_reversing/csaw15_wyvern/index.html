@@ -1,0 +1,1324 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js navy">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>CSAW'15: Wyvern - Nightmare</title>
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="Nightmare: an intro to binary exploitation / reverse engineering course based around CTF challenges.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "navy";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('navy')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div id="sidebar-scrollbox" class="sidebar-scrollbox">
+                <ol class="chapter"><li class="expanded affix "><a href="../../index.html">Nightmare</a></li><li class="expanded "><a href="../../00-intro/index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="expanded "><a href="../../01-intro_assembly/assembly/index.html"><strong aria-hidden="true">1.1.</strong> Assembly</a></li><li class="expanded "><a href="../../01-intro_assembly/reversing_assembly/index.html"><strong aria-hidden="true">1.2.</strong> Reversing Assembly</a></li><li class="expanded "><a href="../../02-intro_tooling/ghidra/index.html"><strong aria-hidden="true">1.3.</strong> Reversing with GHIDRA</a></li><li class="expanded "><a href="../../02-intro_tooling/gdb-gef/index.html"><strong aria-hidden="true">1.4.</strong> Debugging with GDB</a></li><li class="expanded "><a href="../../02-intro_tooling/pwntools/index.html"><strong aria-hidden="true">1.5.</strong> Scripting with Python pwntools</a></li><li class="expanded "><a href="../../03-beginner_re/csaw18_x86tour_pt1/index.html"><strong aria-hidden="true">1.6.</strong> Beginner Reversing</a></li><li><ol class="section"><li class="expanded "><a href="../../03-beginner_re/csaw19_beleaf/index.html"><strong aria-hidden="true">1.6.1.</strong> CSAW'19: Beleaf</a></li><li class="expanded "><a href="../../03-beginner_re/helithumper_re/index.html"><strong aria-hidden="true">1.6.2.</strong> Helithumper RE</a></li><li class="expanded "><a href="../../03-beginner_re/pico18_strings/index.html"><strong aria-hidden="true">1.6.3.</strong> Pico'18: Strings</a></li></ol></li></ol></li><li class="expanded "><a href="../../04-bof_variable/csaw18_boi/index.html"><strong aria-hidden="true">2.</strong> Stack Buffer Overflows</a></li><li><ol class="section"><li class="expanded "><a href="../../04-bof_variable/tamu19_pwn1/index.html"><strong aria-hidden="true">2.1.</strong> TAMU'19: Pwn1</a></li><li class="expanded "><a href="../../04-bof_variable/tw17_justdoit/index.html"><strong aria-hidden="true">2.2.</strong> TokyoWesterns'17: JustDoIt</a></li><li class="expanded "><a href="../../05-bof_callfunction/csaw16_warmup/index.html"><strong aria-hidden="true">2.3.</strong> CSAW'16: Warmup</a></li><li class="expanded "><a href="../../05-bof_callfunction/csaw18_getit/index.html"><strong aria-hidden="true">2.4.</strong> CSAW'18: Getit</a></li><li class="expanded "><a href="../../05-bof_callfunction/tu17_vulnchat/index.html"><strong aria-hidden="true">2.5.</strong> TU'17: Vulnchat</a></li><li><ol class="section"><li class="expanded "><a href="../../5.1-mitigation_aslr_pie/index.html"><strong aria-hidden="true">2.5.1.</strong> ASLR/PIE</a></li></ol></li><li class="expanded "><a href="../../06-bof_shellcode/csaw17_pilot/index.html"><strong aria-hidden="true">2.6.</strong> CSAW'17: Pilot</a></li><li class="expanded "><a href="../../06-bof_shellcode/tamu19_pwn3/index.html"><strong aria-hidden="true">2.7.</strong> TAMU'19: Pwn3</a></li><li class="expanded "><a href="../../06-bof_shellcode/tu18_shellaeasy/index.html"><strong aria-hidden="true">2.8.</strong> TU'18: Shellaeasy</a></li><li><ol class="section"><li class="expanded "><a href="../../6.1-mitigation_nx/index.html"><strong aria-hidden="true">2.8.1.</strong> NX/XN/DEP</a></li></ol></li><li class="expanded "><a href="../../07-bof_static/bkp16_simplecalc/index.html"><strong aria-hidden="true">2.9.</strong> BKP'16: SimpleCalc</a></li><li class="expanded "><a href="../../07-bof_static/dcquals16_feedme/index.html"><strong aria-hidden="true">2.10.</strong> DCQuals'16: Feedme</a></li><li class="expanded "><a href="../../07-bof_static/dcquals19_speedrun1/index.html"><strong aria-hidden="true">2.11.</strong> DCQuals'19: Speedrun1</a></li><li><ol class="section"><li class="expanded "><a href="../../7.1-mitigation_canary/index.html"><strong aria-hidden="true">2.11.1.</strong> Canaries/Cookies</a></li><li class="expanded "><a href="../../7.2-mitigation_relro/index.html"><strong aria-hidden="true">2.11.2.</strong> RELRO</a></li></ol></li><li class="expanded "><a href="../../08-bof_dynamic/csaw19_babyboi/index.html"><strong aria-hidden="true">2.12.</strong> CSAW'19: Babyboi</a></li><li class="expanded "><a href="../../08-bof_dynamic/csawquals17_svc/index.html"><strong aria-hidden="true">2.13.</strong> CSAW Quals'17: SVC</a></li><li class="expanded "><a href="../../08-bof_dynamic/fb19_overfloat/index.html"><strong aria-hidden="true">2.14.</strong> FB'19: Overfloat</a></li><li class="expanded "><a href="../../08-bof_dynamic/hs19_storytime/index.html"><strong aria-hidden="true">2.15.</strong> HS'19: Storytime</a></li></ol></li><li class="expanded "><a href="../../fmt.html"><strong aria-hidden="true">3.</strong> Format Strings</a></li><li><ol class="section"><li class="expanded "><a href="../../10-fmt_strings/backdoor17_bbpwn/index.html"><strong aria-hidden="true">3.1.</strong> Backdoor'17: bbpwn</a></li><li class="expanded "><a href="../../10-fmt_strings/pico18_echo/index.html"><strong aria-hidden="true">3.2.</strong> PicoCTF'18: echo</a></li><li class="expanded "><a href="../../10-fmt_strings/tw16_greeting/index.html"><strong aria-hidden="true">3.3.</strong> TokyoWesterns'16: Greeting</a></li></ol></li><li class="expanded "><a href="../../indexing.html"><strong aria-hidden="true">4.</strong> Array Indexing</a></li><li><ol class="section"><li class="expanded "><a href="../../11-index/csaw18_doubletrouble/index.html"><strong aria-hidden="true">4.1.</strong> CSAW'18: DoubleTrouble</a></li><li class="expanded "><a href="../../11-index/dcq16_xkcd/index.html"><strong aria-hidden="true">4.2.</strong> DCQ'16: XKCD</a></li><li class="expanded "><a href="../../11-index/sunshinectf2017_alternatesolution/index.html"><strong aria-hidden="true">4.3.</strong> SunshineCTF'17: Alt. Solution</a></li><li class="expanded "><a href="../../11-index/swampctf19_dreamheaps/index.html"><strong aria-hidden="true">4.4.</strong> SwampCTF'19: Dreamheaps</a></li></ol></li><li class="expanded "><a href="../../randomness.html"><strong aria-hidden="true">5.</strong> Bad Seed</a></li><li><ol class="section"><li class="expanded "><a href="../../09-bad_seed/h3_time/index.html"><strong aria-hidden="true">5.1.</strong> H3: Time</a></li><li class="expanded "><a href="../../09-bad_seed/hsctf19_tuxtalkshow/reamde.html"><strong aria-hidden="true">5.2.</strong> HSCTF'19: Tuxtalkshow</a></li><li class="expanded "><a href="../../09-bad_seed/sunshinectf17_prepared/index.html"><strong aria-hidden="true">5.3.</strong> SunshineCTF'17: Prepared</a></li></ol></li><li class="expanded "><a href="../../z3_angr.html"><strong aria-hidden="true">6.</strong> Z3 &amp; Symbolic Execution (angr)</a></li><li><ol class="section"><li class="expanded "><a href="../../12-z3/hs19_abyte/index.html"><strong aria-hidden="true">6.1.</strong> HS'19: abyte</a></li><li class="expanded "><a href="../../12-z3/tokyowesterns17_revrevrev/index.html"><strong aria-hidden="true">6.2.</strong> TokyoWesterns'17: revrevrev</a></li><li class="expanded "><a href="../../12-z3/tuctf_future/index.html"><strong aria-hidden="true">6.3.</strong> TUCTF: Future</a></li><li class="expanded "><a href="../../13-angr/defcamp_r100/index.html"><strong aria-hidden="true">6.4.</strong> DEFCamp: r100</a></li><li class="expanded "><a href="../../13-angr/plaid19_icancount/index.html"><strong aria-hidden="true">6.5.</strong> PlaidCTF'19: icancount</a></li><li class="expanded "><a href="../../13-angr/securityfest_fairlight/index.html"><strong aria-hidden="true">6.6.</strong> SecurityFest Fairlight</a></li></ol></li><li class="expanded "><a href="../../rop.html"><strong aria-hidden="true">7.</strong> Return Oriented Programming (ROP)</a></li><li><ol class="section"><li class="expanded "><a href="../../15-partial_overwrite/index.html"><strong aria-hidden="true">7.1.</strong> Partial Overwrite</a></li><li><ol class="section"><li class="expanded "><a href="../../15-partial_overwrite/hacklu15_stackstuff/index.html"><strong aria-hidden="true">7.1.1.</strong> Hack.lu'15: stackstuff</a></li><li class="expanded "><a href="../../15-partial_overwrite/tamu19_pwn2/index.html"><strong aria-hidden="true">7.1.2.</strong> TAMU'19: pwn2</a></li><li class="expanded "><a href="../../15-partial_overwrite/tuctf17_vulnchat2/index.html"><strong aria-hidden="true">7.1.3.</strong> TUCTF'17: vulnchat2</a></li></ol></li><li class="expanded "><a href="../../17-stack_pivot/index.html"><strong aria-hidden="true">7.2.</strong> Stack Pivoting</a></li><li><ol class="section"><li class="expanded "><a href="../../17-stack_pivot/dcquals19_speedrun4/index.html"><strong aria-hidden="true">7.2.1.</strong> DCQuals'19: speedrun4</a></li><li class="expanded "><a href="../../17-stack_pivot/insomnihack18_onewrite/index.html"><strong aria-hidden="true">7.2.2.</strong> Insomnihack'18: onewrite</a></li><li class="expanded "><a href="../../17-stack_pivot/seccon19_sum/index.html"><strong aria-hidden="true">7.2.3.</strong> SECCON'19: sum</a></li><li class="expanded "><a href="../../17-stack_pivot/xctf16_b0verflow/index.html"><strong aria-hidden="true">7.2.4.</strong> XCTF'16: b0verflow</a></li></ol></li><li class="expanded "><a href="../../16-srop/index.html"><strong aria-hidden="true">7.3.</strong> SIGROP (SROP)</a></li><li><ol class="section"><li class="expanded "><a href="../../16-srop/backdoor_funsignals/index.html"><strong aria-hidden="true">7.3.1.</strong> BackdoorCTF: funsigals</a></li><li class="expanded "><a href="../../16-srop/csaw19_smallboi/index.html"><strong aria-hidden="true">7.3.2.</strong> CSAW'19: smallboi</a></li><li class="expanded "><a href="../../16-srop/inctf17_stupidrop/index.html"><strong aria-hidden="true">7.3.3.</strong> InCTF'17: stupidrop</a></li><li class="expanded "><a href="../../16-srop/swamp19_syscaller/index.html"><strong aria-hidden="true">7.3.4.</strong> SwampCTF'19: syscaller</a></li></ol></li><li class="expanded "><a href="../../18-ret2_csu_dl/index.html"><strong aria-hidden="true">7.4.</strong> ret2csu</a></li><li><ol class="section"><li class="expanded "><a href="../../18-ret2_csu_dl/0ctf18_babystack/index.html"><strong aria-hidden="true">7.4.1.</strong> 0CTF'18: babystack</a></li><li class="expanded "><a href="../../18-ret2_csu_dl/ropemporium_ret2csu/index.html"><strong aria-hidden="true">7.4.2.</strong> ROPEmporium</a></li></ol></li><li class="expanded "><a href="../../14-ret_2_system/index.html"><strong aria-hidden="true">7.5.</strong> ret2system</a></li><li><ol class="section"><li class="expanded "><a href="../../14-ret_2_system/asis17_marymorton/index.html"><strong aria-hidden="true">7.5.1.</strong> ASIS'17: marymorton</a></li><li class="expanded "><a href="../../14-ret_2_system/hxp18_poorCanary/index.html"><strong aria-hidden="true">7.5.2.</strong> HXP'18: poorCanary</a></li><li class="expanded "><a href="../../14-ret_2_system/tu_guestbook/index.html"><strong aria-hidden="true">7.5.3.</strong> TUCTF: guestbook</a></li></ol></li></ol></li><li class="expanded "><a href="../../25-heap/index.html"><strong aria-hidden="true">8.</strong> Heap Exploitation</a></li><li><ol class="section"><li class="expanded "><a href="../../27-edit_free_chunk/double_free_explanation/index.html"><strong aria-hidden="true">8.1.</strong> Double Frees</a></li><li class="expanded "><a href="../../27-edit_free_chunk/heap_consolidation_explanation/index.html"><strong aria-hidden="true">8.2.</strong> Heap Consolidation</a></li><li class="expanded "><a href="../../27-edit_free_chunk/uaf_explanation/index.html"><strong aria-hidden="true">8.3.</strong> Use-after-Frees</a></li><li class="expanded "><a href="../../24-heap_overflow/protostar_heap0/index.html"><strong aria-hidden="true">8.4.</strong> Protostar: heap0</a></li><li class="expanded "><a href="../../24-heap_overflow/protostar_heap1/index.html"><strong aria-hidden="true">8.5.</strong> Protostar: heap1</a></li><li class="expanded "><a href="../../24-heap_overflow/protostar_heap2/reamdme.html"><strong aria-hidden="true">8.6.</strong> Protostar: heap2</a></li><li class="expanded "><a href="../../30-unlink/unlink_explanation/index.html"><strong aria-hidden="true">8.7.</strong> unlink() Exploitation</a></li><li><ol class="section"><li class="expanded "><a href="../../30-unlink/hitcon14_stkof/index.html"><strong aria-hidden="true">8.7.1.</strong> HITCON'14: stkof</a></li><li class="expanded "><a href="../../30-unlink/zctf16_note2/index.html"><strong aria-hidden="true">8.7.2.</strong> ZCTF'16: note2</a></li></ol></li><li class="expanded "><a href="../../26-heap_grooming/explanation_heap_grooming/index.html"><strong aria-hidden="true">8.8.</strong> Heap Grooming</a></li><li><ol class="section"><li class="expanded "><a href="../../26-heap_grooming/pico_areyouroot/index.html"><strong aria-hidden="true">8.8.1.</strong> PicoCTF: areyouroot</a></li><li class="expanded "><a href="../../26-heap_grooming/swamp19_heapgolf/index.html"><strong aria-hidden="true">8.8.2.</strong> SwampCTF'19: Heap Golf</a></li></ol></li><li class="expanded "><a href="../../28-fastbin_attack/explanation_fastbinAttack/index.html"><strong aria-hidden="true">8.9.</strong> Fastbin Attack</a></li><li><ol class="section"><li class="expanded "><a href="../../28-fastbin_attack/0ctf_babyheap/index.html"><strong aria-hidden="true">8.9.1.</strong> 0CTF: babyheap</a></li><li class="expanded "><a href="../../28-fastbin_attack/csaw17_auir/index.html"><strong aria-hidden="true">8.9.2.</strong> CSAW'17: Auir</a></li></ol></li><li class="expanded "><a href="../../31-unsortedbin_attack/unsorted_explanation/index.html"><strong aria-hidden="true">8.10.</strong> Unsortedbin Attack</a></li><li><ol class="section"><li class="expanded "><a href="../../31-unsortedbin_attack/0ctf16_zerostorage/index.html"><strong aria-hidden="true">8.10.1.</strong> 0CTF'16: zerostorage</a></li><li class="expanded "><a href="../../31-unsortedbin_attack/hitcon_magicheap/index.html"><strong aria-hidden="true">8.10.2.</strong> HITCON: magicheap</a></li></ol></li><li class="expanded "><a href="../../32-largebin_attack/largebin_explanation0/index.html"><strong aria-hidden="true">8.11.</strong> Largebin Attack (part 1)</a></li><li class="expanded "><a href="../../32-largebin_attack/largebin_explanation1/index.html"><strong aria-hidden="true">8.12.</strong> Largebin Attack (part 2)</a></li><li class="expanded "><a href="../../29-tcache/tcache_explanation/index.html"><strong aria-hidden="true">8.13.</strong> GLibc Tcache</a></li><li><ol class="section"><li class="expanded "><a href="../../29-tcache/dcquals19_babyheap/index.html"><strong aria-hidden="true">8.13.1.</strong> DCQuals'19: babyheap</a></li><li class="expanded "><a href="../../29-tcache/plaid19_cpp/index.html"><strong aria-hidden="true">8.13.2.</strong> PlaidCTF'19: cpp</a></li><li class="expanded "><a href="../../44-more_tcache/csaw19_popping_caps0/index.html"><strong aria-hidden="true">8.13.3.</strong> CSAW'19: Popping Caps 1</a></li><li class="expanded "><a href="../../44-more_tcache/csaw19_popping_caps1/index.html"><strong aria-hidden="true">8.13.4.</strong> CSAW'19: Popping Caps 2</a></li></ol></li><li class="expanded "><a href="../../39-house_of_spirit/house_spirit_exp/index.html"><strong aria-hidden="true">8.14.</strong> House of Spirit</a></li><li><ol class="section"><li class="expanded "><a href="../../39-house_of_spirit/hacklu14_oreo/index.html"><strong aria-hidden="true">8.14.1.</strong> Hack.lu'14: Oreo</a></li></ol></li><li class="expanded "><a href="../../40-house_of_lore/house_lore_exp/index.html"><strong aria-hidden="true">8.15.</strong> House of Lore</a></li><li class="expanded "><a href="../../41-house_of_force/house_force_exp/index.html"><strong aria-hidden="true">8.16.</strong> House of Force</a></li><li><ol class="section"><li class="expanded "><a href="../../41-house_of_force/bkp16_cookbook/index.html"><strong aria-hidden="true">8.16.1.</strong> BKP'16: Cookbook</a></li></ol></li><li class="expanded "><a href="../../42-house_of_einherjar/house_einherjar_exp/index.html"><strong aria-hidden="true">8.17.</strong> House of Einherjar</a></li><li class="expanded "><a href="../../43-house_of_orange/house_orange_exp/index.html"><strong aria-hidden="true">8.18.</strong> House of Orange</a></li><li class="expanded "><a href="../../33-custom_misc_heap/index.html"><strong aria-hidden="true">8.19.</strong> Miscellaneous</a></li><li><ol class="section"><li class="expanded "><a href="../../33-custom_misc_heap/csaw17_minesweeper/index.html"><strong aria-hidden="true">8.19.1.</strong> CSAW'17: Minesweeper</a></li><li class="expanded "><a href="../../33-custom_misc_heap/csaw18_alienVSsamurai/index.html"><strong aria-hidden="true">8.19.2.</strong> CSAW'18: alienVSsamurai</a></li><li class="expanded "><a href="../../33-custom_misc_heap/csaw19_traveller/index.html"><strong aria-hidden="true">8.19.3.</strong> CSAW'19: Traveller</a></li></ol></li></ol></li><li class="expanded "><a href="../../35-integer_exploitation/index.html"><strong aria-hidden="true">9.</strong> Integer Overflows</a></li><li><ol class="section"><li class="expanded "><a href="../../35-integer_exploitation/int_overflow_post/index.html"><strong aria-hidden="true">9.1.</strong> sploitFUN: vuln</a></li><li class="expanded "><a href="../../35-integer_exploitation/puzzle/index.html"><strong aria-hidden="true">9.2.</strong> Puzzle</a></li><li class="expanded "><a href="../../35-integer_exploitation/signed_unsigned/index.html"><strong aria-hidden="true">9.3.</strong> Signed vs. Unsigned</a></li></ol></li><li class="expanded "><a href="../../37-fs_exploitation/index.html"><strong aria-hidden="true">10.</strong> FILE Exploitation</a></li><li><ol class="section"><li class="expanded "><a href="../../37-fs_exploitation/swamp19_badfile/index.html"><strong aria-hidden="true">10.1.</strong> SwampCTF'19: Bad File</a></li></ol></li><li class="expanded "><a href="../../grabbag.html"><strong aria-hidden="true">11.</strong> Grab Bag</a></li><li><ol class="section"><li class="expanded "><a href="../../19-shellcoding_pt1/index.html"><strong aria-hidden="true">11.1.</strong> Shellcoding</a></li><li><ol class="section"><li class="expanded "><a href="../../19-shellcoding_pt1/csaw18_shellpointcode/index.html"><strong aria-hidden="true">11.1.1.</strong> CSAW'18: Shellpointcode</a></li><li class="expanded "><a href="../../19-shellcoding_pt1/defconquals19_s3/index.html"><strong aria-hidden="true">11.1.2.</strong> DCQuals'19: S3</a></li><li class="expanded "><a href="../../19-shellcoding_pt1/defconquals19_s6/index.html"><strong aria-hidden="true">11.1.3.</strong> DCQuals'19: S6</a></li></ol></li><li class="expanded "><a href="../../20-patching_and_jumping/index.html"><strong aria-hidden="true">11.2.</strong> Patching</a></li><li><ol class="section"><li class="expanded "><a href="../../20-patching_and_jumping/csawquals16_gametime/index.html"><strong aria-hidden="true">11.2.1.</strong> CSAW Quals'16: gametime</a></li><li class="expanded "><a href="../../20-patching_and_jumping/dcquals18_elfcrumble/index.html"><strong aria-hidden="true">11.2.2.</strong> DCQuals'18: ELFCrumble</a></li><li class="expanded "><a href="../../20-patching_and_jumping/plaid19_ppp/index.html"><strong aria-hidden="true">11.2.3.</strong> Plaid'19: PPP</a></li></ol></li><li class="expanded "><a href="../../21-dot_net/index.html"><strong aria-hidden="true">11.3.</strong> .NET</a></li><li><ol class="section"><li class="expanded "><a href="../../21-dot_net/bikinibonanza/index.html"><strong aria-hidden="true">11.3.1.</strong> Bikinibonanza</a></li><li class="expanded "><a href="../../21-dot_net/dot_net/index.html"><strong aria-hidden="true">11.3.2.</strong> CSAW'13: DotNetReversing</a></li><li class="expanded "><a href="../../21-dot_net/whitehat18_re06/index.html"><strong aria-hidden="true">11.3.3.</strong> Whitehat'18: re06</a></li></ol></li><li class="expanded "><a href="../../36-obfuscated_reversing/index.html"><strong aria-hidden="true">11.4.</strong> Obfuscation</a></li><li><ol class="section"><li class="expanded "><a href="../../36-obfuscated_reversing/bkp16_unholy/index.html"><strong aria-hidden="true">11.4.1.</strong> BKP'16: Unholy</a></li><li class="expanded "><a href="../../36-obfuscated_reversing/csaw15_wyvern/index.html" class="active"><strong aria-hidden="true">11.4.2.</strong> CSAW'15: Wyvern</a></li><li class="expanded "><a href="../../36-obfuscated_reversing/csaw17_prophecy/index.html"><strong aria-hidden="true">11.4.3.</strong> CSAW'17: Prophecy</a></li><li class="expanded "><a href="../../22-movfuscation/index.html"><strong aria-hidden="true">11.4.4.</strong> MOVfuscation</a></li><li><ol class="section"><li class="expanded "><a href="../../22-movfuscation/asis18_babyc/index.html"><strong aria-hidden="true">11.4.4.1.</strong> ASIS'18: babyc</a></li><li class="expanded "><a href="../../22-movfuscation/recon_movfuscated/index.html"><strong aria-hidden="true">11.4.4.2.</strong> RECON: movfuscated</a></li><li class="expanded "><a href="../../22-movfuscation/swamp19_future/index.html"><strong aria-hidden="true">11.4.4.3.</strong> SwampCTF'19: Future Fun</a></li></ol></li></ol></li><li class="expanded "><a href="../../23-custom_architecture/index.html"><strong aria-hidden="true">11.5.</strong> Custom Architecture</a></li><li><ol class="section"><li class="expanded "><a href="../../23-custom_architecture/h3_h3machine0/index.html"><strong aria-hidden="true">11.5.1.</strong> H3Machine (part 1)</a></li><li class="expanded "><a href="../../23-custom_architecture/h3_h3machine1/index.html"><strong aria-hidden="true">11.5.2.</strong> H3Machine (part 2)</a></li><li class="expanded "><a href="../../23-custom_architecture/h3_h3machine2/index.html"><strong aria-hidden="true">11.5.3.</strong> H3Machine (part 3)</a></li><li class="expanded "><a href="../../23-custom_architecture/h3_h3machine3/index.html"><strong aria-hidden="true">11.5.4.</strong> H3Machine (part 4)</a></li></ol></li><li class="expanded "><a href="../../34-emulated_targets/index.html"><strong aria-hidden="true">11.6.</strong> Emulation</a></li><li><ol class="section"><li class="expanded "><a href="../../34-emulated_targets/csaw15_hackingtime/index.html"><strong aria-hidden="true">11.6.1.</strong> CSAW'15: Hackingtime</a></li><li class="expanded "><a href="../../34-emulated_targets/csaw17_realism/index.html"><strong aria-hidden="true">11.6.2.</strong> CSAW'17: Realism</a></li><li class="expanded "><a href="../../34-emulated_targets/csaw18_x86_pt2/index.html"><strong aria-hidden="true">11.6.3.</strong> CSAW'18: x86 Pt.2</a></li></ol></li><li class="expanded "><a href="../../38-grab_bad/uninit_vars/index.html"><strong aria-hidden="true">11.7.</strong> Uninitialized Variables</a></li><li class="expanded "><a href="../../38-grab_bad/csaw18_doubletrouble/index.html"><strong aria-hidden="true">11.8.</strong> CSAW'18: Doubletrouble</a></li><li class="expanded "><a href="../../38-grab_bad/csaw19_gibberishCheck/index.html"><strong aria-hidden="true">11.9.</strong> CSAW'19: Gibberishcheck</a></li><li class="expanded "><a href="../../38-grab_bad/hackim19_shop/index.html"><strong aria-hidden="true">11.10.</strong> HackIM'19: Shop</a></li></ol></li><li class="expanded "><a href="../../next/index.html">What's Next</a></li><li class="expanded affix "><a href="../../references/index.html">References</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy (default)</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">Nightmare</h1>
+
+                        <div class="right-buttons">
+                            <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                            
+                            <a href="https://github.com/guyinatuxedo/nightmare/" title="Git repository" aria-label="Git repository">
+                                <i id="git-repository-button" class="fa fa-github"></i>
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#csaw-2015-wyvern" id="csaw-2015-wyvern">Csaw 2015 Wyvern</a></h1>
+<p>Goal of this challenge is to get the flag, not pop a shell.</p>
+<p>Let's take a look at the binary:</p>
+<pre><code>$    file wyvern
+wyvern: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.24, BuildID[sha1]=45f9b5b50d013fe43405dc5c7fe651c91a7a7ee8, not stripped
+$    ./wyvern
++-----------------------+
+|    Welcome Hero       |
++-----------------------+
+
+[!] Quest: there is a dragon prowling the domain.
+    brute strength and magic is our only hope. Test your skill.
+
+Enter the dragon's secret: 15935728
+
+[-] You have failed. The dragon's power, speed and intelligence was greater.
+</code></pre>
+<p>So we are dealing with a <code>64</code> bit binary, that prompts us for input via stdin. It looks like a normal crackme which scans in data, and checks it.</p>
+<h2><a class="header" href="#reversing" id="reversing">Reversing</a></h2>
+<p>When we take a look at the main function, we see this:</p>
+<pre><code>undefined8 main(void)
+
+{
+  int dragonBattle;
+  basic_string local_148 [8];
+  basic_string local_140 [24];
+  allocator&lt;char&gt; local_128 [8];
+  basic_string&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt; local_120 [8];
+  allocator input [268];
+ 
+  operator&lt;&lt;&lt;std--char_traits&lt;char&gt;&gt;((basic_ostream *)cout,&quot;+-----------------------+\n&quot;);
+  operator&lt;&lt;&lt;std--char_traits&lt;char&gt;&gt;((basic_ostream *)cout,&quot;|    Welcome Hero       |\n&quot;);
+  operator&lt;&lt;&lt;std--char_traits&lt;char&gt;&gt;((basic_ostream *)cout,&quot;+-----------------------+\n\n&quot;);
+  operator&lt;&lt;&lt;std--char_traits&lt;char&gt;&gt;
+            ((basic_ostream *)cout,&quot;[!] Quest: there is a dragon prowling the domain.\n&quot;);
+  operator&lt;&lt;&lt;std--char_traits&lt;char&gt;&gt;
+            ((basic_ostream *)cout,
+             &quot;\tbrute strength and magic is our only hope. Test your skill.\n\n&quot;);
+  operator&lt;&lt;&lt;std--char_traits&lt;char&gt;&gt;((basic_ostream *)cout,&quot;Enter the dragon\'s secret: &quot;);
+  fgets((char *)input,0x101,stdin);
+  allocator();
+                    /* try { // try from 0040e217 to 0040e230 has its CatchHandler @ 0040e2ee */
+  basic_string((char *)local_120,input);
+  ~allocator(local_128);
+                    /* try { // try from 0040e242 to 0040e254 has its CatchHandler @ 0040e30e */
+  basic_string(local_140);
+                    /* try { // try from 0040e25a to 0040e265 has its CatchHandler @ 0040e322 */
+  dragonBattle = start_quest((basic_string)0xc0);
+                    /* try { // try from 0040e27f to 0040e2c1 has its CatchHandler @ 0040e30e */
+  ~basic_string((basic_string&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt; *)local_140);
+  if (dragonBattle == 0x1337) {
+    basic_string(local_148);
+                    /* try { // try from 0040e2c7 to 0040e2d2 has its CatchHandler @ 0040e347 */
+    reward_strength((basic_string)0xb8);
+                    /* try { // try from 0040e2d8 to 0040e2e3 has its CatchHandler @ 0040e30e */
+    ~basic_string((basic_string&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt; *)local_148);
+  }
+  else {
+                    /* try { // try from 0040e36c to 0040e37e has its CatchHandler @ 0040e30e */
+    operator&lt;&lt;&lt;std--char_traits&lt;char&gt;&gt;
+              ((basic_ostream *)cout,
+               &quot;\n[-] You have failed. The dragon\'s power, speed and intelligence was greater.\n&quot;);
+  }
+  ~basic_string(local_120);
+  return 0;
+}
+</code></pre>
+<p>So we can see that it prompts us for input here:</p>
+<pre><code>  fgets((char *)input,0x101,stdin);
+</code></pre>
+<p>Looking through the code, we can see that it really doesn't do much input checking. It just passes our input to <code>start_quest</code>, and checks to see if it's output is <code>0x1337</code> (which we will need to figure out how to make that happen to solve this challenge). Also the disassembly shows that our input isn't passed, however that is wrong. We can see that in gdb our input is passed:</p>
+<pre><code>Breakpoint 1, 0x000000000040e261 in main ()
+[ Legend: Modified register | Code | Heap | Stack | String ]
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── registers ────
+$rax   : 0x0               
+$rbx   : 0x0               
+$rcx   : 0xa38323735333935  (&quot;5935728\n&quot;?)
+$rdx   : 0x0               
+$rsp   : 0x00007fffffffdd90  →  0x0000000000000000
+$rbp   : 0x00007fffffffdf50  →  0x000000000040e5b0  →  &lt;__libc_csu_init+0&gt; push r15
+$rsi   : 0x00007fffffffde38  →  0x00000000006236a8  →  &quot;15935728&quot;
+$rdi   : 0x00007fffffffde18  →  0x00000000006236a8  →  &quot;15935728&quot;
+$rip   : 0x000000000040e261  →  &lt;main+321&gt; call 0x404350 &lt;_Z11start_questSs&gt;
+$r8    : 0x00000000006236a8  →  &quot;15935728&quot;
+$r9    : 0x00007ffff7a7ff40  →  0x00007ffff7a7ff40  →  [loop detected]
+$r10   : 0x6               
+$r11   : 0x00007ffff7ebd150  →  &lt;std::basic_string&lt;char,+0&gt; push rbx
+$r12   : 0x00000000004013bb  →  &lt;_start+0&gt; xor ebp, ebp
+$r13   : 0x00007fffffffe030  →  0x0000000000000001
+$r14   : 0x0               
+$r15   : 0x0               
+$eflags: [zero carry parity adjust sign trap INTERRUPT direction overflow resume virtualx86 identification]
+$cs: 0x0033 $ss: 0x002b $ds: 0x0000 $es: 0x0000 $fs: 0x0000 $gs: 0x0000
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── stack ────
+0x00007fffffffdd90│+0x0000: 0x0000000000000000     ← $rsp
+0x00007fffffffdd98│+0x0008: 0x0000000000000000
+0x00007fffffffdda0│+0x0010: 0x0000000000000000
+0x00007fffffffdda8│+0x0018: 0x0000000000000000
+0x00007fffffffddb0│+0x0020: 0x0000000000000000
+0x00007fffffffddb8│+0x0028: 0x00007fffffffde30  →  0x0000000000000000
+0x00007fffffffddc0│+0x0030: 0x00007fffffffde40  →  &quot;15935728&quot;
+0x00007fffffffddc8│+0x0038: 0x00007fffffffde40  →  &quot;15935728&quot;
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── code:x86:64 ────
+     0x40e250 &lt;main+304&gt;       call   0x400f20 &lt;_ZNSsC1ERKSs@plt&gt;
+     0x40e255 &lt;main+309&gt;       jmp    0x40e25a &lt;main+314&gt;
+     0x40e25a &lt;main+314&gt;       lea    rdi, [rbp-0x138]
+ →   0x40e261 &lt;main+321&gt;       call   0x404350 &lt;_Z11start_questSs&gt;
+   ↳    0x404350 &lt;start_quest(std::string)+0&gt; push   rbp
+        0x404351 &lt;start_quest(std::string)+1&gt; mov    rbp, rsp
+        0x404354 &lt;start_quest(std::string)+4&gt; push   r15
+        0x404356 &lt;start_quest(std::string)+6&gt; push   r14
+        0x404358 &lt;start_quest(std::string)+8&gt; push   rbx
+        0x404359 &lt;start_quest(std::string)+9&gt; sub    rsp, 0x78
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── arguments (guessed) ────
+_Z11start_questSs (
+   $rdi = 0x00007fffffffde18 → 0x00000000006236a8 → &quot;15935728&quot;,
+   $rsi = 0x00007fffffffde38 → 0x00000000006236a8 → &quot;15935728&quot;
+)
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;wyvern&quot;, stopped, reason: BREAKPOINT
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x40e261 → main()
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+gef➤  
+</code></pre>
+<h4><a class="header" href="#start_quest" id="start_quest">start_quest</a></h4>
+<p>So that brings us to the <code>start_quest</code> function:</p>
+<pre><code>
+/* start_quest(std::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt;&gt;) */
+
+ulong start_quest(basic_string param_1)
+
+{
+  undefined *puVar1;
+  uint *puVar2;
+  long inputLength;
+  undefined *this;
+  undefined *puVar3;
+  undefined auStack152 [8];
+  undefined8 local_90;
+  uint local_50;
+  bool lenCheck;
+ 
+  puVar3 = auStack152;
+  puVar1 = auStack152;
+  if ((x25 * (x25 + -1) &amp; 1U) == 0 || y26 &lt; 10) goto LAB_004043a4;
+  do {
+    puVar3 = puVar1;
+    *(undefined8 *)(puVar3 + -8) = 0x404c2c;
+    push_back(hero,&amp;secret_100,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404c45;
+    push_back(hero,&amp;secret_214,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404c5e;
+    push_back(hero,&amp;secret_266,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404c77;
+    push_back(hero,&amp;secret_369,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404c90;
+    push_back(hero,&amp;secret_417,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404ca9;
+    push_back(hero,&amp;secret_527,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404cc2;
+    push_back(hero,&amp;secret_622,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404cdb;
+    push_back(hero,&amp;secret_733,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404cf4;
+    push_back(hero,&amp;secret_847,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404d0d;
+    push_back(hero,&amp;secret_942,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404d26;
+    push_back(hero,&amp;secret_1054,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404d3f;
+    push_back(hero,&amp;secret_1106,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404d58;
+    push_back(hero,&amp;secret_1222,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404d71;
+    push_back(hero,&amp;secret_1336,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404d8a;
+    push_back(hero,&amp;secret_1441,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404da3;
+    push_back(hero,&amp;secret_1540,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404dbc;
+    push_back(hero,&amp;secret_1589,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404dd5;
+    push_back(hero,&amp;secret_1686,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404dee;
+    push_back(hero,&amp;secret_1796,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404e07;
+    push_back(hero,&amp;secret_1891,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404e20;
+    push_back(hero,&amp;secret_1996,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404e39;
+    push_back(hero,&amp;secret_2112,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404e52;
+    push_back(hero,&amp;secret_2165,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404e6b;
+    push_back(hero,&amp;secret_2260,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404e84;
+    push_back(hero,&amp;secret_2336,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404e9d;
+    push_back(hero,&amp;secret_2412,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404eb6;
+    push_back(hero,&amp;secret_2498,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404ecf;
+    push_back(hero,&amp;secret_2575,puVar3[-8]);
+    *(undefined8 *)(puVar3 + -8) = 0x404ed8;
+    local_90 = length(puVar3[-8]);
+LAB_004043a4:
+    puVar2 = (uint *)(puVar3 + -0x10);
+    this = puVar3 + -0x20;
+    *(undefined8 *)(puVar3 + -0x48) = 0x4043f5;
+    push_back(hero,&amp;secret_100,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x40440e;
+    push_back(hero,&amp;secret_214,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404427;
+    push_back(hero,&amp;secret_266,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404440;
+    push_back(hero,&amp;secret_369,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404459;
+    push_back(hero,&amp;secret_417,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404472;
+    push_back(hero,&amp;secret_527,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x40448b;
+    push_back(hero,&amp;secret_622,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x4044a4;
+    push_back(hero,&amp;secret_733,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x4044bd;
+    push_back(hero,&amp;secret_847,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x4044d6;
+    push_back(hero,&amp;secret_942,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x4044ef;
+    push_back(hero,&amp;secret_1054,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404508;
+    push_back(hero,&amp;secret_1106,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404521;
+    push_back(hero,&amp;secret_1222,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x40453a;
+    push_back(hero,&amp;secret_1336,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404553;
+    push_back(hero,&amp;secret_1441,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x40456c;
+    push_back(hero,&amp;secret_1540,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404585;
+    push_back(hero,&amp;secret_1589,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x40459e;
+    push_back(hero,&amp;secret_1686,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x4045b7;
+    push_back(hero,&amp;secret_1796,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x4045d0;
+    push_back(hero,&amp;secret_1891,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x4045e9;
+    push_back(hero,&amp;secret_1996,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404602;
+    push_back(hero,&amp;secret_2112,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x40461b;
+    push_back(hero,&amp;secret_2165,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404634;
+    push_back(hero,&amp;secret_2260,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x40464d;
+    push_back(hero,&amp;secret_2336,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404666;
+    push_back(hero,&amp;secret_2412,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x40467f;
+    push_back(hero,&amp;secret_2498,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404698;
+    push_back(hero,&amp;secret_2575,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x4046a1;
+    inputLength = length(puVar3[-0x48]);
+    lenCheck = inputLength + -1 != (long)(legend &gt;&gt; 2);
+    puVar1 = puVar3 + -0x40;
+  } while ((x25 * (x25 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y26);
+  if (lenCheck) {
+    if ((x25 * (x25 + -1) &amp; 1U) == 0 || y26 &lt; 10) goto LAB_00404760;
+    do {
+      *puVar2 = legend &gt;&gt; 2;
+LAB_00404760:
+      *puVar2 = legend &gt;&gt; 2;
+    } while ((x25 * (x25 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y26);
+  }
+  else {
+    if ((x25 * (x25 + -1) &amp; 1U) == 0 || y26 &lt; 10) goto LAB_004047fb;
+    do {
+      *(undefined8 *)(puVar3 + -0x48) = 0x404f06;
+      basic_string(this,puVar3[-0x48]);
+LAB_004047fb:
+      *(undefined8 *)(puVar3 + -0x48) = 0x404808;
+      basic_string(this,puVar3[-0x48]);
+    } while ((x25 * (x25 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y26);
+                    /* try { // try from 0040484b to 00404853 has its CatchHandler @ 004048fb */
+    *(undefined8 *)(puVar3 + -0x48) = 0x404854;
+    local_50 = sanitize_input((char)this,puVar3[-0x48]);
+    if ((x25 * (x25 + -1) &amp; 1U) == 0 || y26 &lt; 10) goto LAB_0040489f;
+    do {
+      *puVar2 = local_50;
+      *(undefined8 *)(puVar3 + -0x48) = 0x404f1d;
+      ~basic_string(this,puVar3[-0x48]);
+LAB_0040489f:
+      *puVar2 = local_50;
+      *(undefined8 *)(puVar3 + -0x48) = 0x4048b1;
+      ~basic_string(this,puVar3[-0x48]);
+    } while ((x25 * (x25 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y26);
+  }
+  do {
+  } while ((x25 * (x25 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y26);
+  return (ulong)*puVar2;
+}
+</code></pre>
+<p>So looking at this code, it becomes apparant that it has been obfuscated. Obfuscating code means that it has essentially been made harder to reverse and understand what it does. Throughout this code, we see a lot of code segments like this:</p>
+<pre><code>((x25 * (x25 + -1) &amp; 1U) == 0 || y26 &lt; 10)
+</code></pre>
+<p>and this:</p>
+<pre><code>while ((x25 * (x25 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y26)
+</code></pre>
+<p>This is a part of the obfuscation. Thing is, in these statements they reference variables like <code>x25</code> and <code>y26</code>. The thing is, these variables are never given a non-zero value. That way their value is <code>0</code>. As a result this expression:</p>
+<pre><code>((x25 * (x25 + -1) &amp; 1U) == 0 || y26 &lt; 10)
+</code></pre>
+<p>really means this:</p>
+<pre><code>((0 * (0 + -1) &amp; 1U) == 0 || 0 &lt; 10)
+</code></pre>
+<p>So realistically, these statements are just a complicated way of stating things like <code>if (true)</code>. These statements evaluate to the following:</p>
+<pre><code>((x25 * (x25 + -1) &amp; 1U) == 0 || y26 &lt; 10)
+</code></pre>
+<p>^ evaluates to true</p>
+<pre><code>((x25 * (x25 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y26)
+</code></pre>
+<p>^ evaluates to false</p>
+<p>So going through and editing the code (I just did this in a text editor) to remove some of the obfuscation, we are left with this:</p>
+<pre><code>
+/* start_quest(std::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt;&gt;) */
+
+ulong start_quest(basic_string param_1)
+
+{
+  undefined *puVar1;
+  uint *puVar2;
+  long inputLength;
+  undefined *this;
+  undefined *puVar3;
+  undefined auStack152 [8];
+  undefined8 local_90;
+  uint local_50;
+  bool lenCheck;
+ 
+  puVar3 = auStack152;
+  puVar1 = auStack152;
+LAB_004043a4:
+    puVar2 = (uint *)(puVar3 + -0x10);
+    this = puVar3 + -0x20;
+    *(undefined8 *)(puVar3 + -0x48) = 0x4043f5;
+    push_back(hero,&amp;secret_100,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x40440e;
+    push_back(hero,&amp;secret_214,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404427;
+    push_back(hero,&amp;secret_266,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404440;
+    push_back(hero,&amp;secret_369,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404459;
+    push_back(hero,&amp;secret_417,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404472;
+    push_back(hero,&amp;secret_527,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x40448b;
+    push_back(hero,&amp;secret_622,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x4044a4;
+    push_back(hero,&amp;secret_733,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x4044bd;
+    push_back(hero,&amp;secret_847,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x4044d6;
+    push_back(hero,&amp;secret_942,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x4044ef;
+    push_back(hero,&amp;secret_1054,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404508;
+    push_back(hero,&amp;secret_1106,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404521;
+    push_back(hero,&amp;secret_1222,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x40453a;
+    push_back(hero,&amp;secret_1336,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404553;
+    push_back(hero,&amp;secret_1441,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x40456c;
+    push_back(hero,&amp;secret_1540,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404585;
+    push_back(hero,&amp;secret_1589,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x40459e;
+    push_back(hero,&amp;secret_1686,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x4045b7;
+    push_back(hero,&amp;secret_1796,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x4045d0;
+    push_back(hero,&amp;secret_1891,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x4045e9;
+    push_back(hero,&amp;secret_1996,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404602;
+    push_back(hero,&amp;secret_2112,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x40461b;
+    push_back(hero,&amp;secret_2165,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404634;
+    push_back(hero,&amp;secret_2260,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x40464d;
+    push_back(hero,&amp;secret_2336,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404666;
+    push_back(hero,&amp;secret_2412,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x40467f;
+    push_back(hero,&amp;secret_2498,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x404698;
+    push_back(hero,&amp;secret_2575,puVar3[-0x48]);
+    *(undefined8 *)(puVar3 + -0x48) = 0x4046a1;
+    inputLength = length(puVar3[-0x48]);
+    lenCheck = inputLength + -1 != (long)(legend &gt;&gt; 2);
+    puVar1 = puVar3 + -0x40;
+
+  if (lenCheck) {
+
+  }
+  else {
+                    /* try { // try from 0040484b to 00404853 has its CatchHandler @ 004048fb */
+    *(undefined8 *)(puVar3 + -0x48) = 0x404854;
+    local_50 = sanitize_input((char)this,puVar3[-0x48]);
+    if ((x25 * (x25 + -1) &amp; 1U) == 0 || y26 &lt; 10) goto LAB_0040489f;
+      *puVar2 = local_50;
+      *(undefined8 *)(puVar3 + -0x48) = 0x404f1d;
+      ~basic_string(this,puVar3[-0x48]);
+LAB_0040489f:
+      *puVar2 = local_50;
+      *(undefined8 *)(puVar3 + -0x48) = 0x4048b1;
+      ~basic_string(this,puVar3[-0x48]);
+  }
+
+  return (ulong)*puVar2;
+}
+</code></pre>
+<p>This looks much readable. Starting off we see <code>28</code> calls to <code>push_back</code>. Looking at the calls in gdb tell us roughly what they do:</p>
+<p>Before the call:</p>
+<pre><code>Breakpoint 1, 0x0000000000404409 in start_quest(std::string) ()
+[ Legend: Modified register | Code | Heap | Stack | String ]
+──────────────────────────────────────────────────────────────── registers ────
+$rax   : 0x0               
+$rbx   : 0x0               
+$rcx   : 0x0               
+$rdx   : 0xffffffff        
+$rsp   : 0x00007fffffffdcd0  →  0x0000000000000000
+$rbp   : 0x00007fffffffdda0  →  0x00007fffffffdf70  →  0x000000000040e5b0  →  &lt;__libc_csu_init+0&gt; push r15
+$rsi   : 0x0000000000610140  →  0x0000010a000000d6
+$rdi   : 0x00000000006102f8  →  0x00000000006236c0  →  0x0000000000000064 (&quot;d&quot;?)
+$rip   : 0x0000000000404409  →  &lt;start_quest(std::string)+185&gt; call 0x405750 &lt;_ZNSt6vectorIiSaIiEE9push_backERKi&gt;
+$r8    : 0x0               
+$r9    : 0xffffffff        
+$r10   : 0x1               
+$r11   : 0xffffff01        
+$r12   : 0x00000000004013bb  →  &lt;_start+0&gt; xor ebp, ebp
+$r13   : 0x00007fffffffe050  →  0x0000000000000001
+$r14   : 0x0               
+$r15   : 0x0               
+$eflags: [zero carry parity adjust sign trap INTERRUPT direction overflow resume virtualx86 identification]
+$cs: 0x0033 $ss: 0x002b $ds: 0x0000 $es: 0x0000 $fs: 0x0000 $gs: 0x0000
+──────────────────────────────────────────────────────────────────── stack ────
+0x00007fffffffdcd0│+0x0000: 0x0000000000000000     ← $rsp
+0x00007fffffffdcd8│+0x0008: 0x0000000000000000
+0x00007fffffffdce0│+0x0010: 0x0000000000000000
+0x00007fffffffdce8│+0x0018: 0x0000000000000000
+0x00007fffffffdcf0│+0x0020: 0x0000000000000000
+0x00007fffffffdcf8│+0x0028: 0x0000000000000000
+0x00007fffffffdd00│+0x0030: 0x0000000000000000
+0x00007fffffffdd08│+0x0038: 0x0000000000000000
+────────────────────────────────────────────────────────────── code:x86:64 ────
+     0x4043f0 &lt;start_quest(std::string)+160&gt; call   0x405750 &lt;_ZNSt6vectorIiSaIiEE9push_backERKi&gt;
+     0x4043f5 &lt;start_quest(std::string)+165&gt; movabs rdi, 0x6102f8
+     0x4043ff &lt;start_quest(std::string)+175&gt; movabs rsi, 0x610140
+ →   0x404409 &lt;start_quest(std::string)+185&gt; call   0x405750 &lt;_ZNSt6vectorIiSaIiEE9push_backERKi&gt;
+   ↳    0x405750 &lt;std::vector&lt;int,+0&gt; push   rbp
+        0x405751 &lt;std::vector&lt;int,+0&gt; mov    rbp, rsp
+        0x405754 &lt;std::vector&lt;int,+0&gt; push   r15
+        0x405756 &lt;std::vector&lt;int,+0&gt; push   r14
+        0x405758 &lt;std::vector&lt;int,+0&gt; push   rbx
+        0x405759 &lt;std::vector&lt;int,+0&gt; sub    rsp, 0x38
+────────────────────────────────────────────────────── arguments (guessed) ────
+_ZNSt6vectorIiSaIiEE9push_backERKi (
+   $rdi = 0x00000000006102f8 → 0x00000000006236c0 → 0x0000000000000064 (&quot;d&quot;?),
+   $rsi = 0x0000000000610140 → 0x0000010a000000d6
+)
+────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;wyvern&quot;, stopped, reason: BREAKPOINT
+──────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x404409 → start_quest(std::string)()
+[#1] 0x40e266 → main()
+───────────────────────────────────────────────────────────────────────────────
+gef➤  
+</code></pre>
+<p>With the next call, we see this:</p>
+<pre><code>0x0000000000404422 in start_quest(std::string) ()
+[ Legend: Modified register | Code | Heap | Stack | String ]
+──────────────────────────────────────────────────────────────── registers ────
+$rax   : 0x0               
+$rbx   : 0x0               
+$rcx   : 0x0               
+$rdx   : 0xffffffff        
+$rsp   : 0x00007fffffffdcd0  →  0x0000000000000000
+$rbp   : 0x00007fffffffdda0  →  0x00007fffffffdf70  →  0x000000000040e5b0  →  &lt;__libc_csu_init+0&gt; push r15
+$rsi   : 0x0000000000610144  →  0x000001710000010a
+$rdi   : 0x00000000006102f8  →  0x00000000006236e0  →  0x000000d600000064 (&quot;d&quot;?)
+$rip   : 0x0000000000404422  →  &lt;start_quest(std::string)+210&gt; call 0x405750 &lt;_ZNSt6vectorIiSaIiEE9push_backERKi&gt;
+$r8    : 0x0               
+$r9    : 0xffffffff        
+$r10   : 0x1               
+$r11   : 0xffffff01        
+$r12   : 0x00000000004013bb  →  &lt;_start+0&gt; xor ebp, ebp
+$r13   : 0x00007fffffffe050  →  0x0000000000000001
+$r14   : 0x0               
+$r15   : 0x0               
+$eflags: [zero carry parity adjust sign trap INTERRUPT direction overflow resume virtualx86 identification]
+$cs: 0x0033 $ss: 0x002b $ds: 0x0000 $es: 0x0000 $fs: 0x0000 $gs: 0x0000
+──────────────────────────────────────────────────────────────────── stack ────
+0x00007fffffffdcd0│+0x0000: 0x0000000000000000     ← $rsp
+0x00007fffffffdcd8│+0x0008: 0x0000000000000000
+0x00007fffffffdce0│+0x0010: 0x0000000000000000
+0x00007fffffffdce8│+0x0018: 0x0000000000000000
+0x00007fffffffdcf0│+0x0020: 0x0000000000000000
+0x00007fffffffdcf8│+0x0028: 0x0000000000000000
+0x00007fffffffdd00│+0x0030: 0x0000000000000000
+0x00007fffffffdd08│+0x0038: 0x0000000000000000
+────────────────────────────────────────────────────────────── code:x86:64 ────
+     0x404409 &lt;start_quest(std::string)+185&gt; call   0x405750 &lt;_ZNSt6vectorIiSaIiEE9push_backERKi&gt;
+     0x40440e &lt;start_quest(std::string)+190&gt; movabs rdi, 0x6102f8
+     0x404418 &lt;start_quest(std::string)+200&gt; movabs rsi, 0x610144
+ →   0x404422 &lt;start_quest(std::string)+210&gt; call   0x405750 &lt;_ZNSt6vectorIiSaIiEE9push_backERKi&gt;
+   ↳    0x405750 &lt;std::vector&lt;int,+0&gt; push   rbp
+        0x405751 &lt;std::vector&lt;int,+0&gt; mov    rbp, rsp
+        0x405754 &lt;std::vector&lt;int,+0&gt; push   r15
+        0x405756 &lt;std::vector&lt;int,+0&gt; push   r14
+        0x405758 &lt;std::vector&lt;int,+0&gt; push   rbx
+        0x405759 &lt;std::vector&lt;int,+0&gt; sub    rsp, 0x38
+────────────────────────────────────────────────────── arguments (guessed) ────
+_ZNSt6vectorIiSaIiEE9push_backERKi (
+   $rdi = 0x00000000006102f8 → 0x00000000006236e0 → 0x000000d600000064 (&quot;d&quot;?),
+   $rsi = 0x0000000000610144 → 0x000001710000010a
+)
+────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;wyvern&quot;, stopped, reason: SINGLE STEP
+──────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x404422 → start_quest(std::string)()
+[#1] 0x40e266 → main()
+───────────────────────────────────────────────────────────────────────────────
+gef➤  
+</code></pre>
+<p>So we can see that it is essentially writing one byte of data to an array. Each byte is written to the lowest byte of a four byte segment. We can also see that the byte being written matches the <code>secret</code> value with the call. So essentially this is just making an array of <code>28</code> bytes, where each byte is stored in a <code>4</code> byte segment.</p>
+<p>After that we have a check for the length of our input:</p>
+<pre><code>    inputLength = length(puVar3[-0x48]);
+    lenCheck = inputLength + -1 != (long)(legend &gt;&gt; 2);
+    puVar1 = puVar3 + -0x40;
+
+  if (lenCheck) {
+
+  }
+</code></pre>
+<p>We can see that the value of <code>legend</code> is <code>0x73</code>:</p>
+<pre><code>                             legend                                          XREF[5]:     Entry Point(*),
+                                                                                          sanitize_input:00401ece(R),
+                                                                                          start_quest:004046a7(R),
+                                                                                          start_quest:00404760(R),
+                                                                                          start_quest:00404ee4(R)  
+        00610138 73 00 00 00     undefined4 00000073h
+</code></pre>
+<p><code>0x73 &gt;&gt; 2 = 28</code>, which also corresponds to the number of <code>push_back</code> calls made earlier. So our input has to be <code>28</code> bytes (not counting the null byte). The final portion of the code runs the <code>sanitize_input</code> function, and essentially just returns the value of it. The rest of the checks will happen in that function:</p>
+<pre><code>    local_50 = sanitize_input((char)this,puVar3[-0x48]);
+</code></pre>
+<p>Transfers data:</p>
+<pre><code>      *puVar2 = local_50;
+</code></pre>
+<p>Returns it:</p>
+<pre><code>  return (ulong)*puVar2;
+</code></pre>
+<h4><a class="header" href="#sanitize-input" id="sanitize-input">Sanitize Input</a></h4>
+<p>Looking at <code>sanitize_input</code> function initially, we see this:</p>
+<pre><code>
+/* sanitize_input(std::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt;&gt;) */
+
+ulong sanitize_input(basic_string param_1)
+
+{
+  uint uVar1;
+  uint *puVar2;
+  undefined4 *this;
+  undefined4 *puVar3;
+  undefined4 *puVar4;
+  undefined7 in_register_00000039;
+  bool bVar5;
+  undefined auStack392 [24];
+  undefined4 *local_170;
+  uint local_144;
+  basic_ostream *local_140;
+  bool local_136;
+  bool local_135;
+  bool local_134;
+  bool local_133;
+  bool local_132;
+  uint *local_108;
+  long local_100;
+  uint local_f8;
+  bool local_f2;
+  bool local_f1;
+  int local_f0;
+  bool local_e9;
+  int local_e8;
+  bool local_e1;
+  int *local_e0;
+  long local_d8;
+  bool local_ca;
+  bool local_c9;
+  undefined8 local_c8;
+  bool local_b9;
+  long local_b8;
+  bool local_a9;
+  char *local_a8;
+  bool local_99;
+  long local_98;
+  bool local_8a;
+  bool local_89;
+  undefined4 *local_88;
+  uint *local_80;
+  undefined4 *local_78;
+  undefined4 *local_70;
+  int *local_68;
+  uint *i;
+ 
+  puVar3 = (undefined4 *)auStack392;
+  puVar4 = (undefined4 *)auStack392;
+  do {
+  } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+  if ((x17 * (x17 + -1) &amp; 1U) == 0 || y18 &lt; 10) goto LAB_00401da6;
+  do {
+    puVar3 = puVar4 + -0x10;
+    *(undefined8 *)(puVar4 + -0x12) = 0x403db1;
+    local_170 = puVar3;
+    vector(puVar4 + -0xc,*(undefined *)(puVar4 + -0x12));
+    *local_170 = 0;
+LAB_00401da6:
+    puVar2 = puVar3 + -4;
+    this = puVar3 + -0xc;
+    i = puVar3 + -0x10;
+    local_68 = puVar3 + -0x14;
+    local_78 = puVar3 + -0x1c;
+    local_80 = puVar3 + -0x20;
+    local_88 = puVar3 + -0x28;
+    puVar4 = puVar3 + -0x2c;
+    *(undefined8 *)(puVar3 + -0x2e) = 0x401e2c;
+    local_70 = puVar4;
+    vector(this,*(undefined *)(puVar3 + -0x2e));
+    *i = 0;
+  } while ((x17 * (x17 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y18);
+  while( true ) {
+    do {
+      local_89 = (int)*i &lt; legend &gt;&gt; 2;
+    } while ((x17 * (x17 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y18);
+    if (!local_89) goto LAB_00403729;
+    do {
+      local_8a = (x17 * (x17 + -1) &amp; 1U) == 0 || y18 &lt; 10;
+    } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+    do {
+      do {
+        local_98 = (long)(int)*i;
+        bVar5 = (x17 * (x17 + -1) &amp; 1U) == 0;
+        local_99 = bVar5 || y18 &lt; 10;
+      } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+    } while (!bVar5 &amp;&amp; y18 &gt;= 10);
+    do {
+    } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+                    /* try { // try from 0040217d to 00402879 has its CatchHandler @ 00402e05 */
+    *(undefined8 *)(puVar3 + -0x2e) = 0x40218d;
+    local_a8 = (char *)operator[](CONCAT71(in_register_00000039,param_1),local_98,
+                                  *(undefined *)(puVar3 + -0x2e));
+    if ((x17 * (x17 + -1) &amp; 1U) == 0 || y18 &lt; 10) goto LAB_004021dc;
+    do {
+      if ((x3 * (x3 + -1) &amp; 1U) == 0 || y4 &lt; 10) goto LAB_00403e10;
+      do {
+        *local_68 = (int)*local_a8;
+LAB_00403e10:
+        *local_68 = (int)*local_a8;
+      } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+LAB_004021dc:
+      *local_68 = (int)*local_a8;
+    } while ((x17 * (x17 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y18);
+    do {
+    } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+    *(undefined8 *)(puVar3 + -0x2e) = 0x4022c4;
+    push_back(this,local_68,*(undefined *)(puVar3 + -0x2e));
+    do {
+      local_a9 = (x17 * (x17 + -1) &amp; 1U) == 0 || y18 &lt; 10;
+    } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+    if (local_a9) goto LAB_0040239d;
+    do {
+      *local_80 = *i;
+LAB_0040239d:
+      if ((x3 * (x3 + -1) &amp; 1U) == 0 || y4 &lt; 10) goto LAB_004023e0;
+      do {
+        *local_80 = *i;
+LAB_004023e0:
+        *local_80 = *i;
+        local_b8 = (long)(int)*local_80;
+        bVar5 = (x17 * (x17 + -1) &amp; 1U) == 0;
+        local_b9 = bVar5 || y18 &lt; 10;
+      } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+    } while (!bVar5 &amp;&amp; y18 &gt;= 10);
+    *(undefined8 *)(puVar3 + -0x2e) = 0x40249a;
+    local_c8 = length(*(undefined *)(puVar3 + -0x2e));
+    do {
+      local_c9 = (x17 * (x17 + -1) &amp; 1U) == 0 || y18 &lt; 10;
+    } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+    uVar1 = (uint)((ulong)local_c8 &gt;&gt; 0x20);
+    if (local_c9) goto LAB_0040257a;
+    do {
+      *local_80 = (uint)local_b8 &amp; uVar1 &gt;&gt; 8 | 0x1c;
+LAB_0040257a:
+      *local_80 = (uint)local_b8 &amp; uVar1 &gt;&gt; 8 | 0x1c;
+      local_ca = *local_80 != 0;
+    } while ((x17 * (x17 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y18);
+    do {
+    } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+    if (local_ca) {
+      do {
+        local_d8 = (long)(int)*i;
+      } while ((x17 * (x17 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y18);
+      *(undefined8 *)(puVar3 + -0x2e) = 0x402739;
+      local_e0 = (int *)operator[](hero,local_d8,*(undefined *)(puVar3 + -0x2e));
+      do {
+        local_e1 = (x17 * (x17 + -1) &amp; 1U) == 0 || y18 &lt; 10;
+      } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+      do {
+        local_e8 = *local_e0;
+      } while ((x17 * (x17 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y18);
+      *(undefined8 *)(puVar3 + -0x2e) = 0x40287a;
+      vector(local_88,this,*(undefined *)(puVar3 + -0x2e));
+      do {
+        local_e9 = (x17 * (x17 + -1) &amp; 1U) == 0 || y18 &lt; 10;
+      } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+      do {
+      } while ((x17 * (x17 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y18);
+      do {
+      } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+                    /* try { // try from 00402a1c to 00402a24 has its CatchHandler @ 00402f44 */
+      *(undefined8 *)(puVar3 + -0x2e) = 0x402a25;
+      local_f0 = transform_input((int)local_88,*(undefined *)(puVar3 + -0x2e));
+      if ((x17 * (x17 + -1) &amp; 1U) == 0 || y18 &lt; 10) goto LAB_00402a73;
+      do {
+        do {
+        } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+LAB_00402a73:
+        local_f1 = local_e8 == local_f0;
+      } while ((x17 * (x17 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y18);
+      do {
+      } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+                    /* try { // try from 00402b58 to 00402d49 has its CatchHandler @ 00402e05 */
+      *(undefined8 *)(puVar3 + -0x2e) = 0x402b61;
+      ~vector(local_88,*(undefined *)(puVar3 + -0x2e));
+      do {
+        local_f2 = (x17 * (x17 + -1) &amp; 1U) == 0 || y18 &lt; 10;
+      } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+      do {
+      } while ((x17 * (x17 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y18);
+      if ((local_f1 &amp; 1U) != 0) {
+        do {
+          local_f8 = *local_80;
+          local_100 = (long)(int)*i;
+        } while ((x17 * (x17 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y18);
+        *(undefined8 *)(puVar3 + -0x2e) = 0x402d4a;
+        local_108 = (uint *)operator[](hero,local_100,*(undefined *)(puVar3 + -0x2e));
+        if ((x17 * (x17 + -1) &amp; 1U) == 0 || y18 &lt; 10) goto LAB_00402d99;
+        do {
+          *local_80 = (uint)((int)(local_f8 &amp; *local_108) &lt; 0);
+LAB_00402d99:
+          *local_80 = (uint)((int)(local_f8 &amp; *local_108) &lt; 0);
+        } while ((x17 * (x17 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y18);
+      }
+      if ((x17 * (x17 + -1) &amp; 1U) == 0 || y18 &lt; 10) goto LAB_0040315a;
+      do {
+        do {
+        } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+LAB_0040315a:
+      } while ((x17 * (x17 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y18);
+    }
+    do {
+      do {
+        local_132 = *local_80 != 0;
+        bVar5 = (x17 * (x17 + -1) &amp; 1U) == 0;
+        local_133 = bVar5 || y18 &lt; 10;
+      } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+    } while (!bVar5 &amp;&amp; y18 &gt;= 10);
+    do {
+    } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+    if (local_132) break;
+    do {
+      local_135 = (x17 * (x17 + -1) &amp; 1U) == 0 || y18 &lt; 10;
+    } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+    do {
+    } while ((x17 * (x17 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y18);
+    do {
+    } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+    if ((x17 * (x17 + -1) &amp; 1U) == 0 || y18 &lt; 10) goto LAB_0040368e;
+    do {
+      *i = *i + 1;
+LAB_0040368e:
+      *i = *i + 1;
+    } while ((x17 * (x17 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y18);
+  }
+  do {
+    local_134 = (x17 * (x17 + -1) &amp; 1U) == 0 || y18 &lt; 10;
+  } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+  if (local_134) goto LAB_0040343d;
+  do {
+    *puVar2 = (*i &amp; 1) &lt;&lt; 8;
+    *local_70 = 1;
+LAB_0040343d:
+    *puVar2 = (*i &amp; 1) &lt;&lt; 8;
+    *local_70 = 1;
+  } while ((x17 * (x17 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y18);
+LAB_004038bd:
+  if ((x17 * (x17 + -1) &amp; 1U) == 0 || y18 &lt; 10) goto LAB_00403900;
+  do {
+    *(undefined8 *)(puVar3 + -0x2e) = 0x40411c;
+    ~vector(this,*(undefined *)(puVar3 + -0x2e));
+LAB_00403900:
+    *(undefined8 *)(puVar3 + -0x2e) = 0x403909;
+    ~vector(this,*(undefined *)(puVar3 + -0x2e));
+    local_144 = *puVar2;
+  } while ((x17 * (x17 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y18);
+  do {
+  } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+  return (ulong)local_144;
+LAB_00403729:
+  do {
+    local_136 = (x17 * (x17 + -1) &amp; 1U) == 0 || y18 &lt; 10;
+  } while ((x3 * (x3 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y4);
+  do {
+  } while ((x17 * (x17 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y18);
+                    /* try { // try from 004037fd to 0040380f has its CatchHandler @ 00402e05 */
+  *(undefined8 *)(puVar3 + -0x2e) = 0x403810;
+  local_140 = operator&lt;&lt;&lt;std--char_traits&lt;char&gt;&gt;(cout,&quot;success\n&quot;,*(undefined *)(puVar3 + -0x2e));
+  if ((x17 * (x17 + -1) &amp; 1U) == 0 || y18 &lt; 10) goto LAB_0040385f;
+  do {
+    *puVar2 = 0x1337;
+    *local_70 = 1;
+LAB_0040385f:
+    *puVar2 = 0x1337;
+    *local_70 = 1;
+  } while ((x17 * (x17 + -1) &amp; 1U) != 0 &amp;&amp; 9 &lt; y18);
+  goto LAB_004038bd;
+}
+</code></pre>
+<p>So let's start going through this. First we can see that there is an iteration counter, which is initialized here:</p>
+<pre><code>    *i = 0;
+</code></pre>
+<p>You can see it checked here. It checks to see if it is greater than <code>28</code>:</p>
+<pre><code>      lenCheck = (int)*i &lt; legend &gt;&gt; 2;
+    if (!lenCheck) goto LAB_00403729;
+</code></pre>
+<p>And it is incremented here:</p>
+<pre><code>      *i = *i + 1;
+</code></pre>
+<p>Checking <code>LAB_00403729</code>, we see that it is probably the code path we want to take in order to solve the challenge:</p>
+<pre><code>LAB_00403729:
+  *(undefined8 *)(puVar3 + -0x2e) = 0x403810;
+  local_140 = operator&lt;&lt;&lt;std--char_traits&lt;char&gt;&gt;(cout,&quot;success\n&quot;,*(undefined *)(puVar3 + -0x2e));
+  if ((x17 * (x17 + -1) &amp; 1U) == 0 || y18 &lt; 10) goto LAB_0040385f;
+    *puVar2 = 0x1337;
+    *local_70 = 1;
+LAB_0040385f:
+    *puVar2 = 0x1337;
+    *local_70 = 1;
+  goto LAB_004038bd;
+</code></pre>
+<p>In order to execute that code path, we will need to run this loop <code>28</code> times.</p>
+<p>Later on, we can see that the actual check it performs is here:</p>
+<pre><code>passedCheck = heroValue == transformedValue;
+</code></pre>
+<p>The first time we hit the check, it looks like it just checking the first character of our input against the first <code>hero</code> value:</p>
+<pre><code>gef➤  b *0x402a7f
+Breakpoint 1 at 0x402a7f
+gef➤  r
+Starting program: /Hackery/pod/modules/obfuscated_reversing/csaw15_wyvern/wyvern
++-----------------------+
+|    Welcome Hero       |
++-----------------------+
+
+[!] Quest: there is a dragon prowling the domain.
+  brute strength and magic is our only hope. Test your skill.
+
+Enter the dragon's secret: d000000000000000000000000000
+
+Breakpoint 1, 0x0000000000402a7f in sanitize_input(std::string) ()
+[ Legend: Modified register | Code | Heap | Stack | String ]
+─────────────────────────────────────────────────────────────── registers ────
+$rax   : 0x64              
+$rbx   : 0x0               
+$rcx   : 0x64              
+$rdx   : 0xffffffff        
+$rsp   : 0x00007fffffffda70  →  0x0000000000000000
+$rbp   : 0x00007fffffffdca0  →  0x00007fffffffdd80  →  0x00007fffffffdf50  →  0x000000000040e5b0  →  &lt;__libc_csu_init+0&gt; push r15
+$rsi   : 0xffffff01        
+$rdi   : 0x1               
+$rip   : 0x0000000000402a7f  →  &lt;sanitize_input(std::string)+3519&gt; cmp eax, ecx
+$r8    : 0x1               
+$r9    : 0xffffffff        
+$r10   : 0x1               
+$r11   : 0x1               
+$r12   : 0x0000000000401301  →  &lt;_GLOBAL__sub_I_wyvern.cpp+81&gt; mov eax, DWORD PTR ds:0x610420
+$r13   : 0x00007fffffffe001  →  0x3000000000004013
+$r14   : 0x0               
+$r15   : 0xffffffff        
+$eflags: [zero carry parity adjust sign trap INTERRUPT direction overflow resume virtualx86 identification]
+$cs: 0x0033 $ss: 0x002b $ds: 0x0000 $es: 0x0000 $fs: 0x0000 $gs: 0x0000
+─────────────────────────────────────────────────────────────────── stack ────
+0x00007fffffffda70│+0x0000: 0x0000000000000000   ← $rsp
+0x00007fffffffda78│+0x0008: 0x0000000000000000
+0x00007fffffffda80│+0x0010: 0x00000000006236f0  →  0x0000000000000064 (&quot;d&quot;?)
+0x00007fffffffda88│+0x0018: 0x00000000006236f4  →  0x0000000000000000
+0x00007fffffffda90│+0x0020: 0x00000000006236f4  →  0x0000000000000000
+0x00007fffffffda98│+0x0028: 0x0000000000000000
+0x00007fffffffdaa0│+0x0030: 0x000000000000001c
+0x00007fffffffdaa8│+0x0038: 0x0000000000000000
+───────────────────────────────────────────────────────────── code:x86:64 ────
+     0x402a6e &lt;sanitize_input(std::string)+3502&gt; jmp    0x403eb3 &lt;_Z14sanitize_inputSs+8691&gt;
+     0x402a73 &lt;sanitize_input(std::string)+3507&gt; mov    eax, DWORD PTR [rbp-0xe0]
+     0x402a79 &lt;sanitize_input(std::string)+3513&gt; mov    ecx, DWORD PTR [rbp-0xe8]
+ →   0x402a7f &lt;sanitize_input(std::string)+3519&gt; cmp    eax, ecx
+     0x402a81 &lt;sanitize_input(std::string)+3521&gt; sete   dl
+     0x402a84 &lt;sanitize_input(std::string)+3524&gt; mov    esi, DWORD PTR ds:0x610594
+     0x402a8b &lt;sanitize_input(std::string)+3531&gt; mov    edi, DWORD PTR ds:0x610434
+     0x402a92 &lt;sanitize_input(std::string)+3538&gt; mov    r8d, esi
+     0x402a95 &lt;sanitize_input(std::string)+3541&gt; sub    r8d, 0x1
+───────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;wyvern&quot;, stopped, reason: BREAKPOINT
+─────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x402a7f → sanitize_input(std::string)()
+[#1] 0x404854 → start_quest(std::string)()
+[#2] 0x40e266 → main()
+──────────────────────────────────────────────────────────────────────────────
+gef➤  p $eax
+$1 = 0x64
+gef➤  p $ecx
+$2 = 0x64
+gef➤  x/g 0x6102f8
+0x6102f8 &lt;hero&gt;:  0x623790
+gef➤  x/g 0x623790
+0x623790: 0xd600000064
+</code></pre>
+<p>However the second time around, it looks a bit different. It is still checking our input against the <code>hero</code> value we would expect, however the value our input influences is different from what we would expect:</p>
+<pre><code>Breakpoint 1, 0x0000000000402a7f in sanitize_input(std::string) ()
+[ Legend: Modified register | Code | Heap | Stack | String ]
+─────────────────────────────────────────────────────────────── registers ────
+$rax   : 0xd6              
+$rbx   : 0x0               
+$rcx   : 0x94              
+$rdx   : 0xffffffff        
+$rsp   : 0x00007fffffffda70  →  0x0000000000000000
+$rbp   : 0x00007fffffffdca0  →  0x00007fffffffdd80  →  0x00007fffffffdf50  →  0x000000000040e5b0  →  &lt;__libc_csu_init+0&gt; push r15
+$rsi   : 0xffffff01        
+$rdi   : 0x1               
+$rip   : 0x0000000000402a7f  →  &lt;sanitize_input(std::string)+3519&gt; cmp eax, ecx
+$r8    : 0x1               
+$r9    : 0xffffffff        
+$r10   : 0x1               
+$r11   : 0x1               
+$r12   : 0x0000000000401301  →  &lt;_GLOBAL__sub_I_wyvern.cpp+81&gt; mov eax, DWORD PTR ds:0x610420
+$r13   : 0x00007fffffffe001  →  0x3000000000004013
+$r14   : 0x0               
+$r15   : 0xffffffff        
+$eflags: [zero carry parity adjust sign trap INTERRUPT direction overflow resume virtualx86 identification]
+$cs: 0x0033 $ss: 0x002b $ds: 0x0000 $es: 0x0000 $fs: 0x0000 $gs: 0x0000
+─────────────────────────────────────────────────────────────────── stack ────
+0x00007fffffffda70│+0x0000: 0x0000000000000000   ← $rsp
+0x00007fffffffda78│+0x0008: 0x0000000000000000
+0x00007fffffffda80│+0x0010: 0x00000000006236d0  →  0x0000003000000064 (&quot;d&quot;?)
+0x00007fffffffda88│+0x0018: 0x00000000006236d8  →  0x0000000000000000
+0x00007fffffffda90│+0x0020: 0x00000000006236d8  →  0x0000000000000000
+0x00007fffffffda98│+0x0028: 0x0000000000000000
+0x00007fffffffdaa0│+0x0030: 0x000000000000001c
+0x00007fffffffdaa8│+0x0038: 0x0000000000000000
+───────────────────────────────────────────────────────────── code:x86:64 ────
+     0x402a6e &lt;sanitize_input(std::string)+3502&gt; jmp    0x403eb3 &lt;_Z14sanitize_inputSs+8691&gt;
+     0x402a73 &lt;sanitize_input(std::string)+3507&gt; mov    eax, DWORD PTR [rbp-0xe0]
+     0x402a79 &lt;sanitize_input(std::string)+3513&gt; mov    ecx, DWORD PTR [rbp-0xe8]
+ →   0x402a7f &lt;sanitize_input(std::string)+3519&gt; cmp    eax, ecx
+     0x402a81 &lt;sanitize_input(std::string)+3521&gt; sete   dl
+     0x402a84 &lt;sanitize_input(std::string)+3524&gt; mov    esi, DWORD PTR ds:0x610594
+     0x402a8b &lt;sanitize_input(std::string)+3531&gt; mov    edi, DWORD PTR ds:0x610434
+     0x402a92 &lt;sanitize_input(std::string)+3538&gt; mov    r8d, esi
+     0x402a95 &lt;sanitize_input(std::string)+3541&gt; sub    r8d, 0x1
+───────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;wyvern&quot;, stopped, reason: BREAKPOINT
+─────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x402a7f → sanitize_input(std::string)()
+[#1] 0x404854 → start_quest(std::string)()
+[#2] 0x40e266 → main()
+──────────────────────────────────────────────────────────────────────────────
+gef➤  p $eax
+$3 = 0xd6
+gef➤  p $ecx
+$4 = 0x94
+</code></pre>
+<p>Let's see where it comes up with those values. For <code>heroValue</code> we can see that it grabs it from the <code>hero</code> array:</p>
+<pre><code>      heroValueTransfer = (int *)operator[](hero,(long)(int)*puVar4,*(undefined *)(puVar5 + -0x2e));
+        heroValue = *heroValueTransfer;
+</code></pre>
+<p>In addition to that, when we stop at the check in the debugger, we see that it always has a value that corresponds to <code>hero[i]</code> where <code>i</code> is the iteration count. For <code>transformedValue</code> we see that it is grabbed from here:</p>
+<pre><code>transformedValue = transform_input((int)this_00,*(undefined *)(puVar5 + -0x2e));
+</code></pre>
+<p>When we stop at this call in gdb, we see that it's argument is our input stored in the same style as the <code>hero</code> array.</p>
+<pre><code>────────────────────────────────────────────────────────────── code:x86:64 ────
+     0x402a11 &lt;sanitize_input(std::string)+3409&gt; jne    0x402a1c &lt;_Z14sanitize_inputSs+3420&gt;
+     0x402a17 &lt;sanitize_input(std::string)+3415&gt; jmp    0x404298 &lt;_Z14sanitize_inputSs+9688&gt;
+     0x402a1c &lt;sanitize_input(std::string)+3420&gt; mov    rdi, QWORD PTR [rbp-0x80]
+ →   0x402a20 &lt;sanitize_input(std::string)+3424&gt; call   0x4014b0 &lt;_Z15transform_inputSt6vectorIiSaIiEE&gt;
+   ↳    0x4014b0 &lt;transform_input(std::vector&lt;int,+0&gt; push   rbp
+        0x4014b1 &lt;transform_input(std::vector&lt;int,+0&gt; mov    rbp, rsp
+        0x4014b4 &lt;transform_input(std::vector&lt;int,+0&gt; push   rbx
+        0x4014b5 &lt;transform_input(std::vector&lt;int,+0&gt; sub    rsp, 0x48
+        0x4014b9 &lt;transform_input(std::vector&lt;int,+0&gt; mov    eax, DWORD PTR ds:0x610368
+        0x4014c0 &lt;transform_input(std::vector&lt;int,+0&gt; mov    ecx, DWORD PTR ds:0x610558
+────────────────────────────────────────────────────── arguments (guessed) ────
+_Z15transform_inputSt6vectorIiSaIiEE (
+   $rdi = 0x00007fffffffda80 → 0x00000000006236f0 → 0x0000000000000064 (&quot;d&quot;?),
+   $rsi = 0x0000000000000001,
+   $rdx = 0x00000000ffffffff,
+   $rcx = 0x0000000000000000
+)
+────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;wyvern&quot;, stopped, reason: BREAKPOINT
+──────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x402a20 → sanitize_input(std::string)()
+[#1] 0x404854 → start_quest(std::string)()
+[#2] 0x40e266 → main()
+───────────────────────────────────────────────────────────────────────────────
+gef➤  
+</code></pre>
+<p>output is <code>0x64</code> in <code>eax</code>. For the second iteration, we have this:</p>
+<pre><code>─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── code:x86:64 ────
+     0x402a11 &lt;sanitize_input(std::string)+3409&gt; jne    0x402a1c &lt;_Z14sanitize_inputSs+3420&gt;
+     0x402a17 &lt;sanitize_input(std::string)+3415&gt; jmp    0x404298 &lt;_Z14sanitize_inputSs+9688&gt;
+     0x402a1c &lt;sanitize_input(std::string)+3420&gt; mov    rdi, QWORD PTR [rbp-0x80]
+ →   0x402a20 &lt;sanitize_input(std::string)+3424&gt; call   0x4014b0 &lt;_Z15transform_inputSt6vectorIiSaIiEE&gt;
+   ↳    0x4014b0 &lt;transform_input(std::vector&lt;int,+0&gt; push   rbp
+        0x4014b1 &lt;transform_input(std::vector&lt;int,+0&gt; mov    rbp, rsp
+        0x4014b4 &lt;transform_input(std::vector&lt;int,+0&gt; push   rbx
+        0x4014b5 &lt;transform_input(std::vector&lt;int,+0&gt; sub    rsp, 0x48
+        0x4014b9 &lt;transform_input(std::vector&lt;int,+0&gt; mov    eax, DWORD PTR ds:0x610368
+        0x4014c0 &lt;transform_input(std::vector&lt;int,+0&gt; mov    ecx, DWORD PTR ds:0x610558
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── arguments (guessed) ────
+_Z15transform_inputSt6vectorIiSaIiEE (
+   $rdi = 0x00007fffffffda80 → 0x00000000006236d0 → 0x0000003000000064 (&quot;d&quot;?),
+   $rsi = 0x0000000000000001,
+   $rdx = 0x00000000ffffffff,
+   $rcx = 0x0000000000000000
+)
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;wyvern&quot;, stopped, reason: BREAKPOINT
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x402a20 → sanitize_input(std::string)()
+[#1] 0x404854 → start_quest(std::string)()
+[#2] 0x40e266 → main()
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+gef➤  
+</code></pre>
+<p>Output is <code>0x94</code> in the <code>eax</code> register. We can see a pattern here. The input to this function is a single QWORD that stores two bytes. It then adds those two values and returns whatever the sum is. In the first case that was <code>0x64 + 0 = 0x64</code>. For the second case that was <code>0x64 + 0x30 = 0x94</code>. So the value that is derived from our input in the compare is essentially <code>inp[i] + inp[i - 1]</code> (with <code>inp[-1]</code> being <code>0</code>).</p>
+<p>So now that we know how exactly our input is influencing the check, we can figure out what input we need to give it to pass everything. Since it is adding our values together, we can just subtract the <code>hero</code> values in the same manner to undo it. First here is all of the <code>hero</code> values:</p>
+<pre><code>gef➤  x/14g 0x623790
+0x623790: 0xd600000064  0x1710000010a
+0x6237a0: 0x20f000001a1 0x2dd0000026e
+0x6237b0: 0x3ae0000034f 0x4520000041e
+0x6237c0: 0x538000004c6 0x604000005a1
+0x6237d0: 0x69600000635 0x76300000704
+0x6237e0: 0x840000007cc 0x8d400000875
+0x6237f0: 0x96c00000920 0xa0f000009c2
+</code></pre>
+<p>When we subtract it:</p>
+<pre><code>0x64 - 0x00   = 0x64 'd'
+0xd6 - 0x64   = 0x72 'r'
+0x10a - 0xd6  = 0x34 '4'
+0x171 - 0x10a = 0x67 'g'
+0x1a1 - 0x171 = 0x30 '0'
+</code></pre>
+<p>So we can see that this is starting to give us something that looks like a solution. When we script this out, we get this:</p>
+<pre><code>hero = [0x0, 0x64, 0xd6, 0x10a, 0x171, 0x1a1, 0x20f, 0x26e, 0x2dd, 0x34f, 0x3ae, 0x41e, 0x452, 0x4c6, 0x538, 0x5a1, 0x604, 0x635, 0x696, 0x704, 0x763, 0x7cc, 0x840, 0x875, 0x8d4, 0x920, 0x96c, 0x9c2, 0xa0f]
+
+flag = &quot;&quot;
+
+for i in range(1, len(hero)):
+  flag += chr(hero[i] - hero[i - 1])
+
+print &quot;We fought off the dragon: &quot; + flag
+</code></pre>
+<p>When we run it:</p>
+<pre><code>$ ./wyvern
++-----------------------+
+|    Welcome Hero       |
++-----------------------+
+
+[!] Quest: there is a dragon prowling the domain.
+  brute strength and magic is our only hope. Test your skill.
+
+Enter the dragon's secret: dr4g0n_or_p4tric1an_it5_LLVM
+success
+
+[+] A great success! Here is a flag{dr4g0n_or_p4tric1an_it5_LLVM}
+</code></pre>
+<p>Just like that, we solved the challenge!</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../36-obfuscated_reversing/bkp16_unholy/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../36-obfuscated_reversing/csaw17_prophecy/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="../../36-obfuscated_reversing/bkp16_unholy/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="../../36-obfuscated_reversing/csaw17_prophecy/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+        
+        
+        <script type="text/javascript">
+            window.playpen_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
