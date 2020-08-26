@@ -1,0 +1,1068 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js navy">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>CSAW&#x27;19: Gibberishcheck - Nightmare</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="Nightmare: an intro to binary exploitation / reverse engineering course based around CTF challenges.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../../favicon.png">
+        
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "navy";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('navy')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../../index.html">Nightmare</a></li><li class="chapter-item expanded "><a href="../../00-intro/index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../01-intro_assembly/assembly/index.html"><strong aria-hidden="true">1.1.</strong> Assembly</a></li><li class="chapter-item expanded "><a href="../../01-intro_assembly/reversing_assembly/index.html"><strong aria-hidden="true">1.2.</strong> Reversing Assembly</a></li><li class="chapter-item expanded "><a href="../../02-intro_tooling/ghidra/index.html"><strong aria-hidden="true">1.3.</strong> Reversing with GHIDRA</a></li><li class="chapter-item expanded "><a href="../../02-intro_tooling/gdb-gef/index.html"><strong aria-hidden="true">1.4.</strong> Debugging with GDB</a></li><li class="chapter-item expanded "><a href="../../02-intro_tooling/pwntools/index.html"><strong aria-hidden="true">1.5.</strong> Scripting with Python pwntools</a></li><li class="chapter-item expanded "><a href="../../03-beginner_re/csaw18_x86tour_pt1/index.html"><strong aria-hidden="true">1.6.</strong> Beginner Reversing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../03-beginner_re/pico18_strings/index.html"><strong aria-hidden="true">1.6.1.</strong> Pico'18: Strings</a></li><li class="chapter-item expanded "><a href="../../03-beginner_re/helithumper_re/index.html"><strong aria-hidden="true">1.6.2.</strong> Helithumper RE</a></li><li class="chapter-item expanded "><a href="../../03-beginner_re/csaw19_beleaf/index.html"><strong aria-hidden="true">1.6.3.</strong> CSAW'19: Beleaf</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../04-bof_variable/csaw18_boi/index.html"><strong aria-hidden="true">2.</strong> Stack Buffer Overflows</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../04-bof_variable/tamu19_pwn1/index.html"><strong aria-hidden="true">2.1.</strong> TAMU'19: Pwn1</a></li><li class="chapter-item expanded "><a href="../../04-bof_variable/tw17_justdoit/index.html"><strong aria-hidden="true">2.2.</strong> TokyoWesterns'17: JustDoIt</a></li><li class="chapter-item expanded "><a href="../../05-bof_callfunction/csaw16_warmup/index.html"><strong aria-hidden="true">2.3.</strong> CSAW'16: Warmup</a></li><li class="chapter-item expanded "><a href="../../05-bof_callfunction/csaw18_getit/index.html"><strong aria-hidden="true">2.4.</strong> CSAW'18: Getit</a></li><li class="chapter-item expanded "><a href="../../05-bof_callfunction/tu17_vulnchat/index.html"><strong aria-hidden="true">2.5.</strong> TU'17: Vulnchat</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../5.1-mitigation_aslr_pie/index.html"><strong aria-hidden="true">2.5.1.</strong> ASLR/PIE</a></li></ol></li><li class="chapter-item expanded "><a href="../../06-bof_shellcode/csaw17_pilot/index.html"><strong aria-hidden="true">2.6.</strong> CSAW'17: Pilot</a></li><li class="chapter-item expanded "><a href="../../06-bof_shellcode/tamu19_pwn3/index.html"><strong aria-hidden="true">2.7.</strong> TAMU'19: Pwn3</a></li><li class="chapter-item expanded "><a href="../../06-bof_shellcode/tu18_shellaeasy/index.html"><strong aria-hidden="true">2.8.</strong> TU'18: Shellaeasy</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../6.1-mitigation_nx/index.html"><strong aria-hidden="true">2.8.1.</strong> NX/XN/DEP</a></li></ol></li><li class="chapter-item expanded "><a href="../../07-bof_static/bkp16_simplecalc/index.html"><strong aria-hidden="true">2.9.</strong> BKP'16: SimpleCalc</a></li><li class="chapter-item expanded "><a href="../../07-bof_static/dcquals19_speedrun1/index.html"><strong aria-hidden="true">2.10.</strong> DCQuals'19: Speedrun1</a></li><li class="chapter-item expanded "><a href="../../07-bof_static/dcquals16_feedme/index.html"><strong aria-hidden="true">2.11.</strong> DCQuals'16: Feedme</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../7.1-mitigation_canary/index.html"><strong aria-hidden="true">2.11.1.</strong> Canaries/Cookies</a></li><li class="chapter-item expanded "><a href="../../7.2-mitigation_relro/index.html"><strong aria-hidden="true">2.11.2.</strong> RELRO</a></li></ol></li><li class="chapter-item expanded "><a href="../../08-bof_dynamic/csaw19_babyboi/index.html"><strong aria-hidden="true">2.12.</strong> CSAW'19: Babyboi</a></li><li class="chapter-item expanded "><a href="../../08-bof_dynamic/csawquals17_svc/index.html"><strong aria-hidden="true">2.13.</strong> CSAW Quals'17: SVC</a></li><li class="chapter-item expanded "><a href="../../08-bof_dynamic/fb19_overfloat/index.html"><strong aria-hidden="true">2.14.</strong> FB'19: Overfloat</a></li><li class="chapter-item expanded "><a href="../../08-bof_dynamic/hs19_storytime/index.html"><strong aria-hidden="true">2.15.</strong> HS'19: Storytime</a></li></ol></li><li class="chapter-item expanded "><a href="../../fmt.html"><strong aria-hidden="true">3.</strong> Format Strings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../10-fmt_strings/backdoor17_bbpwn/index.html"><strong aria-hidden="true">3.1.</strong> Backdoor'17: bbpwn</a></li><li class="chapter-item expanded "><a href="../../10-fmt_strings/pico18_echo/index.html"><strong aria-hidden="true">3.2.</strong> PicoCTF'18: echo</a></li><li class="chapter-item expanded "><a href="../../10-fmt_strings/tw16_greeting/index.html"><strong aria-hidden="true">3.3.</strong> TokyoWesterns'16: Greeting</a></li></ol></li><li class="chapter-item expanded "><a href="../../indexing.html"><strong aria-hidden="true">4.</strong> Array Indexing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../11-index/csaw18_doubletrouble/index.html"><strong aria-hidden="true">4.1.</strong> CSAW'18: DoubleTrouble</a></li><li class="chapter-item expanded "><a href="../../11-index/dcq16_xkcd/index.html"><strong aria-hidden="true">4.2.</strong> DCQ'16: XKCD</a></li><li class="chapter-item expanded "><a href="../../11-index/sunshinectf2017_alternatesolution/index.html"><strong aria-hidden="true">4.3.</strong> SunshineCTF'17: Alt. Solution</a></li><li class="chapter-item expanded "><a href="../../11-index/swampctf19_dreamheaps/index.html"><strong aria-hidden="true">4.4.</strong> SwampCTF'19: Dreamheaps</a></li></ol></li><li class="chapter-item expanded "><a href="../../randomness.html"><strong aria-hidden="true">5.</strong> Bad Seed</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../09-bad_seed/h3_time/index.html"><strong aria-hidden="true">5.1.</strong> H3: Time</a></li><li class="chapter-item expanded "><a href="../../09-bad_seed/hsctf19_tuxtalkshow/reamde.html"><strong aria-hidden="true">5.2.</strong> HSCTF'19: Tuxtalkshow</a></li><li class="chapter-item expanded "><a href="../../09-bad_seed/sunshinectf17_prepared/index.html"><strong aria-hidden="true">5.3.</strong> SunshineCTF'17: Prepared</a></li></ol></li><li class="chapter-item expanded "><a href="../../z3_angr.html"><strong aria-hidden="true">6.</strong> Z3 &amp; Symbolic Execution (angr)</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../12-z3/hs19_abyte/index.html"><strong aria-hidden="true">6.1.</strong> HS'19: abyte</a></li><li class="chapter-item expanded "><a href="../../12-z3/tokyowesterns17_revrevrev/index.html"><strong aria-hidden="true">6.2.</strong> TokyoWesterns'17: revrevrev</a></li><li class="chapter-item expanded "><a href="../../12-z3/tuctf_future/index.html"><strong aria-hidden="true">6.3.</strong> TUCTF: Future</a></li><li class="chapter-item expanded "><a href="../../13-angr/defcamp_r100/index.html"><strong aria-hidden="true">6.4.</strong> DEFCamp: r100</a></li><li class="chapter-item expanded "><a href="../../13-angr/plaid19_icancount/index.html"><strong aria-hidden="true">6.5.</strong> PlaidCTF'19: icancount</a></li><li class="chapter-item expanded "><a href="../../13-angr/securityfest_fairlight/index.html"><strong aria-hidden="true">6.6.</strong> SecurityFest Fairlight</a></li></ol></li><li class="chapter-item expanded "><a href="../../rop.html"><strong aria-hidden="true">7.</strong> Return Oriented Programming (ROP)</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../15-partial_overwrite/index.html"><strong aria-hidden="true">7.1.</strong> Partial Overwrite</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../15-partial_overwrite/hacklu15_stackstuff/index.html"><strong aria-hidden="true">7.1.1.</strong> Hack.lu'15: stackstuff</a></li><li class="chapter-item expanded "><a href="../../15-partial_overwrite/tamu19_pwn2/index.html"><strong aria-hidden="true">7.1.2.</strong> TAMU'19: pwn2</a></li><li class="chapter-item expanded "><a href="../../15-partial_overwrite/tuctf17_vulnchat2/index.html"><strong aria-hidden="true">7.1.3.</strong> TUCTF'17: vulnchat2</a></li></ol></li><li class="chapter-item expanded "><a href="../../17-stack_pivot/index.html"><strong aria-hidden="true">7.2.</strong> Stack Pivoting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../17-stack_pivot/dcquals19_speedrun4/index.html"><strong aria-hidden="true">7.2.1.</strong> DCQuals'19: speedrun4</a></li><li class="chapter-item expanded "><a href="../../17-stack_pivot/insomnihack18_onewrite/index.html"><strong aria-hidden="true">7.2.2.</strong> Insomnihack'18: onewrite</a></li><li class="chapter-item expanded "><a href="../../17-stack_pivot/seccon19_sum/index.html"><strong aria-hidden="true">7.2.3.</strong> SECCON'19: sum</a></li><li class="chapter-item expanded "><a href="../../17-stack_pivot/xctf16_b0verflow/index.html"><strong aria-hidden="true">7.2.4.</strong> XCTF'16: b0verflow</a></li></ol></li><li class="chapter-item expanded "><a href="../../16-srop/index.html"><strong aria-hidden="true">7.3.</strong> SIGROP (SROP)</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../16-srop/backdoor_funsignals/index.html"><strong aria-hidden="true">7.3.1.</strong> BackdoorCTF: funsigals</a></li><li class="chapter-item expanded "><a href="../../16-srop/csaw19_smallboi/index.html"><strong aria-hidden="true">7.3.2.</strong> CSAW'19: smallboi</a></li><li class="chapter-item expanded "><a href="../../16-srop/inctf17_stupidrop/index.html"><strong aria-hidden="true">7.3.3.</strong> InCTF'17: stupidrop</a></li><li class="chapter-item expanded "><a href="../../16-srop/swamp19_syscaller/index.html"><strong aria-hidden="true">7.3.4.</strong> SwampCTF'19: syscaller</a></li></ol></li><li class="chapter-item expanded "><a href="../../18-ret2_csu_dl/index.html"><strong aria-hidden="true">7.4.</strong> ret2csu</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../18-ret2_csu_dl/0ctf18_babystack/index.html"><strong aria-hidden="true">7.4.1.</strong> 0CTF'18: babystack</a></li><li class="chapter-item expanded "><a href="../../18-ret2_csu_dl/ropemporium_ret2csu/index.html"><strong aria-hidden="true">7.4.2.</strong> ROPEmporium</a></li></ol></li><li class="chapter-item expanded "><a href="../../14-ret_2_system/index.html"><strong aria-hidden="true">7.5.</strong> ret2system</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../14-ret_2_system/asis17_marymorton/index.html"><strong aria-hidden="true">7.5.1.</strong> ASIS'17: marymorton</a></li><li class="chapter-item expanded "><a href="../../14-ret_2_system/hxp18_poorCanary/index.html"><strong aria-hidden="true">7.5.2.</strong> HXP'18: poorCanary</a></li><li class="chapter-item expanded "><a href="../../14-ret_2_system/tu_guestbook/index.html"><strong aria-hidden="true">7.5.3.</strong> TUCTF: guestbook</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../25-heap/index.html"><strong aria-hidden="true">8.</strong> Heap Exploitation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../27-edit_free_chunk/double_free_explanation/index.html"><strong aria-hidden="true">8.1.</strong> Double Frees</a></li><li class="chapter-item expanded "><a href="../../27-edit_free_chunk/heap_consolidation_explanation/index.html"><strong aria-hidden="true">8.2.</strong> Heap Consolidation</a></li><li class="chapter-item expanded "><a href="../../27-edit_free_chunk/uaf_explanation/index.html"><strong aria-hidden="true">8.3.</strong> Use-after-Frees</a></li><li class="chapter-item expanded "><a href="../../24-heap_overflow/protostar_heap0/index.html"><strong aria-hidden="true">8.4.</strong> Protostar: heap0</a></li><li class="chapter-item expanded "><a href="../../24-heap_overflow/protostar_heap1/index.html"><strong aria-hidden="true">8.5.</strong> Protostar: heap1</a></li><li class="chapter-item expanded "><a href="../../24-heap_overflow/protostar_heap2/reamdme.html"><strong aria-hidden="true">8.6.</strong> Protostar: heap2</a></li><li class="chapter-item expanded "><a href="../../30-unlink/unlink_explanation/index.html"><strong aria-hidden="true">8.7.</strong> unlink() Exploitation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../30-unlink/hitcon14_stkof/index.html"><strong aria-hidden="true">8.7.1.</strong> HITCON'14: stkof</a></li><li class="chapter-item expanded "><a href="../../30-unlink/zctf16_note2/index.html"><strong aria-hidden="true">8.7.2.</strong> ZCTF'16: note2</a></li></ol></li><li class="chapter-item expanded "><a href="../../26-heap_grooming/explanation_heap_grooming/index.html"><strong aria-hidden="true">8.8.</strong> Heap Grooming</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../26-heap_grooming/pico_areyouroot/index.html"><strong aria-hidden="true">8.8.1.</strong> PicoCTF: areyouroot</a></li><li class="chapter-item expanded "><a href="../../26-heap_grooming/swamp19_heapgolf/index.html"><strong aria-hidden="true">8.8.2.</strong> SwampCTF'19: Heap Golf</a></li></ol></li><li class="chapter-item expanded "><a href="../../28-fastbin_attack/explanation_fastbinAttack/index.html"><strong aria-hidden="true">8.9.</strong> Fastbin Attack</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../28-fastbin_attack/0ctf_babyheap/index.html"><strong aria-hidden="true">8.9.1.</strong> 0CTF: babyheap</a></li><li class="chapter-item expanded "><a href="../../28-fastbin_attack/csaw17_auir/index.html"><strong aria-hidden="true">8.9.2.</strong> CSAW'17: Auir</a></li></ol></li><li class="chapter-item expanded "><a href="../../31-unsortedbin_attack/unsorted_explanation/index.html"><strong aria-hidden="true">8.10.</strong> Unsortedbin Attack</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../31-unsortedbin_attack/0ctf16_zerostorage/index.html"><strong aria-hidden="true">8.10.1.</strong> 0CTF'16: zerostorage</a></li><li class="chapter-item expanded "><a href="../../31-unsortedbin_attack/hitcon_magicheap/index.html"><strong aria-hidden="true">8.10.2.</strong> HITCON: magicheap</a></li></ol></li><li class="chapter-item expanded "><a href="../../32-largebin_attack/largebin_explanation0/index.html"><strong aria-hidden="true">8.11.</strong> Largebin Attack (part 1)</a></li><li class="chapter-item expanded "><a href="../../32-largebin_attack/largebin_explanation1/index.html"><strong aria-hidden="true">8.12.</strong> Largebin Attack (part 2)</a></li><li class="chapter-item expanded "><a href="../../29-tcache/tcache_explanation/index.html"><strong aria-hidden="true">8.13.</strong> GLibc Tcache</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../29-tcache/dcquals19_babyheap/index.html"><strong aria-hidden="true">8.13.1.</strong> DCQuals'19: babyheap</a></li><li class="chapter-item expanded "><a href="../../29-tcache/plaid19_cpp/index.html"><strong aria-hidden="true">8.13.2.</strong> PlaidCTF'19: cpp</a></li><li class="chapter-item expanded "><a href="../../44-more_tcache/csaw19_popping_caps0/index.html"><strong aria-hidden="true">8.13.3.</strong> CSAW'19: Popping Caps 1</a></li><li class="chapter-item expanded "><a href="../../44-more_tcache/csaw19_popping_caps1/index.html"><strong aria-hidden="true">8.13.4.</strong> CSAW'19: Popping Caps 2</a></li></ol></li><li class="chapter-item expanded "><a href="../../39-house_of_spirit/house_spirit_exp/index.html"><strong aria-hidden="true">8.14.</strong> House of Spirit</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../39-house_of_spirit/hacklu14_oreo/index.html"><strong aria-hidden="true">8.14.1.</strong> Hack.lu'14: Oreo</a></li></ol></li><li class="chapter-item expanded "><a href="../../40-house_of_lore/house_lore_exp/index.html"><strong aria-hidden="true">8.15.</strong> House of Lore</a></li><li class="chapter-item expanded "><a href="../../41-house_of_force/house_force_exp/index.html"><strong aria-hidden="true">8.16.</strong> House of Force</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../41-house_of_force/bkp16_cookbook/index.html"><strong aria-hidden="true">8.16.1.</strong> BKP'16: Cookbook</a></li></ol></li><li class="chapter-item expanded "><a href="../../42-house_of_einherjar/house_einherjar_exp/index.html"><strong aria-hidden="true">8.17.</strong> House of Einherjar</a></li><li class="chapter-item expanded "><a href="../../43-house_of_orange/house_orange_exp/index.html"><strong aria-hidden="true">8.18.</strong> House of Orange</a></li><li class="chapter-item expanded "><a href="../../33-custom_misc_heap/index.html"><strong aria-hidden="true">8.19.</strong> Miscellaneous</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../33-custom_misc_heap/csaw17_minesweeper/index.html"><strong aria-hidden="true">8.19.1.</strong> CSAW'17: Minesweeper</a></li><li class="chapter-item expanded "><a href="../../33-custom_misc_heap/csaw18_alienVSsamurai/index.html"><strong aria-hidden="true">8.19.2.</strong> CSAW'18: alienVSsamurai</a></li><li class="chapter-item expanded "><a href="../../33-custom_misc_heap/csaw19_traveller/index.html"><strong aria-hidden="true">8.19.3.</strong> CSAW'19: Traveller</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../35-integer_exploitation/index.html"><strong aria-hidden="true">9.</strong> Integer Overflows</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../35-integer_exploitation/int_overflow_post/index.html"><strong aria-hidden="true">9.1.</strong> sploitFUN: vuln</a></li><li class="chapter-item expanded "><a href="../../35-integer_exploitation/puzzle/index.html"><strong aria-hidden="true">9.2.</strong> Puzzle</a></li><li class="chapter-item expanded "><a href="../../35-integer_exploitation/signed_unsigned/index.html"><strong aria-hidden="true">9.3.</strong> Signed vs. Unsigned</a></li></ol></li><li class="chapter-item expanded "><a href="../../37-fs_exploitation/index.html"><strong aria-hidden="true">10.</strong> FILE Exploitation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../37-fs_exploitation/swamp19_badfile/index.html"><strong aria-hidden="true">10.1.</strong> SwampCTF'19: Bad File</a></li></ol></li><li class="chapter-item expanded "><a href="../../grabbag.html"><strong aria-hidden="true">11.</strong> Grab Bag</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../19-shellcoding_pt1/index.html"><strong aria-hidden="true">11.1.</strong> Shellcoding</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../19-shellcoding_pt1/csaw18_shellpointcode/index.html"><strong aria-hidden="true">11.1.1.</strong> CSAW'18: Shellpointcode</a></li><li class="chapter-item expanded "><a href="../../19-shellcoding_pt1/defconquals19_s3/index.html"><strong aria-hidden="true">11.1.2.</strong> DCQuals'19: S3</a></li><li class="chapter-item expanded "><a href="../../19-shellcoding_pt1/defconquals19_s6/index.html"><strong aria-hidden="true">11.1.3.</strong> DCQuals'19: S6</a></li></ol></li><li class="chapter-item expanded "><a href="../../20-patching_and_jumping/index.html"><strong aria-hidden="true">11.2.</strong> Patching</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../20-patching_and_jumping/csawquals16_gametime/index.html"><strong aria-hidden="true">11.2.1.</strong> CSAW Quals'16: gametime</a></li><li class="chapter-item expanded "><a href="../../20-patching_and_jumping/dcquals18_elfcrumble/index.html"><strong aria-hidden="true">11.2.2.</strong> DCQuals'18: ELFCrumble</a></li><li class="chapter-item expanded "><a href="../../20-patching_and_jumping/plaid19_ppp/index.html"><strong aria-hidden="true">11.2.3.</strong> Plaid'19: PPP</a></li></ol></li><li class="chapter-item expanded "><a href="../../21-dot_net/index.html"><strong aria-hidden="true">11.3.</strong> .NET</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../21-dot_net/bikinibonanza/index.html"><strong aria-hidden="true">11.3.1.</strong> Bikinibonanza</a></li><li class="chapter-item expanded "><a href="../../21-dot_net/dot_net/index.html"><strong aria-hidden="true">11.3.2.</strong> CSAW'13: DotNetReversing</a></li><li class="chapter-item expanded "><a href="../../21-dot_net/whitehat18_re06/index.html"><strong aria-hidden="true">11.3.3.</strong> Whitehat'18: re06</a></li></ol></li><li class="chapter-item expanded "><a href="../../36-obfuscated_reversing/index.html"><strong aria-hidden="true">11.4.</strong> Obfuscation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../36-obfuscated_reversing/bkp16_unholy/index.html"><strong aria-hidden="true">11.4.1.</strong> BKP'16: Unholy</a></li><li class="chapter-item expanded "><a href="../../36-obfuscated_reversing/csaw15_wyvern/index.html"><strong aria-hidden="true">11.4.2.</strong> CSAW'15: Wyvern</a></li><li class="chapter-item expanded "><a href="../../36-obfuscated_reversing/csaw17_prophecy/index.html"><strong aria-hidden="true">11.4.3.</strong> CSAW'17: Prophecy</a></li><li class="chapter-item expanded "><a href="../../22-movfuscation/index.html"><strong aria-hidden="true">11.4.4.</strong> MOVfuscation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../22-movfuscation/asis18_babyc/index.html"><strong aria-hidden="true">11.4.4.1.</strong> ASIS'18: babyc</a></li><li class="chapter-item expanded "><a href="../../22-movfuscation/recon_movfuscated/index.html"><strong aria-hidden="true">11.4.4.2.</strong> RECON: movfuscated</a></li><li class="chapter-item expanded "><a href="../../22-movfuscation/swamp19_future/index.html"><strong aria-hidden="true">11.4.4.3.</strong> SwampCTF'19: Future Fun</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../23-custom_architecture/index.html"><strong aria-hidden="true">11.5.</strong> Custom Architecture</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../23-custom_architecture/h3_h3machine0/index.html"><strong aria-hidden="true">11.5.1.</strong> H3Machine (part 1)</a></li><li class="chapter-item expanded "><a href="../../23-custom_architecture/h3_h3machine1/index.html"><strong aria-hidden="true">11.5.2.</strong> H3Machine (part 2)</a></li><li class="chapter-item expanded "><a href="../../23-custom_architecture/h3_h3machine2/index.html"><strong aria-hidden="true">11.5.3.</strong> H3Machine (part 3)</a></li><li class="chapter-item expanded "><a href="../../23-custom_architecture/h3_h3machine3/index.html"><strong aria-hidden="true">11.5.4.</strong> H3Machine (part 4)</a></li></ol></li><li class="chapter-item expanded "><a href="../../34-emulated_targets/index.html"><strong aria-hidden="true">11.6.</strong> Emulation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../34-emulated_targets/csaw15_hackingtime/index.html"><strong aria-hidden="true">11.6.1.</strong> CSAW'15: Hackingtime</a></li><li class="chapter-item expanded "><a href="../../34-emulated_targets/csaw17_realism/index.html"><strong aria-hidden="true">11.6.2.</strong> CSAW'17: Realism</a></li><li class="chapter-item expanded "><a href="../../34-emulated_targets/csaw18_x86_pt2/index.html"><strong aria-hidden="true">11.6.3.</strong> CSAW'18: x86 Pt.2</a></li></ol></li><li class="chapter-item expanded "><a href="../../38-grab_bad/uninit_vars/index.html"><strong aria-hidden="true">11.7.</strong> Uninitialized Variables</a></li><li class="chapter-item expanded "><a href="../../38-grab_bad/csaw18_doubletrouble/index.html"><strong aria-hidden="true">11.8.</strong> CSAW'18: Doubletrouble</a></li><li class="chapter-item expanded "><a href="../../38-grab_bad/csaw19_gibberishCheck/index.html" class="active"><strong aria-hidden="true">11.9.</strong> CSAW'19: Gibberishcheck</a></li><li class="chapter-item expanded "><a href="../../38-grab_bad/hackim19_shop/index.html"><strong aria-hidden="true">11.10.</strong> HackIM'19: Shop</a></li></ol></li><li class="chapter-item expanded "><a href="../../next/index.html">What's Next</a></li><li class="chapter-item expanded affix "><a href="../../references/index.html">References</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Nightmare</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        <a href="https://github.com/guyinatuxedo/nightmare/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#csaw-2019-gibberish-check" id="csaw-2019-gibberish-check">Csaw 2019 Gibberish Check</a></h1>
+<p>Let's take a look at the binary:</p>
+<pre><code>$    file gibberish_check
+gibberish_check: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=248693b90a85745125ac4d8241d53503e822a4c7, stripped
+$    pwn checksec gibberish_check
+[*] '/Hackery/pod/modules/38-grab_bad/csaw19_gibberishCheck/gibberish_check'
+    Arch:     amd64-64-little
+    RELRO:    Full RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      PIE enabled
+$    ./gibberish_check
+Find the Key!
+15935728
+Wrong D:
+</code></pre>
+<p>So we can see that we are dealing with a <code>x64</code> bit elf (with <code>PIE</code>) that scans in input, and check it. When we take a look at the code in ghidra, we see this:</p>
+<pre><code>
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined8 FUN_00101d98(void)
+
+{
+  char cVar1;
+  int iVar2;
+  basic_ostream *this;
+  basic_string&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt; *this_00;
+  long in_FS_OFFSET;
+  allocator&lt;char&gt; local_42d;
+  allocator&lt;char&gt; local_42c;
+  allocator&lt;char&gt; local_42b;
+  allocator&lt;char&gt; local_42a;
+  allocator&lt;char&gt; local_429;
+  allocator&lt;char&gt; local_428;
+  allocator&lt;char&gt; local_427;
+  allocator&lt;char&gt; local_426;
+  allocator&lt;char&gt; local_425;
+  allocator&lt;char&gt; local_424;
+  allocator&lt;char&gt; local_423;
+  allocator&lt;char&gt; local_422;
+  allocator&lt;char&gt; local_421;
+  allocator&lt;char&gt; local_420;
+  allocator&lt;char&gt; local_41f;
+  allocator&lt;char&gt; local_41e;
+  allocator&lt;char&gt; local_41d;
+  allocator&lt;char&gt; local_41c;
+  allocator&lt;char&gt; local_41b;
+  allocator&lt;char&gt; local_41a;
+  allocator&lt;char&gt; local_419;
+  allocator&lt;char&gt; local_418;
+  allocator&lt;char&gt; local_417;
+  allocator&lt;char&gt; local_416;
+  allocator&lt;char&gt; local_415;
+  int local_414;
+  undefined8 local_410;
+  undefined8 local_408;
+  undefined *local_400;
+  undefined local_3f8 [32];
+  basic_string local_3d8 [32];
+  basic_string local_3b8 [32];
+  basic_string local_398 [32];
+  basic_string&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt; local_378 [32];
+  char local_358 [32];
+  char local_338 [32];
+  char local_318 [32];
+  char local_2f8 [32];
+  char local_2d8 [32];
+  char local_2b8 [32];
+  char local_298 [32];
+  char local_278 [32];
+  char local_258 [32];
+  char local_238 [32];
+  char local_218 [32];
+  char local_1f8 [32];
+  char local_1d8 [32];
+  char local_1b8 [32];
+  char local_198 [32];
+  char local_178 [32];
+  char local_158 [32];
+  char local_138 [32];
+  char local_118 [32];
+  char local_f8 [32];
+  char local_d8 [32];
+  char local_b8 [32];
+  char local_98 [32];
+  char local_78 [32];
+  char local_58 [32];
+  basic_string&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt; abStack56 [8];
+  long local_30;
+ 
+  local_30 = *(long *)(in_FS_OFFSET + 0x28);
+  FUN_00101be1();
+  allocator();
+                    /* try { // try from 00101de3 to 00101de7 has its CatchHandler @ 00102950 */
+  basic_string((char *)local_378,(allocator *)&quot;dqzkenxmpsdoe_qkihmd&quot;);
+  allocator();
+                    /* try { // try from 00101e16 to 00101e1a has its CatchHandler @ 0010293c */
+  basic_string(local_358,(allocator *)&quot;jffglzbo_zghqpnqqfjs&quot;);
+  allocator();
+                    /* try { // try from 00101e49 to 00101e4d has its CatchHandler @ 00102928 */
+  basic_string(local_338,(allocator *)&quot;kdwx_vl_rnesamuxugap&quot;);
+  allocator();
+                    /* try { // try from 00101e7c to 00101e80 has its CatchHandler @ 00102914 */
+  basic_string(local_318,(allocator *)&quot;ozntzohegxagreedxukr&quot;);
+  allocator();
+                    /* try { // try from 00101eb2 to 00101eb6 has its CatchHandler @ 00102900 */
+  basic_string(local_2f8,(allocator *)&quot;xujaowgbjjhydjmmtapo&quot;);
+  allocator();
+                    /* try { // try from 00101ee8 to 00101eec has its CatchHandler @ 001028ec */
+  basic_string(local_2d8,(allocator *)&quot;pwbzgymqvpmznoanomzx&quot;);
+  allocator();
+                    /* try { // try from 00101f1e to 00101f22 has its CatchHandler @ 001028d8 */
+  basic_string(local_2b8,(allocator *)&quot;qaqhrjofhfiuyt_okwxn&quot;);
+  allocator();
+                    /* try { // try from 00101f54 to 00101f58 has its CatchHandler @ 001028c4 */
+  basic_string(local_298,(allocator *)&quot;a_anqkczwbydtdwwbjwi&quot;);
+  allocator();
+                    /* try { // try from 00101f8a to 00101f8e has its CatchHandler @ 001028b0 */
+  basic_string(local_278,(allocator *)&quot;zoljafyuxinnvkxsskdu&quot;);
+  allocator();
+                    /* try { // try from 00101fc0 to 00101fc4 has its CatchHandler @ 0010289c */
+  basic_string(local_258,(allocator *)&quot;irdlddjjokwtpbrrr_yj&quot;);
+  allocator();
+                    /* try { // try from 00101ff6 to 00101ffa has its CatchHandler @ 00102888 */
+  basic_string(local_238,(allocator *)&quot;cecckcvaltzejskg_qrc&quot;);
+  allocator();
+                    /* try { // try from 0010202c to 00102030 has its CatchHandler @ 00102874 */
+  basic_string(local_218,(allocator *)&quot;vlpwstrhtcpxxnbbcbhv&quot;);
+  allocator();
+                    /* try { // try from 00102062 to 00102066 has its CatchHandler @ 00102860 */
+  basic_string(local_1f8,(allocator *)&quot;spirysagnyujbqfhldsk&quot;);
+  allocator();
+                    /* try { // try from 00102098 to 0010209c has its CatchHandler @ 0010284c */
+  basic_string(local_1d8,(allocator *)&quot;bcyqbikpuhlwordznpth&quot;);
+  allocator();
+                    /* try { // try from 001020ce to 001020d2 has its CatchHandler @ 00102838 */
+  basic_string(local_1b8,(allocator *)&quot;_xkiiusddvvicipuzyna&quot;);
+  allocator();
+                    /* try { // try from 00102104 to 00102108 has its CatchHandler @ 00102824 */
+  basic_string(local_198,(allocator *)&quot;wsxyupdsqatrkzgawzbt&quot;);
+  allocator();
+                    /* try { // try from 0010213a to 0010213e has its CatchHandler @ 00102810 */
+  basic_string(local_178,(allocator *)&quot;ybg_wmftbdcvlhhidril&quot;);
+  allocator();
+                    /* try { // try from 00102170 to 00102174 has its CatchHandler @ 001027fc */
+  basic_string(local_158,(allocator *)&quot;ryvmngilaqkbsyojgify&quot;);
+  allocator();
+                    /* try { // try from 001021a6 to 001021aa has its CatchHandler @ 001027e8 */
+  basic_string(local_138,(allocator *)&quot;mvefjqtxzmxf_vcyhelf&quot;);
+  allocator();
+                    /* try { // try from 001021dc to 001021e0 has its CatchHandler @ 001027d4 */
+  basic_string(local_118,(allocator *)&quot;hjhofxwrk_rpwli_mxv_&quot;);
+  allocator();
+                    /* try { // try from 00102212 to 00102216 has its CatchHandler @ 001027c0 */
+  basic_string(local_f8,(allocator *)&quot;enupmannieqqzcyevs_w&quot;);
+  allocator();
+                    /* try { // try from 00102248 to 0010224c has its CatchHandler @ 001027ac */
+  basic_string(local_d8,(allocator *)&quot;uhmvvb_cfgjkggjpavub&quot;);
+  allocator();
+                    /* try { // try from 0010227e to 00102282 has its CatchHandler @ 00102798 */
+  basic_string(local_b8,(allocator *)&quot;gktdphqiswomuwzvjtog&quot;);
+  allocator();
+                    /* try { // try from 001022b4 to 001022b8 has its CatchHandler @ 00102784 */
+  basic_string(local_98,(allocator *)&quot;lgoehepwclbaifvtfoeq&quot;);
+  allocator();
+                    /* try { // try from 001022ea to 001022ee has its CatchHandler @ 00102770 */
+  basic_string(local_78,(allocator *)&quot;nm_uxrukmof_fxsfpcqz&quot;);
+  allocator();
+                    /* try { // try from 00102320 to 00102324 has its CatchHandler @ 0010275c */
+  basic_string(local_58,(allocator *)&quot;ttsbclzyyuslmutcylcm&quot;);
+  FUN_00102e5a(&amp;local_408);
+                    /* try { // try from 0010236a to 0010236e has its CatchHandler @ 0010271a */
+  FUN_00102eda(local_3f8,local_378,0x1a,&amp;local_408);
+  FUN_00102e76(&amp;local_408);
+  this_00 = abStack56;
+  while (this_00 != local_378) {
+    this_00 = this_00 + -0x20;
+    ~basic_string(this_00);
+  }
+  ~allocator((allocator&lt;char&gt; *)&amp;local_410);
+  ~allocator(&amp;local_415);
+  ~allocator(&amp;local_416);
+  ~allocator(&amp;local_417);
+  ~allocator(&amp;local_418);
+  ~allocator(&amp;local_419);
+  ~allocator(&amp;local_41a);
+  ~allocator(&amp;local_41b);
+  ~allocator(&amp;local_41c);
+  ~allocator(&amp;local_41d);
+  ~allocator(&amp;local_41e);
+  ~allocator(&amp;local_41f);
+  ~allocator(&amp;local_420);
+  ~allocator(&amp;local_421);
+  ~allocator(&amp;local_422);
+  ~allocator(&amp;local_423);
+  ~allocator(&amp;local_424);
+  ~allocator(&amp;local_425);
+  ~allocator(&amp;local_426);
+  ~allocator(&amp;local_427);
+  ~allocator(&amp;local_428);
+  ~allocator(&amp;local_429);
+  ~allocator(&amp;local_42a);
+  ~allocator(&amp;local_42b);
+  ~allocator(&amp;local_42c);
+  ~allocator(&amp;local_42d);
+                    /* try { // try from 0010253a to 00102553 has its CatchHandler @ 001029bd */
+  this = operator&lt;&lt;&lt;std--char_traits&lt;char&gt;&gt;((basic_ostream *)cout,&quot;Find the Key!&quot;);
+  operator&lt;&lt;((basic_ostream&lt;char,std--char_traits&lt;char&gt;&gt; *)this,endl&lt;char,std--char_traits&lt;char&gt;&gt;);
+  basic_string();
+  local_414 = 0;
+                    /* try { // try from 0010257e to 00102601 has its CatchHandler @ 001029a9 */
+  operator&gt;&gt;&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt;((basic_istream *)cin,local_3d8);
+  local_400 = local_3f8;
+  local_410 = FUN_00102fd8(local_400);
+  local_408 = FUN_00103020(local_400);
+  while( true ) {
+    cVar1 = FUN_0010306c(&amp;local_410,&amp;local_408,&amp;local_408);
+    if (cVar1 == '\0') break;
+    FUN_001030c8(&amp;local_410);
+    basic_string(local_3b8);
+                    /* try { // try from 00102616 to 0010261a has its CatchHandler @ 00102995 */
+    basic_string((basic_string *)local_378);
+                    /* try { // try from 0010262f to 00102633 has its CatchHandler @ 00102981 */
+    basic_string(local_398);
+                    /* try { // try from 00102648 to 0010264c has its CatchHandler @ 0010296d */
+    iVar2 = FUN_0010164a(local_398,local_378,local_378);
+    local_414 = local_414 + iVar2;
+    ~basic_string((basic_string&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt; *)local_398);
+    ~basic_string(local_378);
+    ~basic_string((basic_string&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt; *)local_3b8);
+    FUN_001030a8(&amp;local_410);
+  }
+  if ((_FUN_0010164a &amp; 0xff) == 0xcc) {
+                    /* try { // try from 001026b3 to 001026de has its CatchHandler @ 001029a9 */
+    puts(&quot;Rip&quot;);
+                    /* WARNING: Subroutine does not return */
+    exit(1);
+  }
+  if (local_414 == 0x1f9) {
+    FUN_00101b83();
+    FUN_00101c62();
+  }
+  else {
+    FUN_00101bb2();
+  }
+  ~basic_string((basic_string&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt; *)local_3d8);
+  FUN_00102f94(local_3f8);
+  if (local_30 != *(long *)(in_FS_OFFSET + 0x28)) {
+                    /* WARNING: Subroutine does not return */
+    __stack_chk_fail();
+  }
+  return 0;
+}
+</code></pre>
+<p>One thing of immediate importance is the function <code>0x101be1</code>:</p>
+<pre><code>
+void FUN_00101be1(void)
+
+{
+  long lVar1;
+  char local_9;
+ 
+  local_9 = '\0';
+  lVar1 = ptrace(PTRACE_TRACEME,0,1,0);
+  if (lVar1 == 0) {
+    local_9 = '\x02';
+  }
+  lVar1 = ptrace(PTRACE_TRACEME,0,1,0);
+  if (lVar1 == -1) {
+    local_9 = local_9 * '\x03';
+  }
+  if (local_9 != '\x06') {
+                    /* WARNING: Subroutine does not return */
+    exit(1);
+  }
+  return;
+}
+</code></pre>
+<p>This function essentially uses <code>PTRACE</code> to make it harder to debug the binary. However we can just patch out it's function call with nop instructions to prevent it from running, so we can debug the binary.</p>
+<p>After we patch out the anti-debugging functionality with just nop instructions (<code>0x90</code>s), this is what the code looks like:</p>
+<pre><code>
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined8 FUN_00101d98(void)
+
+{
+  char cVar1;
+  int checkOutput;
+  basic_ostream *this;
+  basic_string&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt; *this_00;
+  long in_FS_OFFSET;
+  allocator&lt;char&gt; local_42d;
+  allocator&lt;char&gt; local_42c;
+  allocator&lt;char&gt; local_42b;
+  allocator&lt;char&gt; local_42a;
+  allocator&lt;char&gt; local_429;
+  allocator&lt;char&gt; local_428;
+  allocator&lt;char&gt; local_427;
+  allocator&lt;char&gt; local_426;
+  allocator&lt;char&gt; local_425;
+  allocator&lt;char&gt; local_424;
+  allocator&lt;char&gt; local_423;
+  allocator&lt;char&gt; local_422;
+  allocator&lt;char&gt; local_421;
+  allocator&lt;char&gt; local_420;
+  allocator&lt;char&gt; local_41f;
+  allocator&lt;char&gt; local_41e;
+  allocator&lt;char&gt; local_41d;
+  allocator&lt;char&gt; local_41c;
+  allocator&lt;char&gt; local_41b;
+  allocator&lt;char&gt; local_41a;
+  allocator&lt;char&gt; local_419;
+  allocator&lt;char&gt; local_418;
+  allocator&lt;char&gt; local_417;
+  allocator&lt;char&gt; local_416;
+  allocator&lt;char&gt; local_415;
+  int check;
+  undefined8 local_410;
+  undefined8 local_408;
+  undefined *local_400;
+  undefined local_3f8 [32];
+  basic_string local_3d8 [32];
+  basic_string local_3b8 [32];
+  basic_string string [32];
+  basic_string&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt; inp0 [32];
+  char local_358 [32];
+  char local_338 [32];
+  char local_318 [32];
+  char local_2f8 [32];
+  char local_2d8 [32];
+  char local_2b8 [32];
+  char local_298 [32];
+  char local_278 [32];
+  char local_258 [32];
+  char local_238 [32];
+  char local_218 [32];
+  char local_1f8 [32];
+  char local_1d8 [32];
+  char local_1b8 [32];
+  char local_198 [32];
+  char local_178 [32];
+  char local_158 [32];
+  char local_138 [32];
+  char local_118 [32];
+  char local_f8 [32];
+  char local_d8 [32];
+  char local_b8 [32];
+  char local_98 [32];
+  char local_78 [32];
+  char local_58 [32];
+  basic_string&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt; abStack56 [8];
+  long local_30;
+ 
+  local_30 = *(long *)(in_FS_OFFSET + 0x28);
+  allocator();
+                    /* try { // try from 00101de3 to 00101de7 has its CatchHandler @ 00102950 */
+  basic_string((char *)inp0,(allocator *)&quot;dqzkenxmpsdoe_qkihmd&quot;);
+  allocator();
+                    /* try { // try from 00101e16 to 00101e1a has its CatchHandler @ 0010293c */
+  basic_string(local_358,(allocator *)&quot;jffglzbo_zghqpnqqfjs&quot;);
+  allocator();
+                    /* try { // try from 00101e49 to 00101e4d has its CatchHandler @ 00102928 */
+  basic_string(local_338,(allocator *)&quot;kdwx_vl_rnesamuxugap&quot;);
+  allocator();
+                    /* try { // try from 00101e7c to 00101e80 has its CatchHandler @ 00102914 */
+  basic_string(local_318,(allocator *)&quot;ozntzohegxagreedxukr&quot;);
+  allocator();
+                    /* try { // try from 00101eb2 to 00101eb6 has its CatchHandler @ 00102900 */
+  basic_string(local_2f8,(allocator *)&quot;xujaowgbjjhydjmmtapo&quot;);
+  allocator();
+                    /* try { // try from 00101ee8 to 00101eec has its CatchHandler @ 001028ec */
+  basic_string(local_2d8,(allocator *)&quot;pwbzgymqvpmznoanomzx&quot;);
+  allocator();
+                    /* try { // try from 00101f1e to 00101f22 has its CatchHandler @ 001028d8 */
+  basic_string(local_2b8,(allocator *)&quot;qaqhrjofhfiuyt_okwxn&quot;);
+  allocator();
+                    /* try { // try from 00101f54 to 00101f58 has its CatchHandler @ 001028c4 */
+  basic_string(local_298,(allocator *)&quot;a_anqkczwbydtdwwbjwi&quot;);
+  allocator();
+                    /* try { // try from 00101f8a to 00101f8e has its CatchHandler @ 001028b0 */
+  basic_string(local_278,(allocator *)&quot;zoljafyuxinnvkxsskdu&quot;);
+  allocator();
+                    /* try { // try from 00101fc0 to 00101fc4 has its CatchHandler @ 0010289c */
+  basic_string(local_258,(allocator *)&quot;irdlddjjokwtpbrrr_yj&quot;);
+  allocator();
+                    /* try { // try from 00101ff6 to 00101ffa has its CatchHandler @ 00102888 */
+  basic_string(local_238,(allocator *)&quot;cecckcvaltzejskg_qrc&quot;);
+  allocator();
+                    /* try { // try from 0010202c to 00102030 has its CatchHandler @ 00102874 */
+  basic_string(local_218,(allocator *)&quot;vlpwstrhtcpxxnbbcbhv&quot;);
+  allocator();
+                    /* try { // try from 00102062 to 00102066 has its CatchHandler @ 00102860 */
+  basic_string(local_1f8,(allocator *)&quot;spirysagnyujbqfhldsk&quot;);
+  allocator();
+                    /* try { // try from 00102098 to 0010209c has its CatchHandler @ 0010284c */
+  basic_string(local_1d8,(allocator *)&quot;bcyqbikpuhlwordznpth&quot;);
+  allocator();
+                    /* try { // try from 001020ce to 001020d2 has its CatchHandler @ 00102838 */
+  basic_string(local_1b8,(allocator *)&quot;_xkiiusddvvicipuzyna&quot;);
+  allocator();
+                    /* try { // try from 00102104 to 00102108 has its CatchHandler @ 00102824 */
+  basic_string(local_198,(allocator *)&quot;wsxyupdsqatrkzgawzbt&quot;);
+  allocator();
+                    /* try { // try from 0010213a to 0010213e has its CatchHandler @ 00102810 */
+  basic_string(local_178,(allocator *)&quot;ybg_wmftbdcvlhhidril&quot;);
+  allocator();
+                    /* try { // try from 00102170 to 00102174 has its CatchHandler @ 001027fc */
+  basic_string(local_158,(allocator *)&quot;ryvmngilaqkbsyojgify&quot;);
+  allocator();
+                    /* try { // try from 001021a6 to 001021aa has its CatchHandler @ 001027e8 */
+  basic_string(local_138,(allocator *)&quot;mvefjqtxzmxf_vcyhelf&quot;);
+  allocator();
+                    /* try { // try from 001021dc to 001021e0 has its CatchHandler @ 001027d4 */
+  basic_string(local_118,(allocator *)&quot;hjhofxwrk_rpwli_mxv_&quot;);
+  allocator();
+                    /* try { // try from 00102212 to 00102216 has its CatchHandler @ 001027c0 */
+  basic_string(local_f8,(allocator *)&quot;enupmannieqqzcyevs_w&quot;);
+  allocator();
+                    /* try { // try from 00102248 to 0010224c has its CatchHandler @ 001027ac */
+  basic_string(local_d8,(allocator *)&quot;uhmvvb_cfgjkggjpavub&quot;);
+  allocator();
+                    /* try { // try from 0010227e to 00102282 has its CatchHandler @ 00102798 */
+  basic_string(local_b8,(allocator *)&quot;gktdphqiswomuwzvjtog&quot;);
+  allocator();
+                    /* try { // try from 001022b4 to 001022b8 has its CatchHandler @ 00102784 */
+  basic_string(local_98,(allocator *)&quot;lgoehepwclbaifvtfoeq&quot;);
+  allocator();
+                    /* try { // try from 001022ea to 001022ee has its CatchHandler @ 00102770 */
+  basic_string(local_78,(allocator *)&quot;nm_uxrukmof_fxsfpcqz&quot;);
+  allocator();
+                    /* try { // try from 00102320 to 00102324 has its CatchHandler @ 0010275c */
+  basic_string(local_58,(allocator *)&quot;ttsbclzyyuslmutcylcm&quot;);
+  FUN_00102e5a(&amp;local_408);
+                    /* try { // try from 0010236a to 0010236e has its CatchHandler @ 0010271a */
+  FUN_00102eda(local_3f8,inp0,0x1a,&amp;local_408);
+  FUN_00102e76(&amp;local_408);
+  this_00 = abStack56;
+  while (this_00 != inp0) {
+    this_00 = this_00 + -0x20;
+    ~basic_string(this_00);
+  }
+  ~allocator((allocator&lt;char&gt; *)&amp;local_410);
+  ~allocator(&amp;local_415);
+  ~allocator(&amp;local_416);
+  ~allocator(&amp;local_417);
+  ~allocator(&amp;local_418);
+  ~allocator(&amp;local_419);
+  ~allocator(&amp;local_41a);
+  ~allocator(&amp;local_41b);
+  ~allocator(&amp;local_41c);
+  ~allocator(&amp;local_41d);
+  ~allocator(&amp;local_41e);
+  ~allocator(&amp;local_41f);
+  ~allocator(&amp;local_420);
+  ~allocator(&amp;local_421);
+  ~allocator(&amp;local_422);
+  ~allocator(&amp;local_423);
+  ~allocator(&amp;local_424);
+  ~allocator(&amp;local_425);
+  ~allocator(&amp;local_426);
+  ~allocator(&amp;local_427);
+  ~allocator(&amp;local_428);
+  ~allocator(&amp;local_429);
+  ~allocator(&amp;local_42a);
+  ~allocator(&amp;local_42b);
+  ~allocator(&amp;local_42c);
+  ~allocator(&amp;local_42d);
+                    /* try { // try from 0010253a to 00102553 has its CatchHandler @ 001029bd */
+  this = operator&lt;&lt;&lt;std--char_traits&lt;char&gt;&gt;((basic_ostream *)cout,&quot;Find the Key!&quot;);
+  operator&lt;&lt;((basic_ostream&lt;char,std--char_traits&lt;char&gt;&gt; *)this,endl&lt;char,std--char_traits&lt;char&gt;&gt;);
+  basic_string();
+  check = 0;
+                    /* try { // try from 0010257e to 00102601 has its CatchHandler @ 001029a9 */
+  operator&gt;&gt;&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt;((basic_istream *)cin,local_3d8);
+  local_400 = local_3f8;
+  local_410 = FUN_00102fd8(local_400);
+  local_408 = FUN_00103020(local_400);
+  while( true ) {
+    cVar1 = FUN_0010306c(&amp;local_410,&amp;local_408,&amp;local_408);
+    if (cVar1 == '\0') break;
+    FUN_001030c8(&amp;local_410);
+    basic_string(local_3b8);
+                    /* try { // try from 00102616 to 0010261a has its CatchHandler @ 00102995 */
+    basic_string((basic_string *)inp0);
+                    /* try { // try from 0010262f to 00102633 has its CatchHandler @ 00102981 */
+    basic_string(string);
+                    /* try { // try from 00102648 to 0010264c has its CatchHandler @ 0010296d */
+    _checkOutput = checkFunction((basic_string&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt; *)
+                                 string,inp0);
+    check = check + (int)_checkOutput;
+    ~basic_string((basic_string&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt; *)string);
+    ~basic_string(inp0);
+    ~basic_string((basic_string&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt; *)local_3b8);
+    FUN_001030a8(&amp;local_410);
+  }
+  if ((_checkFunction &amp; 0xff) == 0xcc) {
+                    /* try { // try from 001026b3 to 001026de has its CatchHandler @ 001029a9 */
+    puts(&quot;Rip&quot;);
+                    /* WARNING: Subroutine does not return */
+    exit(1);
+  }
+  if (check == 0x1f9) {
+    win();
+    FUN_00101c62();
+  }
+  else {
+    loose();
+  }
+  ~basic_string((basic_string&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt; *)local_3d8);
+  FUN_00102f94(local_3f8);
+  if (local_30 != *(long *)(in_FS_OFFSET + 0x28)) {
+                    /* WARNING: Subroutine does not return */
+    __stack_chk_fail();
+  }
+  return 0;
+}
+</code></pre>
+<p>So we can see here, it is essentially calling <code>checkFunction</code> several times in a loop, and suming up all of it's outputs. If the sum is equal to <code>0x1f9</code>, we solve the challenge.</p>
+<p>Which the <code>checkFunction</code> function looks like this:</p>
+<pre><code>
+ulong checkFunction(basic_string&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt; *string,
+                   basic_string&lt;char,std--char_traits&lt;char&gt;,std--allocator&lt;char&gt;&gt; *input)
+
+{
+  int stringSize;
+  int inputSize;
+  undefined8 uVar1;
+  long x;
+  int *piVar2;
+  char *output;
+  char *pcVar3;
+  undefined4 *check;
+  undefined4 *checkArray;
+  uint *returnPtr;
+  uint returnVar;
+  long y;
+  long in_FS_OFFSET;
+  uint local_a8;
+  uint isEqual;
+  int local_a0;
+  int local_9c;
+  int j;
+  int i;
+  int stackVar;
+  ulong local_88;
+  int output1;
+  undefined4 uStack124;
+  long inputStack0 [4];
+  undefined4 p [8];
+  undefined inputString [24];
+  long local_20;
+  char sOutput0;
+ 
+  local_20 = *(long *)(in_FS_OFFSET + 0x28);
+  stringSize = size();
+  inputSize = size();
+  FUN_00102b52(&amp;output1);
+  FUN_00102a6c(&amp;local_88);
+  p[0] = 0;
+                    /* try { // try from 001016d9 to 001016dd has its CatchHandler @ 00101b1a */
+  FUN_00102aa4(inputString,(long)(stringSize + 1),p,&amp;local_88);
+                    /* try { // try from 001016f9 to 001016fd has its CatchHandler @ 00101b06 */
+  FUN_00102b8a(inputStack0,(long)(inputSize + 1),inputString,&amp;output1);
+  FUN_00102b0e(inputString);
+  FUN_00102a88(&amp;local_88);
+  FUN_00102b6e(&amp;output1);
+  FUN_00102c38(p);
+  FUN_00102c38(inputString);
+  if ((stringSize == 0) || (inputSize == 0)) {
+    returnVar = 0;
+  }
+  else {
+    local_a0 = 1;
+    while (local_a0 &lt; stringSize + 1) {
+                    /* try { // try from 0010178a to 001018e5 has its CatchHandler @ 00101b40 */
+      uVar1 = operator[](string,(long)(local_a0 + -1));
+      func7(p,uVar1,uVar1);
+      x = multiply18(inputStack0,0);
+      piVar2 = (int *)addMul4(x,(long)local_a0);
+      *piVar2 = local_a0;
+      local_a0 = local_a0 + 1;
+    }
+    local_9c = 1;
+    while (local_9c &lt; inputSize + 1) {
+      uVar1 = operator[](input,(long)(local_9c + -1));
+      func7(inputString,uVar1,uVar1);
+      x = multiply18(inputStack0,(long)local_9c);
+      piVar2 = (int *)addMul4(x,0);
+      *piVar2 = local_9c;
+      local_9c = local_9c + 1;
+    }
+    local_a8 = local_a8 &amp; 0xffffff00;
+    local_88 = func6(p);
+    func5(&amp;output1,&amp;local_88,&amp;local_88);
+    func4(p,CONCAT44(uStack124,output1),&amp;local_a8,CONCAT44(uStack124,output1));
+    local_a8 = local_a8 &amp; 0xffffff00;
+    local_88 = func6(inputString);
+    func5(&amp;output1,&amp;local_88,&amp;local_88);
+    func4(inputString,CONCAT44(uStack124,output1),&amp;local_a8,CONCAT44(uStack124,output1));
+    j = 1;
+    while (j &lt; inputSize + 1) {
+      i = 1;
+      while (i &lt; stringSize + 1) {
+        output = (char *)add(p,(long)j,(long)j);
+        sOutput0 = *output;
+        pcVar3 = (char *)add(inputString,(long)i,(long)i);
+        isEqual = (uint)(sOutput0 != *pcVar3);
+        x = multiply18(inputStack0,(long)j);
+        piVar2 = (int *)addMul4(x,(long)(i + -1));
+        output1 = *piVar2 + 1;
+        x = multiply18(inputStack0,(long)(j + -1));
+        piVar2 = (int *)addMul4(x,(long)i);
+        local_88 = local_88 &amp; 0xffffffff00000000 | (ulong)(*piVar2 + 1);
+        x = multiply18(inputStack0,(long)(j + -1));
+        piVar2 = (int *)addMul4(x,(long)(i + -1));
+        local_a8 = isEqual + *piVar2;
+        uVar1 = cmp(&amp;local_a8,&amp;local_88,&amp;local_88);
+        check = (undefined4 *)cmp(uVar1,&amp;output1,uVar1);
+        x = multiply18(inputStack0,(long)j);
+        checkArray = (undefined4 *)addMul4(x,(long)i);
+        *checkArray = *check;
+        i = i + 1;
+      }
+      j = j + 1;
+    }
+    y = (long)stringSize;
+    x = multiply18(inputStack0,(long)inputSize);
+    returnPtr = (uint *)addMul4(x,y);
+    returnVar = *returnPtr;
+  }
+  FUN_00102c54(inputString);
+  FUN_00102c54(p);
+  FUN_00102bf4(inputStack0);
+  if (local_20 != *(long *)(in_FS_OFFSET + 0x28)) {
+                    /* WARNING: Subroutine does not return */
+    __stack_chk_fail();
+  }
+  return (ulong)returnVar;
+}
+</code></pre>
+<p>Thing is, we don't actually need to understand the internal working of the function, to be able to know what the output will be. We can effectively find out what it does using gdb:</p>
+<pre><code>$    gdb ./gibberish_check_patched
+GNU gdb (Ubuntu 8.2.91.20190405-0ubuntu3) 8.2.91.20190405-git
+Copyright (C) 2019 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type &quot;show copying&quot; and &quot;show warranty&quot; for details.
+This GDB was configured as &quot;x86_64-linux-gnu&quot;.
+Type &quot;show configuration&quot; for configuration details.
+For bug reporting instructions, please see:
+&lt;http://www.gnu.org/software/gdb/bugs/&gt;.
+Find the GDB manual and other documentation resources online at:
+    &lt;http://www.gnu.org/software/gdb/documentation/&gt;.
+
+For help, type &quot;help&quot;.
+Type &quot;apropos word&quot; to search for commands related to &quot;word&quot;...
+GEF for linux ready, type `gef' to start, `gef config' to configure
+75 commands loaded for GDB 8.2.91.20190405-git using Python engine 3.7
+[*] 5 commands could not be loaded, run `gef missing` to know why.
+Reading symbols from ./gibberish_check_patched...
+(No debugging symbols found in ./gibberish_check_patched)
+gef➤  pie b *0x2648
+gef➤  pie run
+Stopped due to shared library event (no libraries added or removed)
+Find the Key!
+15935728
+
+Breakpoint 1, 0x0000555555556648 in ?? ()
+[+] base address 0x555555554000
+[ Legend: Modified register | Code | Heap | Stack | String ]
+───────────────────────────────────────────────────────────────── registers ────
+$rax   : 0x00007fffffffda60  →  0x00005555557700f0  →  &quot;dqzkenxmpsdoe_qkihmd&quot;
+$rbx   : 0x00007fffffffda80  →  0x00007fffffffda90  →  &quot;15935728&quot;
+$rcx   : 0x000055555575e010  →  0x0000000000000005
+$rdx   : 0x00007fffffffda80  →  0x00007fffffffda90  →  &quot;15935728&quot;
+$rsp   : 0x00007fffffffd9c0  →  0x0000000000000000
+$rbp   : 0x00007fffffffddf0  →  0x0000555555559860  →   push r15
+$rsi   : 0x00007fffffffda80  →  0x00007fffffffda90  →  &quot;15935728&quot;
+$rdi   : 0x00007fffffffda60  →  0x00005555557700f0  →  &quot;dqzkenxmpsdoe_qkihmd&quot;
+$rip   : 0x0000555555556648  →   call 0x55555555564a
+$r8    : 0x00005555557700d0  →  &quot;dqzkenxmpsdoe_qkihmd&quot;
+$r9    : 0x00007ffff7fa6020  →  0x00007ffff7fa5168  →  0x00007ffff7e75b90  →  &lt;__cxxabiv1::__class_type_info::~__class_type_info()+0&gt; mov rax, QWORD PTR [rip+0x137df9]        # 0x7ffff7fad990
+$r10   : 0x6               
+$r11   : 0x00007ffff7e890c0  →  &lt;std::locale::locale(std::locale+0&gt; mov rax, QWORD PTR [rsi]
+$r12   : 0x00007fffffffda80  →  0x00007fffffffda90  →  &quot;15935728&quot;
+$r13   : 0x1a              
+$r14   : 0x0               
+$r15   : 0x0               
+$eflags: [zero carry PARITY adjust sign trap INTERRUPT direction overflow resume virtualx86 identification]
+$cs: 0x0033 $ss: 0x002b $ds: 0x0000 $es: 0x0000 $fs: 0x0000 $gs: 0x0000
+───────────────────────────────────────────────────────────────────── stack ────
+0x00007fffffffd9c0│+0x0000: 0x0000000000000000     ← $rsp
+0x00007fffffffd9c8│+0x0008: 0x0000000000000000
+0x00007fffffffd9d0│+0x0010: 0x0000000000000000
+0x00007fffffffd9d8│+0x0018: 0x0002ffff00001f80
+0x00007fffffffd9e0│+0x0020: 0x0000000000000000
+0x00007fffffffd9e8│+0x0028: 0x00005555557701b0  →  0x0000555555770500  →  &quot;dqzkenxmpsdoe_qkihmd&quot;
+0x00007fffffffd9f0│+0x0030: 0x00005555557704f0  →  0x0000000000000000
+0x00007fffffffd9f8│+0x0038: 0x00007fffffffda00  →  0x00005555557701b0  →  0x0000555555770500  →  &quot;dqzkenxmpsdoe_qkihmd&quot;
+─────────────────────────────────────────────────────────────── code:x86:64 ────
+   0x55555555663b                  lea    rax, [rbp-0x390]
+   0x555555556642                  mov    rsi, rdx
+   0x555555556645                  mov    rdi, rax
+ → 0x555555556648                  call   0x55555555564a
+   ↳  0x55555555564a                  push   rbp
+      0x55555555564b                  mov    rbp, rsp
+      0x55555555564e                  push   r12
+      0x555555555650                  push   rbx
+      0x555555555651                  sub    rsp, 0xa0
+      0x555555555658                  mov    QWORD PTR [rbp-0xa8], rdi
+─────────────────────────────────────────────────────── arguments (guessed) ────
+0x55555555564a (
+   $rdi = 0x00007fffffffda60 → 0x00005555557700f0 → &quot;dqzkenxmpsdoe_qkihmd&quot;,
+   $rsi = 0x00007fffffffda80 → 0x00007fffffffda90 → &quot;15935728&quot;,
+   $rdx = 0x00007fffffffda80 → 0x00007fffffffda90 → &quot;15935728&quot;
+)
+─────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;gibberish_check&quot;, stopped, reason: BREAKPOINT
+───────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x555555556648 → call 0x55555555564a
+[#1] 0x7ffff7bf3b6b → __libc_start_main(main=0x555555555d98, argc=0x1, argv=0x7fffffffded8, init=&lt;optimized out&gt;, fini=&lt;optimized out&gt;, rtld_fini=&lt;optimized out&gt;, stack_end=0x7fffffffdec8)
+[#2] 0x55555555556a → hlt
+────────────────────────────────────────────────────────────────────────────────
+gef➤  
+</code></pre>
+<p>Right now we can see that the input to <code>checkFunction</code> is the string <code>dqzkenxmpsdoe_qkihmd&quot;</code>, and our input <code>15935728</code>. In the debugger, we see that this loop runs for <code>26</code> times. Each time it runs with a different string, which we can see from running <code>strings</code>:</p>
+<pre><code>$    strings gibberish_check_patched
+
+.    .    .
+
+dqzkenxmpsdoe_qkihmd
+jffglzbo_zghqpnqqfjs
+kdwx_vl_rnesamuxugap
+ozntzohegxagreedxukr
+xujaowgbjjhydjmmtapo
+pwbzgymqvpmznoanomzx
+qaqhrjofhfiuyt_okwxn
+a_anqkczwbydtdwwbjwi
+zoljafyuxinnvkxsskdu
+irdlddjjokwtpbrrr_yj
+cecckcvaltzejskg_qrc
+vlpwstrhtcpxxnbbcbhv
+spirysagnyujbqfhldsk
+bcyqbikpuhlwordznpth
+_xkiiusddvvicipuzyna
+wsxyupdsqatrkzgawzbt
+ybg_wmftbdcvlhhidril
+ryvmngilaqkbsyojgify
+mvefjqtxzmxf_vcyhelf
+hjhofxwrk_rpwli_mxv_
+enupmannieqqzcyevs_w
+uhmvvb_cfgjkggjpavub
+gktdphqiswomuwzvjtog
+lgoehepwclbaifvtfoeq
+nm_uxrukmof_fxsfpcqz
+ttsbclzyyuslmutcylcm
+</code></pre>
+<p>When we try passing our input as one of the strings, we see something interesting. Here it is as it makes the <code>checkFunction</code> call:</p>
+<pre><code>───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── stack ────
+0x00007fffffffd9c0│+0x0000: 0x0000000000000000     ← $rsp
+0x00007fffffffd9c8│+0x0008: 0x0000000000000000
+0x00007fffffffd9d0│+0x0010: 0x0000000000000000
+0x00007fffffffd9d8│+0x0018: 0x0002ffff00001f80
+0x00007fffffffd9e0│+0x0020: 0x0000000000000000
+0x00007fffffffd9e8│+0x0028: 0x00005555557701b0  →  0x0000555555770500  →  &quot;dqzkenxmpsdoe_qkihmd&quot;
+0x00007fffffffd9f0│+0x0030: 0x00005555557704f0  →  0x0000000000000000
+0x00007fffffffd9f8│+0x0038: 0x00007fffffffda00  →  0x00005555557701b0  →  0x0000555555770500  →  &quot;dqzkenxmpsdoe_qkihmd&quot;
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── code:x86:64 ────
+   0x55555555663b                  lea    rax, [rbp-0x390]
+   0x555555556642                  mov    rsi, rdx
+   0x555555556645                  mov    rdi, rax
+ → 0x555555556648                  call   0x55555555564a
+   ↳  0x55555555564a                  push   rbp
+      0x55555555564b                  mov    rbp, rsp
+      0x55555555564e                  push   r12
+      0x555555555650                  push   rbx
+      0x555555555651                  sub    rsp, 0xa0
+      0x555555555658                  mov    QWORD PTR [rbp-0xa8], rdi
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── arguments (guessed) ────
+0x55555555564a (
+   $rdi = 0x00007fffffffda60 → 0x0000555555770110 → &quot;dqzkenxmpsdoe_qkihmd&quot;,
+   $rsi = 0x00007fffffffda80 → 0x00005555557700f0 → &quot;dqzkenxmpsdoe_qkihmd&quot;,
+   $rdx = 0x00007fffffffda80 → 0x00005555557700f0 → &quot;dqzkenxmpsdoe_qkihmd&quot;
+)
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;gibberish_check&quot;, stopped, reason: BREAKPOINT
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x555555556648 → call 0x55555555564a
+[#1] 0x7ffff7bf3b6b → __libc_start_main(main=0x555555555d98, argc=0x1, argv=0x7fffffffded8, init=&lt;optimized out&gt;, fini=&lt;optimized out&gt;, rtld_fini=&lt;optimized out&gt;, stack_end=0x7fffffffdec8)
+[#2] 0x55555555556a → hlt
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+gef➤  s
+</code></pre>
+<p>This is the output we see:</p>
+<pre><code>───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── stack ────
+0x00007fffffffd9c0│+0x0000: 0x0000000000000000     ← $rsp
+0x00007fffffffd9c8│+0x0008: 0x0000000000000000
+0x00007fffffffd9d0│+0x0010: 0x0000000000000000
+0x00007fffffffd9d8│+0x0018: 0x0002ffff00001f80
+0x00007fffffffd9e0│+0x0020: 0x0000000000000000
+0x00007fffffffd9e8│+0x0028: 0x00005555557701b0  →  0x0000555555770500  →  &quot;dqzkenxmpsdoe_qkihmd&quot;
+0x00007fffffffd9f0│+0x0030: 0x00005555557704f0  →  0x0000000000000000
+0x00007fffffffd9f8│+0x0038: 0x00007fffffffda00  →  0x00005555557701b0  →  0x0000555555770500  →  &quot;dqzkenxmpsdoe_qkihmd&quot;
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── code:x86:64 ────
+   0x555555556642                  mov    rsi, rdx
+   0x555555556645                  mov    rdi, rax
+   0x555555556648                  call   0x55555555564a
+ → 0x55555555664d                  add    DWORD PTR [rbp-0x40c], eax
+   0x555555556653                  lea    rax, [rbp-0x390]
+   0x55555555665a                  mov    rdi, rax
+   0x55555555665d                  call   0x555555555380 &lt;_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev@plt&gt;
+   0x555555556662                  lea    rax, [rbp-0x370]
+   0x555555556669                  mov    rdi, rax
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;gibberish_check&quot;, stopped, reason: TEMPORARY BREAKPOINT
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x55555555664d → add DWORD PTR [rbp-0x40c], eax
+[#1] 0x7ffff7bf3b6b → __libc_start_main(main=0x555555555d98, argc=0x1, argv=0x7fffffffded8, init=&lt;optimized out&gt;, fini=&lt;optimized out&gt;, rtld_fini=&lt;optimized out&gt;, stack_end=0x7fffffffdec8)
+[#2] 0x55555555556a → hlt
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+gef➤  p $eax
+$1 = 0x0
+gef➤
+</code></pre>
+<p>So we can see that when our input string matched the other input, the output was <code>0x0</code>. This gave me an idea. What if the number return was the number of characters that the two inputs don't share. Doing a bit of trial and error showed that there is slightly more to it. It appears that it starts checking if our input is in the string, at the character that corresponds to the loop. For instance the first time <code>checkFunction</code> is called, it will start checking with the first character. After it finds a character from our input that does not match, it moves on to the next check</p>
+<p>We need the collective output of all of the <code>checkFunction</code> calls to be <code>0x1f9</code> (<code>205</code>). There are <code>0x208</code> (<code>520</code>) characters present. That means that our input needs to have <code>15</code> matches with the strings provided. When I looked, the closest one I could find was <code>e</code> with <code>16</code>. So for this, I just swapped out one of the <code>e</code> characters for a character that would not overlap with the corresponding string it was being compared to. The string for this had to have one <code>e</code>, so the collisions would be decremented from <code>16</code> to <code>15</code>.</p>
+<p>With that, we end up with the string <code>ee1eeeeeeeeeeeeeeeee</code>. When we try it:</p>
+<pre><code>$    ./gibberish_check
+Find the Key!
+ee1eeeeeeeeeeeeeeeee
+Correct!
+</code></pre>
+<p>Just like that, we reversed the challenge!</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../38-grab_bad/csaw18_doubletrouble/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../38-grab_bad/hackim19_shop/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../../38-grab_bad/csaw18_doubletrouble/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../../38-grab_bad/hackim19_shop/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

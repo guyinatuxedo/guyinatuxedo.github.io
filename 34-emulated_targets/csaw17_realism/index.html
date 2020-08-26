@@ -1,0 +1,640 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js navy">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>CSAW&#x27;17: Realism - Nightmare</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="Nightmare: an intro to binary exploitation / reverse engineering course based around CTF challenges.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../../favicon.png">
+        
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "navy";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('navy')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../../index.html">Nightmare</a></li><li class="chapter-item expanded "><a href="../../00-intro/index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../01-intro_assembly/assembly/index.html"><strong aria-hidden="true">1.1.</strong> Assembly</a></li><li class="chapter-item expanded "><a href="../../01-intro_assembly/reversing_assembly/index.html"><strong aria-hidden="true">1.2.</strong> Reversing Assembly</a></li><li class="chapter-item expanded "><a href="../../02-intro_tooling/ghidra/index.html"><strong aria-hidden="true">1.3.</strong> Reversing with GHIDRA</a></li><li class="chapter-item expanded "><a href="../../02-intro_tooling/gdb-gef/index.html"><strong aria-hidden="true">1.4.</strong> Debugging with GDB</a></li><li class="chapter-item expanded "><a href="../../02-intro_tooling/pwntools/index.html"><strong aria-hidden="true">1.5.</strong> Scripting with Python pwntools</a></li><li class="chapter-item expanded "><a href="../../03-beginner_re/csaw18_x86tour_pt1/index.html"><strong aria-hidden="true">1.6.</strong> Beginner Reversing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../03-beginner_re/pico18_strings/index.html"><strong aria-hidden="true">1.6.1.</strong> Pico'18: Strings</a></li><li class="chapter-item expanded "><a href="../../03-beginner_re/helithumper_re/index.html"><strong aria-hidden="true">1.6.2.</strong> Helithumper RE</a></li><li class="chapter-item expanded "><a href="../../03-beginner_re/csaw19_beleaf/index.html"><strong aria-hidden="true">1.6.3.</strong> CSAW'19: Beleaf</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../04-bof_variable/csaw18_boi/index.html"><strong aria-hidden="true">2.</strong> Stack Buffer Overflows</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../04-bof_variable/tamu19_pwn1/index.html"><strong aria-hidden="true">2.1.</strong> TAMU'19: Pwn1</a></li><li class="chapter-item expanded "><a href="../../04-bof_variable/tw17_justdoit/index.html"><strong aria-hidden="true">2.2.</strong> TokyoWesterns'17: JustDoIt</a></li><li class="chapter-item expanded "><a href="../../05-bof_callfunction/csaw16_warmup/index.html"><strong aria-hidden="true">2.3.</strong> CSAW'16: Warmup</a></li><li class="chapter-item expanded "><a href="../../05-bof_callfunction/csaw18_getit/index.html"><strong aria-hidden="true">2.4.</strong> CSAW'18: Getit</a></li><li class="chapter-item expanded "><a href="../../05-bof_callfunction/tu17_vulnchat/index.html"><strong aria-hidden="true">2.5.</strong> TU'17: Vulnchat</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../5.1-mitigation_aslr_pie/index.html"><strong aria-hidden="true">2.5.1.</strong> ASLR/PIE</a></li></ol></li><li class="chapter-item expanded "><a href="../../06-bof_shellcode/csaw17_pilot/index.html"><strong aria-hidden="true">2.6.</strong> CSAW'17: Pilot</a></li><li class="chapter-item expanded "><a href="../../06-bof_shellcode/tamu19_pwn3/index.html"><strong aria-hidden="true">2.7.</strong> TAMU'19: Pwn3</a></li><li class="chapter-item expanded "><a href="../../06-bof_shellcode/tu18_shellaeasy/index.html"><strong aria-hidden="true">2.8.</strong> TU'18: Shellaeasy</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../6.1-mitigation_nx/index.html"><strong aria-hidden="true">2.8.1.</strong> NX/XN/DEP</a></li></ol></li><li class="chapter-item expanded "><a href="../../07-bof_static/bkp16_simplecalc/index.html"><strong aria-hidden="true">2.9.</strong> BKP'16: SimpleCalc</a></li><li class="chapter-item expanded "><a href="../../07-bof_static/dcquals19_speedrun1/index.html"><strong aria-hidden="true">2.10.</strong> DCQuals'19: Speedrun1</a></li><li class="chapter-item expanded "><a href="../../07-bof_static/dcquals16_feedme/index.html"><strong aria-hidden="true">2.11.</strong> DCQuals'16: Feedme</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../7.1-mitigation_canary/index.html"><strong aria-hidden="true">2.11.1.</strong> Canaries/Cookies</a></li><li class="chapter-item expanded "><a href="../../7.2-mitigation_relro/index.html"><strong aria-hidden="true">2.11.2.</strong> RELRO</a></li></ol></li><li class="chapter-item expanded "><a href="../../08-bof_dynamic/csaw19_babyboi/index.html"><strong aria-hidden="true">2.12.</strong> CSAW'19: Babyboi</a></li><li class="chapter-item expanded "><a href="../../08-bof_dynamic/csawquals17_svc/index.html"><strong aria-hidden="true">2.13.</strong> CSAW Quals'17: SVC</a></li><li class="chapter-item expanded "><a href="../../08-bof_dynamic/fb19_overfloat/index.html"><strong aria-hidden="true">2.14.</strong> FB'19: Overfloat</a></li><li class="chapter-item expanded "><a href="../../08-bof_dynamic/hs19_storytime/index.html"><strong aria-hidden="true">2.15.</strong> HS'19: Storytime</a></li></ol></li><li class="chapter-item expanded "><a href="../../fmt.html"><strong aria-hidden="true">3.</strong> Format Strings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../10-fmt_strings/backdoor17_bbpwn/index.html"><strong aria-hidden="true">3.1.</strong> Backdoor'17: bbpwn</a></li><li class="chapter-item expanded "><a href="../../10-fmt_strings/pico18_echo/index.html"><strong aria-hidden="true">3.2.</strong> PicoCTF'18: echo</a></li><li class="chapter-item expanded "><a href="../../10-fmt_strings/tw16_greeting/index.html"><strong aria-hidden="true">3.3.</strong> TokyoWesterns'16: Greeting</a></li></ol></li><li class="chapter-item expanded "><a href="../../indexing.html"><strong aria-hidden="true">4.</strong> Array Indexing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../11-index/csaw18_doubletrouble/index.html"><strong aria-hidden="true">4.1.</strong> CSAW'18: DoubleTrouble</a></li><li class="chapter-item expanded "><a href="../../11-index/dcq16_xkcd/index.html"><strong aria-hidden="true">4.2.</strong> DCQ'16: XKCD</a></li><li class="chapter-item expanded "><a href="../../11-index/sunshinectf2017_alternatesolution/index.html"><strong aria-hidden="true">4.3.</strong> SunshineCTF'17: Alt. Solution</a></li><li class="chapter-item expanded "><a href="../../11-index/swampctf19_dreamheaps/index.html"><strong aria-hidden="true">4.4.</strong> SwampCTF'19: Dreamheaps</a></li></ol></li><li class="chapter-item expanded "><a href="../../randomness.html"><strong aria-hidden="true">5.</strong> Bad Seed</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../09-bad_seed/h3_time/index.html"><strong aria-hidden="true">5.1.</strong> H3: Time</a></li><li class="chapter-item expanded "><a href="../../09-bad_seed/hsctf19_tuxtalkshow/reamde.html"><strong aria-hidden="true">5.2.</strong> HSCTF'19: Tuxtalkshow</a></li><li class="chapter-item expanded "><a href="../../09-bad_seed/sunshinectf17_prepared/index.html"><strong aria-hidden="true">5.3.</strong> SunshineCTF'17: Prepared</a></li></ol></li><li class="chapter-item expanded "><a href="../../z3_angr.html"><strong aria-hidden="true">6.</strong> Z3 &amp; Symbolic Execution (angr)</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../12-z3/hs19_abyte/index.html"><strong aria-hidden="true">6.1.</strong> HS'19: abyte</a></li><li class="chapter-item expanded "><a href="../../12-z3/tokyowesterns17_revrevrev/index.html"><strong aria-hidden="true">6.2.</strong> TokyoWesterns'17: revrevrev</a></li><li class="chapter-item expanded "><a href="../../12-z3/tuctf_future/index.html"><strong aria-hidden="true">6.3.</strong> TUCTF: Future</a></li><li class="chapter-item expanded "><a href="../../13-angr/defcamp_r100/index.html"><strong aria-hidden="true">6.4.</strong> DEFCamp: r100</a></li><li class="chapter-item expanded "><a href="../../13-angr/plaid19_icancount/index.html"><strong aria-hidden="true">6.5.</strong> PlaidCTF'19: icancount</a></li><li class="chapter-item expanded "><a href="../../13-angr/securityfest_fairlight/index.html"><strong aria-hidden="true">6.6.</strong> SecurityFest Fairlight</a></li></ol></li><li class="chapter-item expanded "><a href="../../rop.html"><strong aria-hidden="true">7.</strong> Return Oriented Programming (ROP)</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../15-partial_overwrite/index.html"><strong aria-hidden="true">7.1.</strong> Partial Overwrite</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../15-partial_overwrite/hacklu15_stackstuff/index.html"><strong aria-hidden="true">7.1.1.</strong> Hack.lu'15: stackstuff</a></li><li class="chapter-item expanded "><a href="../../15-partial_overwrite/tamu19_pwn2/index.html"><strong aria-hidden="true">7.1.2.</strong> TAMU'19: pwn2</a></li><li class="chapter-item expanded "><a href="../../15-partial_overwrite/tuctf17_vulnchat2/index.html"><strong aria-hidden="true">7.1.3.</strong> TUCTF'17: vulnchat2</a></li></ol></li><li class="chapter-item expanded "><a href="../../17-stack_pivot/index.html"><strong aria-hidden="true">7.2.</strong> Stack Pivoting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../17-stack_pivot/dcquals19_speedrun4/index.html"><strong aria-hidden="true">7.2.1.</strong> DCQuals'19: speedrun4</a></li><li class="chapter-item expanded "><a href="../../17-stack_pivot/insomnihack18_onewrite/index.html"><strong aria-hidden="true">7.2.2.</strong> Insomnihack'18: onewrite</a></li><li class="chapter-item expanded "><a href="../../17-stack_pivot/seccon19_sum/index.html"><strong aria-hidden="true">7.2.3.</strong> SECCON'19: sum</a></li><li class="chapter-item expanded "><a href="../../17-stack_pivot/xctf16_b0verflow/index.html"><strong aria-hidden="true">7.2.4.</strong> XCTF'16: b0verflow</a></li></ol></li><li class="chapter-item expanded "><a href="../../16-srop/index.html"><strong aria-hidden="true">7.3.</strong> SIGROP (SROP)</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../16-srop/backdoor_funsignals/index.html"><strong aria-hidden="true">7.3.1.</strong> BackdoorCTF: funsigals</a></li><li class="chapter-item expanded "><a href="../../16-srop/csaw19_smallboi/index.html"><strong aria-hidden="true">7.3.2.</strong> CSAW'19: smallboi</a></li><li class="chapter-item expanded "><a href="../../16-srop/inctf17_stupidrop/index.html"><strong aria-hidden="true">7.3.3.</strong> InCTF'17: stupidrop</a></li><li class="chapter-item expanded "><a href="../../16-srop/swamp19_syscaller/index.html"><strong aria-hidden="true">7.3.4.</strong> SwampCTF'19: syscaller</a></li></ol></li><li class="chapter-item expanded "><a href="../../18-ret2_csu_dl/index.html"><strong aria-hidden="true">7.4.</strong> ret2csu</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../18-ret2_csu_dl/0ctf18_babystack/index.html"><strong aria-hidden="true">7.4.1.</strong> 0CTF'18: babystack</a></li><li class="chapter-item expanded "><a href="../../18-ret2_csu_dl/ropemporium_ret2csu/index.html"><strong aria-hidden="true">7.4.2.</strong> ROPEmporium</a></li></ol></li><li class="chapter-item expanded "><a href="../../14-ret_2_system/index.html"><strong aria-hidden="true">7.5.</strong> ret2system</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../14-ret_2_system/asis17_marymorton/index.html"><strong aria-hidden="true">7.5.1.</strong> ASIS'17: marymorton</a></li><li class="chapter-item expanded "><a href="../../14-ret_2_system/hxp18_poorCanary/index.html"><strong aria-hidden="true">7.5.2.</strong> HXP'18: poorCanary</a></li><li class="chapter-item expanded "><a href="../../14-ret_2_system/tu_guestbook/index.html"><strong aria-hidden="true">7.5.3.</strong> TUCTF: guestbook</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../25-heap/index.html"><strong aria-hidden="true">8.</strong> Heap Exploitation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../27-edit_free_chunk/double_free_explanation/index.html"><strong aria-hidden="true">8.1.</strong> Double Frees</a></li><li class="chapter-item expanded "><a href="../../27-edit_free_chunk/heap_consolidation_explanation/index.html"><strong aria-hidden="true">8.2.</strong> Heap Consolidation</a></li><li class="chapter-item expanded "><a href="../../27-edit_free_chunk/uaf_explanation/index.html"><strong aria-hidden="true">8.3.</strong> Use-after-Frees</a></li><li class="chapter-item expanded "><a href="../../24-heap_overflow/protostar_heap0/index.html"><strong aria-hidden="true">8.4.</strong> Protostar: heap0</a></li><li class="chapter-item expanded "><a href="../../24-heap_overflow/protostar_heap1/index.html"><strong aria-hidden="true">8.5.</strong> Protostar: heap1</a></li><li class="chapter-item expanded "><a href="../../24-heap_overflow/protostar_heap2/reamdme.html"><strong aria-hidden="true">8.6.</strong> Protostar: heap2</a></li><li class="chapter-item expanded "><a href="../../30-unlink/unlink_explanation/index.html"><strong aria-hidden="true">8.7.</strong> unlink() Exploitation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../30-unlink/hitcon14_stkof/index.html"><strong aria-hidden="true">8.7.1.</strong> HITCON'14: stkof</a></li><li class="chapter-item expanded "><a href="../../30-unlink/zctf16_note2/index.html"><strong aria-hidden="true">8.7.2.</strong> ZCTF'16: note2</a></li></ol></li><li class="chapter-item expanded "><a href="../../26-heap_grooming/explanation_heap_grooming/index.html"><strong aria-hidden="true">8.8.</strong> Heap Grooming</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../26-heap_grooming/pico_areyouroot/index.html"><strong aria-hidden="true">8.8.1.</strong> PicoCTF: areyouroot</a></li><li class="chapter-item expanded "><a href="../../26-heap_grooming/swamp19_heapgolf/index.html"><strong aria-hidden="true">8.8.2.</strong> SwampCTF'19: Heap Golf</a></li></ol></li><li class="chapter-item expanded "><a href="../../28-fastbin_attack/explanation_fastbinAttack/index.html"><strong aria-hidden="true">8.9.</strong> Fastbin Attack</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../28-fastbin_attack/0ctf_babyheap/index.html"><strong aria-hidden="true">8.9.1.</strong> 0CTF: babyheap</a></li><li class="chapter-item expanded "><a href="../../28-fastbin_attack/csaw17_auir/index.html"><strong aria-hidden="true">8.9.2.</strong> CSAW'17: Auir</a></li></ol></li><li class="chapter-item expanded "><a href="../../31-unsortedbin_attack/unsorted_explanation/index.html"><strong aria-hidden="true">8.10.</strong> Unsortedbin Attack</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../31-unsortedbin_attack/0ctf16_zerostorage/index.html"><strong aria-hidden="true">8.10.1.</strong> 0CTF'16: zerostorage</a></li><li class="chapter-item expanded "><a href="../../31-unsortedbin_attack/hitcon_magicheap/index.html"><strong aria-hidden="true">8.10.2.</strong> HITCON: magicheap</a></li></ol></li><li class="chapter-item expanded "><a href="../../32-largebin_attack/largebin_explanation0/index.html"><strong aria-hidden="true">8.11.</strong> Largebin Attack (part 1)</a></li><li class="chapter-item expanded "><a href="../../32-largebin_attack/largebin_explanation1/index.html"><strong aria-hidden="true">8.12.</strong> Largebin Attack (part 2)</a></li><li class="chapter-item expanded "><a href="../../29-tcache/tcache_explanation/index.html"><strong aria-hidden="true">8.13.</strong> GLibc Tcache</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../29-tcache/dcquals19_babyheap/index.html"><strong aria-hidden="true">8.13.1.</strong> DCQuals'19: babyheap</a></li><li class="chapter-item expanded "><a href="../../29-tcache/plaid19_cpp/index.html"><strong aria-hidden="true">8.13.2.</strong> PlaidCTF'19: cpp</a></li><li class="chapter-item expanded "><a href="../../44-more_tcache/csaw19_popping_caps0/index.html"><strong aria-hidden="true">8.13.3.</strong> CSAW'19: Popping Caps 1</a></li><li class="chapter-item expanded "><a href="../../44-more_tcache/csaw19_popping_caps1/index.html"><strong aria-hidden="true">8.13.4.</strong> CSAW'19: Popping Caps 2</a></li></ol></li><li class="chapter-item expanded "><a href="../../39-house_of_spirit/house_spirit_exp/index.html"><strong aria-hidden="true">8.14.</strong> House of Spirit</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../39-house_of_spirit/hacklu14_oreo/index.html"><strong aria-hidden="true">8.14.1.</strong> Hack.lu'14: Oreo</a></li></ol></li><li class="chapter-item expanded "><a href="../../40-house_of_lore/house_lore_exp/index.html"><strong aria-hidden="true">8.15.</strong> House of Lore</a></li><li class="chapter-item expanded "><a href="../../41-house_of_force/house_force_exp/index.html"><strong aria-hidden="true">8.16.</strong> House of Force</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../41-house_of_force/bkp16_cookbook/index.html"><strong aria-hidden="true">8.16.1.</strong> BKP'16: Cookbook</a></li></ol></li><li class="chapter-item expanded "><a href="../../42-house_of_einherjar/house_einherjar_exp/index.html"><strong aria-hidden="true">8.17.</strong> House of Einherjar</a></li><li class="chapter-item expanded "><a href="../../43-house_of_orange/house_orange_exp/index.html"><strong aria-hidden="true">8.18.</strong> House of Orange</a></li><li class="chapter-item expanded "><a href="../../33-custom_misc_heap/index.html"><strong aria-hidden="true">8.19.</strong> Miscellaneous</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../33-custom_misc_heap/csaw17_minesweeper/index.html"><strong aria-hidden="true">8.19.1.</strong> CSAW'17: Minesweeper</a></li><li class="chapter-item expanded "><a href="../../33-custom_misc_heap/csaw18_alienVSsamurai/index.html"><strong aria-hidden="true">8.19.2.</strong> CSAW'18: alienVSsamurai</a></li><li class="chapter-item expanded "><a href="../../33-custom_misc_heap/csaw19_traveller/index.html"><strong aria-hidden="true">8.19.3.</strong> CSAW'19: Traveller</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../35-integer_exploitation/index.html"><strong aria-hidden="true">9.</strong> Integer Overflows</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../35-integer_exploitation/int_overflow_post/index.html"><strong aria-hidden="true">9.1.</strong> sploitFUN: vuln</a></li><li class="chapter-item expanded "><a href="../../35-integer_exploitation/puzzle/index.html"><strong aria-hidden="true">9.2.</strong> Puzzle</a></li><li class="chapter-item expanded "><a href="../../35-integer_exploitation/signed_unsigned/index.html"><strong aria-hidden="true">9.3.</strong> Signed vs. Unsigned</a></li></ol></li><li class="chapter-item expanded "><a href="../../37-fs_exploitation/index.html"><strong aria-hidden="true">10.</strong> FILE Exploitation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../37-fs_exploitation/swamp19_badfile/index.html"><strong aria-hidden="true">10.1.</strong> SwampCTF'19: Bad File</a></li></ol></li><li class="chapter-item expanded "><a href="../../grabbag.html"><strong aria-hidden="true">11.</strong> Grab Bag</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../19-shellcoding_pt1/index.html"><strong aria-hidden="true">11.1.</strong> Shellcoding</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../19-shellcoding_pt1/csaw18_shellpointcode/index.html"><strong aria-hidden="true">11.1.1.</strong> CSAW'18: Shellpointcode</a></li><li class="chapter-item expanded "><a href="../../19-shellcoding_pt1/defconquals19_s3/index.html"><strong aria-hidden="true">11.1.2.</strong> DCQuals'19: S3</a></li><li class="chapter-item expanded "><a href="../../19-shellcoding_pt1/defconquals19_s6/index.html"><strong aria-hidden="true">11.1.3.</strong> DCQuals'19: S6</a></li></ol></li><li class="chapter-item expanded "><a href="../../20-patching_and_jumping/index.html"><strong aria-hidden="true">11.2.</strong> Patching</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../20-patching_and_jumping/csawquals16_gametime/index.html"><strong aria-hidden="true">11.2.1.</strong> CSAW Quals'16: gametime</a></li><li class="chapter-item expanded "><a href="../../20-patching_and_jumping/dcquals18_elfcrumble/index.html"><strong aria-hidden="true">11.2.2.</strong> DCQuals'18: ELFCrumble</a></li><li class="chapter-item expanded "><a href="../../20-patching_and_jumping/plaid19_ppp/index.html"><strong aria-hidden="true">11.2.3.</strong> Plaid'19: PPP</a></li></ol></li><li class="chapter-item expanded "><a href="../../21-dot_net/index.html"><strong aria-hidden="true">11.3.</strong> .NET</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../21-dot_net/bikinibonanza/index.html"><strong aria-hidden="true">11.3.1.</strong> Bikinibonanza</a></li><li class="chapter-item expanded "><a href="../../21-dot_net/dot_net/index.html"><strong aria-hidden="true">11.3.2.</strong> CSAW'13: DotNetReversing</a></li><li class="chapter-item expanded "><a href="../../21-dot_net/whitehat18_re06/index.html"><strong aria-hidden="true">11.3.3.</strong> Whitehat'18: re06</a></li></ol></li><li class="chapter-item expanded "><a href="../../36-obfuscated_reversing/index.html"><strong aria-hidden="true">11.4.</strong> Obfuscation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../36-obfuscated_reversing/bkp16_unholy/index.html"><strong aria-hidden="true">11.4.1.</strong> BKP'16: Unholy</a></li><li class="chapter-item expanded "><a href="../../36-obfuscated_reversing/csaw15_wyvern/index.html"><strong aria-hidden="true">11.4.2.</strong> CSAW'15: Wyvern</a></li><li class="chapter-item expanded "><a href="../../36-obfuscated_reversing/csaw17_prophecy/index.html"><strong aria-hidden="true">11.4.3.</strong> CSAW'17: Prophecy</a></li><li class="chapter-item expanded "><a href="../../22-movfuscation/index.html"><strong aria-hidden="true">11.4.4.</strong> MOVfuscation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../22-movfuscation/asis18_babyc/index.html"><strong aria-hidden="true">11.4.4.1.</strong> ASIS'18: babyc</a></li><li class="chapter-item expanded "><a href="../../22-movfuscation/recon_movfuscated/index.html"><strong aria-hidden="true">11.4.4.2.</strong> RECON: movfuscated</a></li><li class="chapter-item expanded "><a href="../../22-movfuscation/swamp19_future/index.html"><strong aria-hidden="true">11.4.4.3.</strong> SwampCTF'19: Future Fun</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../23-custom_architecture/index.html"><strong aria-hidden="true">11.5.</strong> Custom Architecture</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../23-custom_architecture/h3_h3machine0/index.html"><strong aria-hidden="true">11.5.1.</strong> H3Machine (part 1)</a></li><li class="chapter-item expanded "><a href="../../23-custom_architecture/h3_h3machine1/index.html"><strong aria-hidden="true">11.5.2.</strong> H3Machine (part 2)</a></li><li class="chapter-item expanded "><a href="../../23-custom_architecture/h3_h3machine2/index.html"><strong aria-hidden="true">11.5.3.</strong> H3Machine (part 3)</a></li><li class="chapter-item expanded "><a href="../../23-custom_architecture/h3_h3machine3/index.html"><strong aria-hidden="true">11.5.4.</strong> H3Machine (part 4)</a></li></ol></li><li class="chapter-item expanded "><a href="../../34-emulated_targets/index.html"><strong aria-hidden="true">11.6.</strong> Emulation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../34-emulated_targets/csaw15_hackingtime/index.html"><strong aria-hidden="true">11.6.1.</strong> CSAW'15: Hackingtime</a></li><li class="chapter-item expanded "><a href="../../34-emulated_targets/csaw17_realism/index.html" class="active"><strong aria-hidden="true">11.6.2.</strong> CSAW'17: Realism</a></li><li class="chapter-item expanded "><a href="../../34-emulated_targets/csaw18_x86_pt2/index.html"><strong aria-hidden="true">11.6.3.</strong> CSAW'18: x86 Pt.2</a></li></ol></li><li class="chapter-item expanded "><a href="../../38-grab_bad/uninit_vars/index.html"><strong aria-hidden="true">11.7.</strong> Uninitialized Variables</a></li><li class="chapter-item expanded "><a href="../../38-grab_bad/csaw18_doubletrouble/index.html"><strong aria-hidden="true">11.8.</strong> CSAW'18: Doubletrouble</a></li><li class="chapter-item expanded "><a href="../../38-grab_bad/csaw19_gibberishCheck/index.html"><strong aria-hidden="true">11.9.</strong> CSAW'19: Gibberishcheck</a></li><li class="chapter-item expanded "><a href="../../38-grab_bad/hackim19_shop/index.html"><strong aria-hidden="true">11.10.</strong> HackIM'19: Shop</a></li></ol></li><li class="chapter-item expanded "><a href="../../next/index.html">What's Next</a></li><li class="chapter-item expanded affix "><a href="../../references/index.html">References</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Nightmare</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        <a href="https://github.com/guyinatuxedo/nightmare/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#csaw-17-reversing-400-realism" id="csaw-17-reversing-400-realism">Csaw 17 Reversing 400 Realism</a></h1>
+<p>This writeup is based off of: <code>https://github.com/DMArens/CTF-Writeups/blob/master/2017/CSAWQuals/reverse/realism-400.md</code></p>
+<p>Let's take a look at what we have:</p>
+<pre><code>$    file main.bin
+main.bin: DOS/MBR boot sector
+</code></pre>
+<p>So we are given a boot record. We are also given the command <code>qemu-system-i386 -drive format=raw,file=main.bin</code>, which when we run it displays a screen which prompts us for the flag. Also I wouldn't recommend doing this challenge on Ubuntu 19.04.</p>
+<h2><a class="header" href="#mbr" id="mbr">MBR</a></h2>
+<p>x86 Real Mode 16</p>
+<p>A couple of things about Master Boot Records that are extremely helpful to know going forward. They are always loaded into memory at the address <code>0x7c00</code>. So in gdb, we can just look at the assembly code by examining the memory starting at <code>0x7c00</code>. Secondly the code for this program is a sixteen bit assembly, in the <code>i8086</code> architecture. You will have to load it as an <code>x86</code> processor of size <code>16</code> in Ghidra. The third thing, in Ghidra when you load in the binary code will start at the address <code>0x0</code>. If you want, you can reload the binary to start at the address <code>0x7c00</code>, because that is what the address <code>0x0</code> will correlate to when it runs. For instance the address <code>0x1dc</code> in Ghidra would translate to the address <code>0x7ddc</code> when it runs (I use both address types interchangeably)</p>
+<h2><a class="header" href="#dynamic-analysis" id="dynamic-analysis">Dynamic Analysis</a></h2>
+<p>When reversing this, using gdb to analyze the program as it is running is very helpful. Luckily for us, qemu has built in gdb support with the <code>-gdb</code> flag. Here is the command you need to run if you want to run the program with a listener on port <code>1234</code> (ip is localhost) for gdb:</p>
+<pre><code>$    qemu-system-i386 -drive format=raw,file=main.bin -gdb tcp::1234
+</code></pre>
+<p>and if you want to connect to the listener on localhost on port <code>1234</code> (before that we will set the architecture to <code>i8086</code>, so we can view the instructions properly):</p>
+<pre><code>gef➤  set architecture i8086
+warning: A handler for the OS ABI &quot;GNU/Linux&quot; is not built into this configuration
+of GDB.  Attempting to continue with the default i8086 settings.
+
+The target architecture is assumed to be i8086
+gef➤  target remote localhost:1234
+Remote debugging using localhost:1234
+warning: No executable has been specified and target does not support
+determining executable automatically.  Try using the &quot;file&quot; command.
+0x0000b601 in ?? ()
+[ Legend: Modified register | Code | Heap | Stack | String ]
+───────────────────────────────────────────────────────────────── registers ────
+[!] Command 'context' failed to execute properly, reason: 'NoneType' object has no attribute 'all_registers'
+gef➤  i r
+eax            0x0                 0x0
+ecx            0xb5e5              0xb5e5
+edx            0x0                 0x0
+ebx            0xdc80              0xdc80
+esp            0x6efa              0x6efa
+ebp            0x1234              0x1234
+esi            0xfbb8              0xfbb8
+edi            0x0                 0x0
+eip            0xb601              0xb601
+eflags         0x246               [ PF ZF IF ]
+cs             0xf000              0xf000
+ss             0x0                 0x0
+ds             0x0                 0x0
+es             0xdc80              0xdc80
+fs             0x0                 0x0
+gs             0x0                 0x0
+</code></pre>
+<p>Now that we have attached the process to gdb, let's see if the instructions begin where we would expect them to at <code>0x7c00</code>:</p>
+<pre><code>gef➤  x/4g 0x7c00
+0x7c00: 0xc0200f10cd0013b8  0x220f02c883fbe083
+0x7c10: 0x0f06000de0200fc0  0x000a126606c7e022
+</code></pre>
+<p>When we check the instructions / opcodes in Ghidra:</p>
+<pre><code>                             //
+                             // ram
+                             // fileOffset=0, length=512
+                             // ram: 0000:0000-0000:01ff
+                             //
+             assume DF = 0x0  (Default)
+       0000:0000 b8 13 00        MOV        AX,0x13
+       0000:0003 cd 10           INT        0x10
+       0000:0005 0f 20 c0        MOV        EAX,CR0
+       0000:0008 83 e0 fb        AND        AX,0xfffb
+       0000:000b 83 c8 02        OR         AX,0x2
+       0000:000e 0f 22 c0        MOV        CR0,EAX
+       0000:0011 0f 20 e0        MOV        EAX,CR4
+       0000:0014 0d 00 06        OR         AX,0x600
+       0000:0017 0f 22 e0        MOV        CR4,EAX
+       0000:001a c7 06 66        MOV        word ptr [0x1266],0xa
+                 12 0a 00
+       0000:0020 bb 00 00        MOV        BX,0x0
+</code></pre>
+<p>So we can see here the same opcodes that we see at the start of the program (so we know that we know where the start of the code segment in memory is). Now the next step of reversing this is to identify the segment of code where the actual check happens. The elf is only <code>512</code> bytes long, so there isn't a lot of code to parse through. However, this is my first time reversing this type of architecture, and thus I am very lost.</p>
+<p>So what I decided to do to figure out which code segments are responsible for the check, is set breakpoints at the start of various sub functions (in IDA they are titled something like <code>loc_8E</code>)</p>
+<pre><code>0x7c00
+
+0x7c23
+
+0x7c33
+
+0x7c38
+
+0x7c58
+
+0x7c8e
+
+0x7cdf
+
+0x7d0d
+
+0x7d31
+</code></pre>
+<p>When I ran the program normally, it just encountered the breakpoints at <code>0x7c58</code>, <code>0x7d0d</code>, <code>0x7c33</code> and <code>0x7c38</code> (in that order). So those four code segments are probably used in handling input and the display. However when we enter in <code>20</code> characters and trigger a check, we encounter a breakpoint at <code>0x7cdf</code>. So we know that <code>0x7cdf</code> is a part of the check. That code path <code>LAB_0000_00df or 0x7cdf</code> is called in two different places, at <code>0x7d55</code> and <code>0x7cd1</code>. When we run the program again, and set breakpoints for <code>0x7d55</code> and <code>0x7cd1</code> we see that the one that we hit which actually leads to the check is <code>0x7d55</code>. This is apart of the subroutine <code>LAB_0000_014d</code>, which starts at <code>0x7d4d</code>. This is also called at two different places at <code>0x7c78</code> and <code>0x7cba</code>. When we do the same trial by running the program again with setting a breakpoint at <code>0x7c78</code> and <code>0x7cba</code> to see where the call actually happens, we see that it is called at <code>0x7c78</code>.</p>
+<p>The actual instruction at <code>0x7c78</code> is a <code>jnz</code> instruction for the previous <code>cmp</code> instruction at <code>0x7c6f</code>. Specifically this is the instruction:</p>
+<pre><code>       0000:006f 66 81 3e        CMP        dword ptr [0x1234],0x67616c66
+                 34 12 66
+                 6c 61 67
+</code></pre>
+<p>So it is comparing something against the string <code>flag</code> (it's displayed backwards in hex, because of least endian). It is probably checking to see if the input we gave it starts with <code>flag</code>. When we try running the code again with input that starts with <code>flag{</code> and ends in <code>}</code>, we see something interesting happen. It passes the check at <code>0x7c6f</code> and doesn't execute the jump at <code>0x7c78</code>. It just continues execution into <code>LAB_0000_008e</code> where it enters into a for loop. However when it is in the for loop, we don't get the error message that we're wrong and we should feel bad.</p>
+<p>So with this new discovery, I'm pretty sure what though the check happened at <code>0x7cdf</code> isn't actually a part of the check, it's the part of the program that happens after the check if we're wrong at tells us we're bad and should feel bad. The actual check begins at <code>0x7c66</code>, where it just sees how many characters of input we've given it. If it is less than or equal to <code>0x13</code> (<code>19</code>) it just jumps to <code>0x7d0d</code> and continues with the loop. However when it reaches <code>20</code> characters of input (the amount that we need to enter to trigger the check) it skips the jump and starts actually checking the input at <code>0x6f</code> with seeing if the first four characters are <code>flag</code>, then continues into the actual check in <code>LAB_0000_008e</code> at <code>0x7c8e</code>.</p>
+<h2><a class="header" href="#the-check" id="the-check">The Check</a></h2>
+<p>So now that we know where the check occurs, we can start reversing it. Below is the code that is relevant to the check:</p>
+<pre><code>       0000:0066 80 3e c8        CMP        byte ptr [0x7dc8],0x13
+                 7d 13
+       0000:006b 0f 8e 9e 00     JLE        LAB_0000_010d
+       0000:006f 66 81 3e        CMP        dword ptr [0x1234],0x67616c66
+                 34 12 66
+                 6c 61 67
+       0000:0078 0f 85 d1 00     JNZ        LAB_0000_014d
+       0000:007c 0f 28 06        MOVAPS     XMM0,xmmword ptr [0x1238]
+                 38 12
+       0000:0081 0f 28 2e        MOVAPS     XMM5,xmmword ptr [0x7c00]
+                 00 7c
+       0000:0086 66 0f 70        PSHUFD     XMM0,XMM0,0x1e
+                 c0 1e
+       0000:008b be 08 00        MOV        SI,0x8
+                             LAB_0000_008e                                   XREF[1]:     0000:00c1(j)  
+       0000:008e 0f 28 d0        MOVAPS     XMM2,XMM0
+       0000:0091 0f 54 94        ANDPS      XMM2,xmmword ptr [SI + 0x7d90]
+                 90 7d
+       0000:0096 66 0f f6 ea     PSADBW     XMM5,XMM2
+       0000:009a 0f 29 2e        MOVAPS     xmmword ptr [0x1268],XMM5
+                 68 12
+       0000:009f 8b 3e 68 12     MOV        DI,word ptr [0x1268]
+       0000:00a3 66 c1 e7 10     SHL        EDI,0x10
+       0000:00a7 8b 3e 70 12     MOV        DI,word ptr [0x1270]
+       0000:00ab 89 f2           MOV        DX,SI
+       0000:00ad 4a              DEC        DX
+       0000:00ae 01 d2           ADD        DX,DX
+       0000:00b0 01 d2           ADD        DX,DX
+       0000:00b2 66 67 3b        CMP        EDI,dword ptr [0x7da8 + EDX]
+                 ba a8 7d
+                 00 00
+       0000:00ba 0f 85 8f 00     JNZ        LAB_0000_014d
+       0000:00be 4e              DEC        SI
+       0000:00bf 85 f6           TEST       SI,SI
+       0000:00c1 75 cb           JNZ        LAB_0000_008e
+       0000:00c3 c6 06 78        MOV        byte ptr [0x1278],0xa
+                 12 0a
+       0000:00c8 8b 1e 66 12     MOV        BX,word ptr [0x1266]
+       0000:00cc bf 70 7d        MOV        DI,0x7d70
+       0000:00cf 85 db           TEST       BX,BX
+       0000:00d1 74 0c           JZ         LAB_0000_00df
+       0000:00d3 ff 0e 66 12     DEC        word ptr [0x1266]
+       0000:00d7 31 c9           XOR        CX,CX
+       0000:00d9 ba 14 00        MOV        DX,0x14
+       0000:00dc e9 59 ff        JMP        LAB_0000_0038
+</code></pre>
+<p>The code between <code>0x66 </code> - <code>0x78</code> was discussed above (it just checks the length to see if a check is needed, and if the string starts with <code>flag</code>). Proceeding that we see the following code:</p>
+<pre><code>       0000:007c 0f 28 06        MOVAPS     XMM0,xmmword ptr [0x1238]
+                 38 12
+       0000:0081 0f 28 2e        MOVAPS     XMM5,xmmword ptr [0x7c00]
+                 00 7c
+</code></pre>
+<p>Both of these commands are just moving data in memory into the <code>xmm0</code> and <code>xmm5</code> registers. The instruction at <code>0x7c</code> is moving the <code>16</code> bytes of our input into the <code>xmm0</code> register, which we can see with gdb (depicted below). The instruction at <code>0x81</code> is loading the first <code>16</code> bytes of the program (since the code for the program starts at <code>0x7c00</code>, since it is a MBR, check it with gdb if you want) into the <code>xmm5</code> register. These registers are used later:</p>
+<pre><code>Breakpoint 1, 0x00007c7c in ?? ()
+[ Legend: Modified register | Code | Heap | Stack | String ]
+────────────────────────────────────────────────────────────────────────────────────── registers ────
+[!] Command 'context' failed to execute properly, reason: 'NoneType' object has no attribute 'all_registers'
+gef➤  x/x $ds+0x1238
+0x1238: 0x7430677b
+gef➤  x/s $ds+0x1238
+0x1238: &quot;{g0ttem_b0yzzz{___&quot;
+</code></pre>
+<p>and on the next line of assembly code, we have this:</p>
+<pre><code>       0000:0086 66 0f 70        PSHUFD     XMM0,XMM0,0x1e
+                 c0 1e
+</code></pre>
+<p>This instruction essentially just rearranges our input. It inserts the contents of argument two (the <code>xmm0</code> register) into the first argument (also the <code>xmm0</code> register) at the position of the third argument <code>0x1e</code>. We can see how it rearranges it in gdb (below the input string it is dealing with is <code>0123456789abcdef</code>):</p>
+<p>before <code>pshufd</code>:</p>
+<pre><code>Breakpoint 2, 0x00007c86 in ?? ()
+[ Legend: Modified register | Code | Heap | Stack | String ]
+────────────────────────────────────────────────────────────────────────────────────── registers ────
+[!] Command 'context' failed to execute properly, reason: 'NoneType' object has no attribute 'all_registers'
+gef➤  p $xmm0
+$1 = {
+  v4_float = {5.5904729e+31, 1.71062063e+19, 3.23465809e+35, 1.81209302e+19},
+  v2_double = {4.8112799576068541e+151, 8.9947639173637913e+151},
+  v16_int8 = {0x7b, 0x67, 0x30, 0x74, 0x74, 0x65, 0x6d, 0x5f, 0x62, 0x30, 0x79, 0x7a, 0x7a, 0x7a, 0x7b, 0x5f},
+  v8_int16 = {0x677b, 0x7430, 0x6574, 0x5f6d, 0x3062, 0x7a79, 0x7a7a, 0x5f7b},
+  v4_int32 = {0x7430677b, 0x5f6d6574, 0x7a793062, 0x5f7b7a7a},
+  v2_int64 = {0x5f6d65747430677b, 0x5f7b7a7a7a793062},
+  uint128 = 0x5f7b7a7a7a7930625f6d65747430677b
+}
+</code></pre>
+<p>after <code>pshufd</code>:</p>
+<pre><code>Breakpoint 3, 0x00007c8b in ?? ()
+[ Legend: Modified register | Code | Heap | Stack | String ]
+────────────────────────────────────────────────────────────────────────────────────── registers ────
+[!] Command 'context' failed to execute properly, reason: 'NoneType' object has no attribute 'all_registers'
+gef➤  p $xmm0
+$2 = {
+  v4_float = {3.23465809e+35, 1.81209302e+19, 1.71062063e+19, 5.5904729e+31},
+  v2_double = {8.9947639173637913e+151, 4.6979905997386182e+251},
+  v16_int8 = {0x62, 0x30, 0x79, 0x7a, 0x7a, 0x7a, 0x7b, 0x5f, 0x74, 0x65, 0x6d, 0x5f, 0x7b, 0x67, 0x30, 0x74},
+  v8_int16 = {0x3062, 0x7a79, 0x7a7a, 0x5f7b, 0x6574, 0x5f6d, 0x677b, 0x7430},
+  v4_int32 = {0x7a793062, 0x5f7b7a7a, 0x5f6d6574, 0x7430677b},
+  v2_int64 = {0x5f7b7a7a7a793062, 0x7430677b5f6d6574},
+  uint128 = 0x7430677b5f6d65745f7b7a7a7a793062
+}
+</code></pre>
+<p>The exact order that this instance of <code>pshufd</code> shuffles our input is this:</p>
+<pre><code>0.) last eight bytes first
+1.) second group of four bytes
+2.) first group of four bytes
+</code></pre>
+<p>next we have this line of assembly:</p>
+<pre><code>       0000:008b be 08 00        MOV        SI,0x8
+</code></pre>
+<p>This just moves the value <code>8</code> into the <code>si</code> register. This is going to be used for an iteration count for the loop we are about to enter (starts at <code>0x8e</code>) which will run <code>8</code> times.</p>
+<h2><a class="header" href="#the-loop-portion-of-the-check" id="the-loop-portion-of-the-check">The loop portion of the check</a></h2>
+<p>Now we enter the loop. The first line just moves the contents of the <code>xmm0</code> register into the <code>xmm2</code> register:</p>
+<pre><code>                             LAB_0000_008e                                   XREF[1]:     0000:00c1(j)  
+       0000:008e 0f 28 d0        MOVAPS     XMM2,XMM0
+</code></pre>
+<p>The next line of code ands together the <code>xmm2</code> register with the values stored at <code>si+0x7d90</code>, and stores the output in the <code>xmm2</code> register. The value at <code>si+0x7d90</code> is two <code>0xffffffffffffff00</code> segments. The end result is the eight and sixteen bytes of <code>xmm2</code> are set to <code>0x00</code>.</p>
+<pre><code>       0000:0091 0f 54 94        ANDPS      XMM2,xmmword ptr [SI + 0x7d90]
+                 90 7d
+</code></pre>
+<p>next we have the <code>psadbw</code> instruction:</p>
+<pre><code>       0000:0096 66 0f f6 ea     PSADBW     XMM5,XMM2
+</code></pre>
+<p>this instruction computes the absolute sum of differences between the <code>xmm5</code> and <code>xmm2</code> registers, and stores it in the <code>xmm5</code> register. So essentially what it does is it subtracts each byte of the <code>xmm2</code> register, from each byte of the <code>xmm5</code> register. It then takes the absolute values of the differences, and adds them together. Also it does two additions, one for the first eight bytes and the second eight bytes. For an example, here we can see the <code>xmm2</code> and <code>xmm5</code> registers before and after the <code>psadbw</code> instruction (this time the input string is <code>{g0ttem_b0yzzz{_</code>):</p>
+<p>before:</p>
+<pre><code>Breakpoint 5, 0x00007c96 in ?? ()
+[ Legend: Modified register | Code | Heap | Stack | String ]
+────────────────────────────────────────────────────────────────────────────────────── registers ────
+[!] Command 'context' failed to execute properly, reason: 'NoneType' object has no attribute 'all_registers'
+gef➤  p $xmm2
+$3 = {
+  v4_float = {3.23463868e+35, 1.81209302e+19, 1.71060788e+19, 5.5904729e+31},
+  v2_double = {8.9947639173636774e+151, 4.6979905997385002e+251},
+  v16_int8 = {0x0, 0x30, 0x79, 0x7a, 0x7a, 0x7a, 0x7b, 0x5f, 0x0, 0x65, 0x6d, 0x5f, 0x7b, 0x67, 0x30, 0x74},
+  v8_int16 = {0x3000, 0x7a79, 0x7a7a, 0x5f7b, 0x6500, 0x5f6d, 0x677b, 0x7430},
+  v4_int32 = {0x7a793000, 0x5f7b7a7a, 0x5f6d6500, 0x7430677b},
+  v2_int64 = {0x5f7b7a7a7a793000, 0x7430677b5f6d6500},
+  uint128 = 0x7430677b5f6d65005f7b7a7a7a793000
+}
+gef➤  p $xmm5
+$4 = {
+  v4_float = {-134298496, -2.50091934, -1.48039995e-36, 1.93815862e-18},
+  v2_double = {-8.0294250547975565, 1.241726856953559e-144},
+  v16_int8 = {0xb8, 0x13, 0x0, 0xcd, 0x10, 0xf, 0x20, 0xc0, 0x83, 0xe0, 0xfb, 0x83, 0xc8, 0x2, 0xf, 0x22},
+  v8_int16 = {0x13b8, 0xcd00, 0xf10, 0xc020, 0xe083, 0x83fb, 0x2c8, 0x220f},
+  v4_int32 = {0xcd0013b8, 0xc0200f10, 0x83fbe083, 0x220f02c8},
+  v2_int64 = {0xc0200f10cd0013b8, 0x220f02c883fbe083},
+  uint128 = 0x220f02c883fbe083c0200f10cd0013b8
+</code></pre>
+<p>after:</p>
+<pre><code>gef➤  p $xmm5
+$5 = {
+  v4_float = {1.14626214e-42, 0, 1.01594139e-42, 0},
+  v2_double = {4.0414569829813967e-321, 3.5819759323490374e-321},
+  v16_int8 = {0x32, 0x3, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xd5, 0x2, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0},
+  v8_int16 = {0x332, 0x0, 0x0, 0x0, 0x2d5, 0x0, 0x0, 0x0},
+  v4_int32 = {0x332, 0x0, 0x2d5, 0x0},
+  v2_int64 = {0x332, 0x2d5},
+  uint128 = 0x00000000000002d50000000000000332
+}
+</code></pre>
+<p>and here are the calculations that happened:</p>
+<pre><code>0xb8 - 0x0 = 184
+0x30 - 0x13 = 29
+0x79 - 0x0 = 121
+0xcd - 0x7a = 83
+0x7a - 0x10 = 106
+0x7a - 0xf = 107
+0x7b - 0x20 = 91
+0xc0 - 0x5f = 97
+hex(184 + 29 + 121 + 83 + 106 + 107 + 91 + 97) = 0x332
+
+0x83 - 0x0 = 131
+0xe0 - 0x65 = 123
+0xfb - 0x6d = 142
+0x83 - 0x5f = 36
+0xc8 - 0x7b = 77
+0x67 - 0x2 = 101
+0x30 - 0xf = 33
+0x74 - 0x22 = 82
+hex(131 + 123 + 142 + 36 + 77+ 101 + 33 + 82) = 0x2d5
+</code></pre>
+<p>Proceeding that we have the rest of the check:</p>
+<pre><code>       0000:009a 0f 29 2e        MOVAPS     xmmword ptr [0x1268],XMM5
+                 68 12
+       0000:009f 8b 3e 68 12     MOV        DI,word ptr [0x1268]
+       0000:00a3 66 c1 e7 10     SHL        EDI,0x10
+       0000:00a7 8b 3e 70 12     MOV        DI,word ptr [0x1270]
+       0000:00ab 89 f2           MOV        DX,SI
+       0000:00ad 4a              DEC        DX
+       0000:00ae 01 d2           ADD        DX,DX
+       0000:00b0 01 d2           ADD        DX,DX
+       0000:00b2 66 67 3b        CMP        EDI,dword ptr [0x7da8 + EDX]
+                 ba a8 7d
+                 00 00
+       0000:00ba 0f 85 8f 00     JNZ        LAB_0000_014d
+</code></pre>
+<p>Essentially what this section of code does, it takes the two values obtained from the previous <code>psadbw</code> instruction, arranges them in the <code>edi</code> register (<code>0x313</code> first then <code>0x2d5</code>) and compares it against a value stored in memory. If the check is successful, the loop continues for another iteration where it repeats the loop. The loop will run for eight times, and if we pass all of the checks, we have the correct flag. To find the values that we need to be equal to to pass this check, we can use gdb, and then just jump to the next iteration to see the next value (btw the check happens at <code>0x7cb2</code>, our input is in the <code>edi</code> register and the value we are comparing it against is in <code>edx+0x7da8</code>):</p>
+<pre><code>Breakpoint 1, 0x00007cb2 in ?? ()
+[ Legend: Modified register | Code | Heap | Stack | String ]
+────────────────────────────────────────────────────────────────────────────────── registers ────
+[!] Command 'context' failed to execute properly, reason: 'NoneType' object has no attribute 'all_registers'
+gef➤  x/x $edx+0x7da8
+0x7dc4: 0x02df028f
+gef➤  j *0x7cbe
+Continuing at 0x7cbe.
+Python Exception &lt;class 'AttributeError'&gt; 'NoneType' object has no attribute 'all_registers':
+
+Breakpoint 1, 0x00007cb2 in ?? ()
+[ Legend: Modified register | Code | Heap | Stack | String ]
+────────────────────────────────────────────────────────────────────────────────── registers ────
+[!] Command 'context' failed to execute properly, reason: 'NoneType' object has no attribute 'all_registers'
+gef➤  x/x $edx+0x7da8
+0x7dc0: 0x0290025d
+</code></pre>
+<p>and you can continue to do that until you have all eight values.</p>
+<h2><a class="header" href="#z3" id="z3">z3</a></h2>
+<p>Now that we have reversed the algorithm that our input is sent through, and we know the end value it is being compared to, we can use z3 to figure out what the flag is. Below is my z3 script I wrote to find the flag:</p>
+<pre><code># This script is from a solution here: https://github.com/DMArens/CTF-Writeups/blob/master/2017/CSAWQuals/reverse/realistic.py
+
+# One thing about this script, it uses z3, which uses special data types so it can solve things. As a result, we have to do some special things such as write our own absolute value function instead of using pythons built in functions.
+
+# First import the needed libraries
+from pprint import pprint
+from z3 import *
+import struct
+
+# Establish the values which our input will be checked against after each of the 8 iterations
+resultZ = [ (0x02df, 0x028f), (0x0290, 0x025d), (0x0209, 0x0221), (0x027b, 0x0278), (0x01f9, 0x0233), (0x025e, 0x0291), (0x0229, 0x0255), (0x0211, 0x0270) ]
+
+# Establish the first value for the xmm5 register, which is the first 16 bytes of the elf
+xmm5Z = [ [0xb8, 0x13, 0x00, 0xcd, 0x10, 0x0f, 0x20, 0xc0, 0x83, 0xe0, 0xfb, 0x83, 0xc8, 0x02, 0x0f, 0x22], ]
+
+# Establish the solver
+z = Solver()
+
+# Establish the value `0` as a z3 integer, for later use
+zero = IntVal(0)
+
+# Establish a special absolute value function for z3 values
+def abz(x):
+    return If( x &gt;= 0, x, -x)
+
+# This function does the `psadbw` (sum of absolute differences) instruction at 0x7c96
+def psadbw(xmm5, xmm2):
+    x = Sum([abz(x0 - x1) for x0, x1 in zip(xmm5[:8], xmm2[:8])])
+    y = Sum([abz(y0 - y1) for y0, y1 in zip(xmm5[8:], xmm2[8:])])
+    return x, y
+
+# Now we will append the values in resultZ to xmm5Z. The reason for this being while xmm5Z contains the initial value that it should have, it's value carries over to each iteration. And if we passed the check, it's starting value at each iteration after the first, should be the value that we needed to get to pass the previous check.
+for i in resultZ[:-1]:
+    xmm5Z.append(list(map(ord, struct.pack('&lt;Q', i[0]) + struct.pack('&lt;Q', i[1]))))
+
+# Now we will establush the values that z3 has control over, which is our input. We will also add a check that each byte has to be within the Ascii range, so we can type it in. We make sure to have the string `flag` in each of the characters names so we can parse them out later
+inp = [Int('flag{:02}'.format(i)) for i in range(16)]
+for i in inp:
+    z.add(i &gt; 30, i &lt; 127)
+
+# Now we will move establish z3 data types with the previously established values in xmm5Z and resultZ. This is so we can use them with z3
+xmm5z = [ [IntVal(x) for x in row] for row in xmm5Z]
+results = [ [IntVal(x) for x in row] for row in resultZ]
+
+# Now here where we run the algorithm in the loop (btw when I say registers below, I don't mean the actual ones on our computer, just the data values we use to simulate the algorithm)
+for i in range(8):
+    # First we set the xmm5 register to it's correct value
+    xmm5 = xmm5z[i]
+    # We set the xmm2 register to be out input
+    xmm2 = list(inp)
+    # Zero out the corresponding bytes from the andps instruction at 0x7c96
+    xmm2[i] = zero
+    xmm2[i + 8] = zero
+    x,y = psadbw(xmm5, xmm2)
+    z.add(x == results[i][0])
+    z.add(y == results[i][1])
+
+# Check if it z3 can solve the problem
+if z.check() == sat:
+    print &quot;z3 can solve it&quot;
+elif z.check() == unsat:
+    print &quot;The condition isn't satisified, I would recommend crying.&quot;
+    exit(0)
+
+# Model the solution (it makes z3 come up with a solution), and then filter out the flag and convert it ASCII
+
+model = z.model()
+# Create a list to store the various inputs which meet the criteria
+solutions = []
+
+# Search for our flag values that we made on line 37, and append them to solutions
+for i in model.decls():
+    if 'flag' in i.name():
+        solutions.append((int(i.name()[4:]), chr(model[i].as_long())))
+
+# Sort out all of the various solutions, then join them together for the needed input
+solutions = sorted(solutions, key=lambda x: x[0])
+solutions = [x[1] for x in solutions]
+flag = ''.join(solutions)
+
+# Next we need to essentially undo the `pshfud` instruction which occurs at `0x7c86`, that way when we give the flag and it applies the instruction, it will have the string needed to pass the eight checks
+flag = flag[12:] + flag[8:12] + flag[:8]
+print &quot;flag{}&quot;.format(flag)
+</code></pre>
+<p>and when we run it:</p>
+<pre><code>$    python rev.py 
+z3 can solve it
+flag{4r3alz_m0d3_y0}
+</code></pre>
+<p>Just like that, we captured the flag!</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../34-emulated_targets/csaw15_hackingtime/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../34-emulated_targets/csaw18_x86_pt2/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../../34-emulated_targets/csaw15_hackingtime/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../../34-emulated_targets/csaw18_x86_pt2/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

